@@ -1,8 +1,10 @@
 import React from "react";
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from "@react-navigation/native";
-import Splash from "../Splash";
-import Login from "../Login";
+import Splash from "../Screens/Login/Splash";
+import Login from "../Screens/Login/Login";
+import ForgotPass from "../Screens/Login/ForgotPass";
+import Register from "../Screens/Login/Register";
 const Stack = createStackNavigator();
 
 
@@ -18,6 +20,16 @@ const AppNavigator = () => {
                 <Stack.Screen
                     name="Login"
                     component={props => <Login {...props} />}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="ForgotPass"
+                    component={props => <ForgotPass {...props} />}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Register"
+                    component={props => <Register {...props} />}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

@@ -18,7 +18,7 @@ const Splash = ({ navigation }) => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Image
-                source={require('../Img/tdmu_logo.png')}
+                source={require('../../../Img/tdmu_logo.png')}
                 style={{
                     width: 260,
                     height: 125,

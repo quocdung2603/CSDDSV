@@ -19,7 +19,7 @@ const Login = ({ navigation }) => {
         }}>
             <KeyboardAwareScrollView>
                 <Image
-                    source={require('../Img/tdmu_logo.png')}
+                    source={require('../../../Img/tdmu_logo.png')}
                     style={{
                         marginTop: 40,
                         marginRight: 34,
