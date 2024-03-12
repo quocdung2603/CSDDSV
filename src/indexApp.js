@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-const test = () => {
+const indexApp = () => {
     return (
         <View>
             <Text>ABCD</Text>
@@ -19,4 +19,4 @@ const test = () => {
         </View>
     )
 }
-export default test;
+export default indexApp;
