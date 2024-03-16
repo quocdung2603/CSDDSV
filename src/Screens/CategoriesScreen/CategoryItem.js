@@ -18,9 +18,9 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const ProductList = () => {
+const CategoryItem = () => {
     return (
-        <View style={{ flexDirection: 'column', backgroundColor: 'white' }}>
+        <View style={{ flexDirection: 'column', backgroundColor: 'white', flex:1 }}>
             <View style={{ flexDirection: 'column', borderWidth: 1 }}>
                 <View style={{ borderWidth: 1, borderRadius: 10, padding: 10, marginEnd: 'auto', margin: 10 }}>
                     <AntDesign name="arrowleft" size={30} color="#000" />
@@ -36,7 +36,7 @@ const ProductList = () => {
                         <View style={{ padding: 10, marginStart: 'auto' }}>
                             <Ionicons name="bookmark" size={25} color="#0AC9BD" />
                         </View>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 100, marginStart: 10 }} >Con cặc</Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 100, marginStart: 10 }} >Con chim</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ marginStart: 10, marginEnd: 'auto' }}>100$</Text>
                             <View style={{ flexDirection: 'column', marginStart: 'auto', marginEnd: 10 }}>
@@ -50,7 +50,7 @@ const ProductList = () => {
                         <View style={{ padding: 10, marginStart: 'auto' }}>
                             <Ionicons name="bookmark" size={25} color="#0AC9BD" />
                         </View>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 100, marginStart: 10 }} >Con cặc</Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 100, marginStart: 10 }} >Con cò</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ marginStart: 10, marginEnd: 'auto' }}>100$</Text>
                             <View style={{ flexDirection: 'column', marginStart: 'auto', marginEnd: 10 }}>
@@ -60,9 +60,8 @@ const ProductList = () => {
                     </View>
                 </View>
             </View>
-
         </View>
     )
 };
 
-export default ProductList;
+export default CategoryItem;

@@ -21,7 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const WishList = () => {
     const [SearchBox, setSearchBox] = useState("");
     return (
-        <View style={{flexDirection:'column', backgroundColor:'#fff'}}>
+        <View style={{flexDirection:'column', backgroundColor:'#fff', flex:1}}>
             <View style={{flexDirection:'row', margin:10, alignItems:'center'}}>
                 <Text style={{marginEnd:'auto', fontSize:20, color:'red', fontWeight:'bold'}}>ABC</Text>
                 <View style={{borderWidth:1, borderRadius:10, padding:5}}>
@@ -38,9 +38,14 @@ const WishList = () => {
                     placeholder='Searching category products'
                     style={{backgroundColor:'white', marginStart:10,marginEnd:'auto' , width:320, fontSize:20}} />
             </View>
-            <View style={{}}>
-                
-            </View>
+            <Text style={{margin:10, fontSize:20, fontWeight:'bold',color:'#000'}}>0 products</Text>
+            <View style={{flexDirection:'column', margin:10, justifyContent:'center', alignItems:'center'}}>
+                <View style={{height:300,width:300, backgroundColor:'yellow'}}></View>
+                <View style={{flexDirection:'row', margin:10, padding:10, borderWidth:1, borderRadius:10, borderColor:'#FE7E00', backgroundColor:'#FE7E00', alignItems:'center'}}>
+                    <Text style={{fontSize:25, fontWeight:'bold', color:'#fff'}}>Explore now</Text>
+                    <AntDesign name='right' size={30} color="white" />
+                </View>
+            </View> 
         </View>
     )
 };

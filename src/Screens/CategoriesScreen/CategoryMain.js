@@ -18,10 +18,10 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const DiscoverMain = () => {
+const CategoryMain = () => {
     const [SearchBox, setSearchBox] = useState("");
     return (
-        <View style={{flexDirection:'column', backgroundColor:'#fff'}}>
+        <View style={{flexDirection:'column', backgroundColor:'#fff', flex:1}}>
             <View style={{flexDirection:'row', margin:10, alignItems:'center'}}>
                 <Text style={{marginEnd:'auto', fontSize:20, color:'red', fontWeight:'bold'}}>ABC</Text>
                 <View style={{borderWidth:1, borderRadius:10, padding:5}}>
@@ -115,4 +115,4 @@ const DiscoverMain = () => {
     )
 };
 
-export default DiscoverMain;
+export default CategoryMain;
