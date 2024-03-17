@@ -15,3 +15,4 @@ import CategoryMain from './src/Screens/CategoriesScreen/CategoryMain';
 LogBox.ignoreAllLogs();
 enableScreens(true)
 AppRegistry.registerComponent(appName, () => AppNavigator);
+

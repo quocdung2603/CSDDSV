@@ -23,7 +23,7 @@ const ProductList = () => {
     return (
         <View style={{ flexDirection: 'column', flex: 1, backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto', margin: 10 }}>
+                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
                     <AntDesign name="arrowleft" size={30} color="#000" />
                 </View>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Product List</Text>
