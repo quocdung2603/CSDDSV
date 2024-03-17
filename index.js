@@ -7,8 +7,8 @@ import {name as appName} from './app.json';
 import {enableScreens} from 'react-native-screens'
 
 import AppNavigator from './src/Navigation/AppNavigator';
-import CartMain from './src/Screens/CartScreen/CartMain';
+import Checkout from './src/Screens/CartScreen/Checkout';
 
 LogBox.ignoreAllLogs();
 enableScreens(true)
-AppRegistry.registerComponent(appName, () => CartMain);
+AppRegistry.registerComponent(appName, () => Checkout);
