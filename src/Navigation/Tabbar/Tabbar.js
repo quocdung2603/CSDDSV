@@ -15,21 +15,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-import Home from './Home';
-import Cart from './Cart';
-import User from './User';
-import Forum from './Forum'
-import Wish from './Wish';
+import Home from '../../Screens/HomeScreen/Home';
+import Personal from '../../Screens/PersonalScreen/Personal';
+import Forum from '../../Screens/ForumScreen/Forum'
+import WishList from '../../Screens/WishListScreen/WishList';
+import CategoryMain from '../../Screens/CategoriesScreen/CategoryMain';
+
 const Tabbar = () => {
     const [selectTab, setSelectTab] = useState(1);
     return (
         <View style={{ flex: 1 }}>
             {
                 selectTab === 1 ? (<Home />) :
-                    selectTab === 2 ? (<Cart />) :
+                    selectTab === 2 ? (<CategoryMain />) :
                         selectTab === 3 ? (<Forum />) :
-                            selectTab === 4 ? (<Wish />) :
-                                (<User />)
+                            selectTab === 4 ? (<WishList />) :
+                                (<Personal />)
             }
 
             <View style={{

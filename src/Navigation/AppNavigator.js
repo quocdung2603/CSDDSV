@@ -5,6 +5,9 @@ import Splash from "../Screens/Login/Splash";
 import Login from "../Screens/Login/Login";
 import ForgotPass from "../Screens/Login/ForgotPass";
 import Register from "../Screens/Login/Register";
+import CategoryMain from "../Screens/CategoriesScreen/CategoryMain";
+import WishList from "../Screens/WishListScreen/WishList";
+import Personal from "../Screens/PersonalScreen/Personal";
 const Stack = createStackNavigator();
 
 
