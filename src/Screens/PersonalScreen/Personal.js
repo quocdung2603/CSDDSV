@@ -22,8 +22,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 const Personal = () => {
 
     return (
-        <View>
-            <Text>Check Order Success</Text>
+        <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center', borderWidth: 1 }}>
+                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
+                    <AntDesign name="arrowleft" size={30} color="#000" />
+                </View>
+                <Text style={{ marginEnd: 'auto', position: "relative", fontSize: 20, color: '#000', fontWeight: 'bold' }}>Settings</Text>
+            </View>
         </View>
     );
 };
