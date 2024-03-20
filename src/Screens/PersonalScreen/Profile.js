@@ -40,11 +40,19 @@ const Profile = () => {
                     Đông Đoàn
                 </Text>
                 <Text style={{ fontSize: 15, color: '#000' }}>
-                    Thích busloonf
+                    máy dập Quảng Nôm
                 </Text>
             </View>
-            <View style={{ borderTopColor: 'grey', marginTop: 10, borderTopWidth: 0.5, borderBottomWidth: 0.5, borderBottomColor: 'grey' }}>
-                
+            <View style={{ justifyContent: 'space-around', flexDirection: 'row', borderTopColor: 'grey', marginTop: 10, borderTopWidth: 0.5, borderBottomWidth: 0.5, borderBottomColor: 'grey' }}>
+                <View style={{ marginHorizontal: 10, borderWidth: 1, width: 100 }}>
+
+                </View>
+                <View style={{ marginHorizontal: 10, borderWidth: 1, width: 100 }}>
+
+                </View>
+                <View style={{ marginHorizontal: 10, borderWidth: 1, width: 100 }}>
+
+                </View>
             </View>
         </View>
     )
