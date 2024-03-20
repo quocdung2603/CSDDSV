@@ -10,5 +10,5 @@ import TransactionManage from './src/Screens/StoreManagementScreen/TransactionMa
 import ProductManage from './src/Screens/StoreManagementScreen/ProductManage';
 LogBox.ignoreAllLogs();
 enableScreens(true)
-AppRegistry.registerComponent(appName, () => ProductManage);
+AppRegistry.registerComponent(appName, () => AppNavigator);
 

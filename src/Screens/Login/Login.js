@@ -4,13 +4,26 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import firestore from '@react-native-firebase/firestore';
+import messaging from '@react-native-firebase/messaging'
 
 const Login = ({ navigation }) => {
+    // useEffect(() => {
 
+    // })
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    
+    const [listAccount, setListAccount] = useState();
 
+    const CheckLogin = () => {
+        firestore()
+            .collection('User')
+            .where('cd8a4eed-3ae4-4502-8407-366234e01531')
+            .get()
+            .then(dataAcc => {
+                console.log('dang nhap thanh cong');
+            })
+    }
 
     return (
         <View style={{
@@ -86,9 +99,9 @@ const Login = ({ navigation }) => {
                 />
 
                 <TouchableOpacity
-                onPress={()=>{
-                    navigation.navigate('ForgotPass')
-                }}
+                    onPress={() => {
+                        navigation.navigate('ForgotPass')
+                    }}
                 >
                     <Text style={{
                         marginTop: 10,

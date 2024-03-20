@@ -32,6 +32,7 @@ const Register = ({ navigation }) => {
                 console.log('User added!');
                 getToken();
             });
+        console.log('User added!');
     };
 
     const getToken = async () => {
