@@ -30,9 +30,10 @@ const Register = ({ navigation }) => {
             })
             .then(() => {
                 console.log('User added!');
+                // saveLocalData();
                 getToken();
             });
-        console.log('User added!');
+        console.log('1');
     };
 
     const getToken = async () => {

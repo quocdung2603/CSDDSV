@@ -9,5 +9,5 @@ import AppNavigator from './src/Navigation/AppNavigator';
 import SettingText from './src/Screens/SettingScreen/SettingText';
 LogBox.ignoreAllLogs();
 enableScreens(true)
-AppRegistry.registerComponent(appName, () => SettingText);
+AppRegistry.registerComponent(appName, () => AppNavigator);
 
