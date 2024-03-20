@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "196122505284",
+    "project_id": "csddsv-815bd",
+    "storage_bucket": "csddsv-815bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196122505284:android:9bff315c7ef76a323e0c11",
+        "android_client_info": {
+          "package_name": "com.csddsv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn5NrLfgmQsJzVAqS3p8YZpigQmor3qrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
