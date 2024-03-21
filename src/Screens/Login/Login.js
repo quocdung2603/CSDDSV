@@ -11,18 +11,17 @@ const Login = ({ navigation }) => {
     // useEffect(() => {
 
     // })
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [email, setEmail] = useState();
+    const [pass, setPass] = useState();
     const [listAccount, setListAccount] = useState();
 
     const CheckLogin = () => {
         firestore()
-            .collection('User')
-            .where('cd8a4eed-3ae4-4502-8407-366234e01531')
+            .collection('Users')
             .get()
-            .then(dataAcc => {
-                console.log('dang nhap thanh cong');
-            })
+            .then(querySnapshot => {
+                console.log('Total users: ', querySnapshot.size);
+            });
     }
 
     return (
@@ -59,7 +58,7 @@ const Login = ({ navigation }) => {
 
                 <TextInput
                     value={email}
-                    onChange={txt => {
+                    onChangeText={txt => {
                         setEmail(txt);
                     }}
                     placeholder="Gmail"
@@ -79,7 +78,7 @@ const Login = ({ navigation }) => {
                 />
                 <TextInput
                     value={pass}
-                    onChange={txt => {
+                    onChangeText={txt => {
                         setPass(txt);
                     }}
                     placeholder="Mật khẩu"
@@ -124,7 +123,7 @@ const Login = ({ navigation }) => {
                         alignSelf: 'center',
                     }}
                     onPress={() => {
-
+                        CheckLogin();
                     }}>
                     <Text style={{ fontSize: 20, color: 'white', }}>Đăng nhập</Text>
                 </TouchableOpacity>
