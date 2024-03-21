@@ -72,7 +72,7 @@ const Login = ({ navigation }) => {
                         alignSelf: 'center',
                         paddingLeft: 15,
                         marginTop: 45,
-                        color: 'black',
+                        color: 'white',
                         backgroundColor: '#2a293b'
                     }}
                 />
@@ -92,7 +92,7 @@ const Login = ({ navigation }) => {
                         alignSelf: 'center',
                         paddingLeft: 15,
                         marginTop: 20,
-                        color: 'black',
+                        color: 'white',
                         backgroundColor: '#2a293b'
                     }}
                 />
@@ -123,7 +123,8 @@ const Login = ({ navigation }) => {
                         alignSelf: 'center',
                     }}
                     onPress={() => {
-                        CheckLogin();
+                        //CheckLogin();
+                        navigation.navigate("Tabbar")
                     }}>
                     <Text style={{ fontSize: 20, color: 'white', }}>Đăng nhập</Text>
                 </TouchableOpacity>

@@ -19,13 +19,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-const SettingMain = () => {
+const SettingMain = ({navigation}) => {
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
+                <TouchableOpacity 
+                    onPress={() => {navigation.goBack()}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
                     <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Cài Đặt</Text>
                 <View style={{ marginStart: 'auto' }}>
                 </View>
@@ -80,4 +82,4 @@ const SettingMain = () => {
         </View>
     )
 }
-export default SettingMain
+export default SettingMain;

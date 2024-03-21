@@ -14,47 +14,19 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Home = () => {
+const Home = ({navigation}) => {
+  console.log(navigation)
   return (
-    <View>
-      <View style={{
-        flexDirection: 'row',
-        borderWidth: 1,
-        height: 80,
-      }}>
-        <Text
-          style={{
-            alignSelf: 'center'
-          }}>
-          ABCD
-        </Text>
-
-        <View
-
-          style={{
-            marginStart: 'auto',
-            alignSelf: 'center',
-            marginRight: 25,
-            borderWidth: 0.8,
-            borderColor: 'grey',
-            borderRadius: 10,
-            height: 45,
-            width: 45,
-
-          }}>
-
-          <AntDesign
-            style={{
-              alignSelf: 'center',
-              marginTop: 7,
-            }}
-            name='shoppingcart'
-            size={30}
-            color='40'
-          />
-        </View>
-
+    <View style={{flex:1, flexDirection:'column', backgroundColor:'#fff'}}>
+      <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
+        <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
+        <TouchableOpacity 
+            onPress={() => { navigation.navigate('CartMain') }}
+            style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
+          <Ionicons name='cart' size={30} color='#FE7E00' />
+        </TouchableOpacity>
       </View>
       <View
 

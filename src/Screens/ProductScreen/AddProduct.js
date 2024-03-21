@@ -38,7 +38,7 @@ const dataTypeHouseware = [
     { label: 'Chảo', value: '1' },
     { label: 'Nồi', value: '1' },
 ];
-const AddProduct = () => {
+const AddProduct = ({navigation}) => {
     const [Title, setTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [category, setCategory] = useState("");
@@ -61,9 +61,11 @@ const AddProduct = () => {
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
+                <TouchableOpacity
+                    onPress={() => {navigation.goBack()}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
                     <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Thêm Sản Phẩm</Text>
                 <View style={{ marginStart: 'auto' }}>
                 </View>

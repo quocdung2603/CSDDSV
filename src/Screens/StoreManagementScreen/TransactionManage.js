@@ -21,7 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const TransactionManage = () => {
+const TransactionManage = ({navigation}) => {
     const [searchText, setSearchText] = useState('');
     const [transactions, setTransactions] = useState([
         { id: 1, code: 'TRX001', date: '2024-03-17', status: 'Completed', checked: false },
@@ -51,9 +51,11 @@ const TransactionManage = () => {
     return (
         <View style={{ flex: 1, flexDirection:'column', backgroundColor:'#fff'}}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                <TouchableOpacity 
+                    onPress={() => {navigation.goBack()}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
+                    <AntDesign name="arrowleft" size={30} color="#FE7E00" />
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Quản Lý Giao Dịch</Text>
                 <View style={{ marginStart:'auto'}}></View>
             </View>

@@ -20,20 +20,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Avatar } from 'react-native-paper';
 
-const Personal = () => {
+const Personal = ({ navigation }) => {
     const [TabPost, setTabPost] = useState(1);
     const [TabFollower, setTabFollower] = useState(0);
     const [TabFollowing, setTabFollowing] = useState(0);
     return (
         <View style={{ flex: 1, flexDirection:'column', backgroundColor:'#fff'}}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                <TouchableOpacity 
+                    onPress={() => {navigation.navigate("StoreMain")}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
+                    <Ionicons name="storefront" size={30} color="#FE7E00" />
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Profile</Text>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
-                    <Ionicons name='settings' size={30} color='#000' />
-                </View>
+                <TouchableOpacity 
+                    onPress={() => {navigation.navigate("SettingMain")}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
+                    <Ionicons name='settings' size={30} color='#FE7E00' />
+                </TouchableOpacity>
             </View>
             <View style={{alignItems: 'center' }}>
                 <Avatar.Image size={200} source={require('../../../Img/Dong_Doan.jpg')} />
@@ -43,19 +47,19 @@ const Personal = () => {
             <View style={{flexDirection: 'row', borderTopColor: 'grey', marginVertical:10}}>
                 <TouchableOpacity 
                     onPress={() => {setTabPost(1); setTabFollower(0); setTabFollowing(0)}}
-                    style={{borderWidth: 1, marginEnd:'auto', paddingVertical:10, paddingHorizontal:3, backgroundColor: TabPost === 1 ? 'orange' : '#fff'}}
+                    style={{borderWidth: 1, marginEnd:'auto', paddingVertical:10, paddingHorizontal:3, backgroundColor: TabPost === 1 ? '#FE7E00' : '#fff'}}
                 >
                     <Text style={{fontSize:20, fontWeight:'bold', color: TabPost === 1 ? '#fff' : '#000'}}>Các Bài Viết</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                     onPress={() => {setTabPost(0); setTabFollower(1); setTabFollowing(0)}}
-                    style={{borderWidth: 1, paddingVertical:10, paddingHorizontal:3, backgroundColor: TabFollower === 1 ? 'orange' : '#fff'}}
+                    style={{borderWidth: 1, paddingVertical:10, paddingHorizontal:3, backgroundColor: TabFollower === 1 ? '#FE7E00' : '#fff'}}
                 >
                     <Text style={{fontSize:20, fontWeight:'bold', color: TabFollower === 1 ? '#fff' : '#000'}}>Người Theo Dõi</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                     onPress={() => {setTabPost(0); setTabFollower(0); setTabFollowing(1)}}
-                    style={{borderWidth: 1, marginStart:'auto', paddingVertical:10, paddingHorizontal:3, backgroundColor: TabFollowing === 1 ? 'orange' : '#fff'}}
+                    style={{borderWidth: 1, marginStart:'auto', paddingVertical:10, paddingHorizontal:3, backgroundColor: TabFollowing === 1 ? '#FE7E00' : '#fff'}}
                 >
                     <Text style={{fontSize:20, fontWeight:'bold', color: TabFollowing === 1 ? '#fff' : '#000'}}>Đang Theo Dõi</Text>   
                 </TouchableOpacity>

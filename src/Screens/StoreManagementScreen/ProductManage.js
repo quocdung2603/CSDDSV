@@ -21,7 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const ProductManage = () => {
+const ProductManage = ({navigation}) => {
     const [searchText, setSearchText] = useState('');
     const [products, setProducts] = useState([
         { id: 1, name: 'Product 1', category: 'Category 1', image: require('../../../Img/tdmu_logo.png'), checked: false },
@@ -55,9 +55,11 @@ const ProductManage = () => {
     return (
         <View style={{ flex: 1, backgroundColor:'#fff', flexDirection:'column'}}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                <TouchableOpacity
+                    onPress={() => {navigation.goBack()}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
+                    <AntDesign name="arrowleft" size={30} color="#FE7E00" />
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Quản Lý Sản Phẩm</Text>
                 <View style={{ marginStart:'auto'}}></View>
             </View>

@@ -19,15 +19,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const OrderDetail = () => {
+const OrderDetail = ({navigation}) => {
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto', margin: 10 }}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                <TouchableOpacity
+                    onPress={() => {navigation.goBack()}} 
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto', margin: 10 }}>
+                    <AntDesign name="arrowleft" size={30} color="#FE7E00" />
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Chi Tiết Đơn Hàng</Text>
+                <View style={{marginStart:'auto'}}></View>
             </View>
             <ScrollView>
                 <View style={{ flexDirection: 'column', margin: 10 }}>
@@ -100,9 +103,11 @@ const OrderDetail = () => {
                     </View>
                 </View>
             </ScrollView>
-            <View style={{marginTop:'auto', borderWidth:1, backgroundColor:'grey', justifyContent:'center', alignItems:'center'}}>
+            <TouchableOpacity
+                onPress={() => {Alert.alert("bấm dô là hủy đơn hàng")}} 
+                style={{marginTop:'auto', borderWidth:1, backgroundColor:'grey', justifyContent:'center', alignItems:'center'}}>
                 <Text style={{fontSize:25, fontWeight:'bold',color:'#fff', padding:10}}>Hủy Giao Dịch</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     );
 };

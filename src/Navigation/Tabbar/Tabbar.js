@@ -1,168 +1,60 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-    Alert,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Image,
-    TextInput,
-} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import 'react-native-gesture-handler';
+// Screens
 import Home from '../../Screens/HomeScreen/Home';
-import Personal from '../../Screens/PersonalScreen/Personal';
-import Forum from '../../Screens/ForumScreen/Forum'
-import WishList from '../../Screens/WishListScreen/WishList';
 import CategoryMain from '../../Screens/CategoriesScreen/CategoryMain';
+import Forum from '../../Screens/ForumScreen/Forum';
+import WishList from '../../Screens/WishListScreen/WishList';
+import Personal from '../../Screens/PersonalScreen/Personal';
+//Screen name
+const homeName = "Home";
+const categoryName = "CategoryMain";
+const forumName="Budget";
+const wishlistName="Add";
+const personalName = "Setting";
 
-const Tabbar = () => {
-    const [selectTab, setSelectTab] = useState(1);
-    return (
-        <View style={{ flex: 1 }}>
-            {
-                selectTab === 1 ? (<Home />) :
-                    selectTab === 2 ? (<CategoryMain />) :
-                        selectTab === 3 ? (<Forum />) :
-                            selectTab === 4 ? (<WishList />) :
-                                (<Personal />)
-            }
+const Tab = createBottomTabNavigator();
+function Tabar({route}) {
+    // const {hTransaction,budget}=useData();
+    return ( 
+            <Tab.Navigator
+                initialRouteName={homeName}
+                screenOptions={({ route }) => ({
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ focused, color, size }) => {
+                        let iconName;
+                        let rn = route.name;
 
-            <View style={{
-                borderWidth: 1,
-                position: 'absolute',
-                bottom: 0,
-                height: 60,
-                width: 'auto',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                flexDirection: 'row',
-                marginHorizontal: 20,
-            }}>
-                <TouchableOpacity
-                    style={{
-                        width: '20%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                    onPress={() => {
-                        setSelectTab(1);
-                    }}>
-                    <View style={{
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#f2f2f2',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                    }}>
-                        <AntDesign
-                            name='home'
-                            size={30}
-                        />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: '20%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                    onPress={() => {
-                        setSelectTab(2);
-                    }}>
-                    <View style={{
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#f2f2f2',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                    }}>
-                        <AntDesign
-                            name='shoppingcart'
-                            size={30}
-                        />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: '20%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                    onPress={() => {
-                        setSelectTab(3);
-                    }}>
-                    <View style={{
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#f2f2f2',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                    }}>
-                        <MaterialCommunityIcons
-                            name='forum'
-                            size={30}
-                        />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: '20%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                    onPress={() => {
-                        setSelectTab(4);
-                    }}>
-                    <View style={{
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#f2f2f2',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                    }}>
-                        <AntDesign
-                        name='inbox'
-                        size={30}
-                        />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: '20%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                    onPress={() => {
-                        setSelectTab(5);
-                    }}>
-                    <View style={{
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#f2f2f2',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                    }}>
-                        <AntDesign
-                            name='user'
-                            size={30}
-                        />
-                    </View>
-                </TouchableOpacity>
-
-            </View>
-        </View>
-    )
+                        if (rn === homeName) {
+                            iconName = focused ? 'home' : 'home-outline';
+                        } else if (rn === categoryName) {
+                            iconName = focused ? 'file-tray-full' : 'file-tray-full-outline';
+                        } else if (rn === forumName){
+                            iconName = focused ? 'newspaper' : 'newspaper-outline';
+                        } else if(rn === wishlistName) {
+                            iconName = focused ? 'clipboard' : 'clipboard-outline';
+                        } else if(rn === personalName) {
+                            iconName = focused ? 'person' : 'person-outline';
+                        }
+                        return <Ionicons name={iconName} size={size} color={color} />;
+                    },
+                })}
+                tabBarOptions={{
+                    activeTintColor: '#FE7E00',
+                    inactiveTintColor: 'grey',
+                    labelStyle: { paddingBottom: 10, fontSize: 10 },
+                    style: { padding: 10, height: 70 }
+                }}
+            >
+                <Tab.Screen name={homeName} component={Home} options={{ headerShown: false }} />
+                <Tab.Screen name={categoryName} component={CategoryMain} options={{ headerShown: false }}/>
+                <Tab.Screen name={forumName} component={Forum} options={{ headerShown: false }} />
+                <Tab.Screen name={wishlistName} component={WishList} options={{ headerShown: false }} />
+                <Tab.Screen name={personalName} component={Personal} options={{ headerShown: false }} />
+            </Tab.Navigator>
+    );
 }
-
-export default Tabbar;
+export default Tabar;

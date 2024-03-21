@@ -18,17 +18,19 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-const CartMain = () => {
+const CartMain = ({navigation}) => {
     const [SearchBox, setSearchBox] = useState("");
     return (
         <View style={{ flexDirection: 'column', flex:1, backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto', margin: 10 }}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
-                </View>
+                <TouchableOpacity 
+                    onPress={() => {navigation.goBack()}}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto', margin: 10 }}>
+                    <AntDesign name="arrowleft" size={30} color="#FE7E00" />
+                </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Your Cart</Text>
                 <View style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
-                    <Ionicons name='cart' size={30} color='#000' />
+                    <Ionicons name='cart' size={30} color='#FE7E00' />
                 </View>
             </View>
             <Text style={{margin:10, fontSize:20, fontWeight:'bold', color:'#000'}}>0 products</Text>
