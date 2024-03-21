@@ -19,7 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-const SettingText = () => {
+const SettingMain = () => {
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
@@ -36,6 +36,7 @@ const SettingText = () => {
                     source={require("../../../Img/Dong_Doan.jpg")} />
             </View>
             <View style={{flexDirection:'column', margin:10}}>
+                {/* thong tin ca nhan */}
                 <TouchableOpacity 
                         onPress={() => {}}
                         style={{flexDirection:'row', marginHorizontal:10, alignItems:'center'}}>
@@ -45,29 +46,32 @@ const SettingText = () => {
                     <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Thông Tin Cá Nhân</Text>
                 </TouchableOpacity>
                 <View style={{borderWidth:0.2, margin:10}}/>
-                <TouchableOpacity 
-                        onPress={() => {}}
-                        style={{flexDirection:'row', marginHorizontal:10, alignItems:'center'}}>
-                    <View style={{borderWidth:1, borderRadius:50, marginEnd:10}}>
-                        <AntDesign name="user" size={27} color='#000' />
-                    </View>
-                    <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Tài Khoản</Text>
-                </TouchableOpacity>
-                <View style={{borderWidth:0.2, margin:10}}/>
+                {/* tài khoản */}
                 <TouchableOpacity 
                         onPress={() => {}}
                         style={{flexDirection:'row', marginHorizontal:10, alignItems:'center'}}>
                     <View style={{borderWidth:1, borderRadius:50, marginEnd:10}}>
                         <MaterialIcons name="manage-accounts" size={27} color='#000' />
                     </View>
-                    <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Bảo Mật</Text>
+                    <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Tài Khoản</Text>
                 </TouchableOpacity>
                 <View style={{borderWidth:0.2, margin:10}}/>
+                {/* bảo mật */}
                 <TouchableOpacity 
                         onPress={() => {}}
                         style={{flexDirection:'row', marginHorizontal:10, alignItems:'center'}}>
                     <View style={{borderWidth:1, borderRadius:50, marginEnd:10}}>
                         <AntDesign name="Safety" size={27} color='#000' />
+                    </View>
+                    <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Bảo Mật</Text>
+                </TouchableOpacity>
+                <View style={{borderWidth:0.2, margin:10}}/>
+                {/* dang xuat */}
+                <TouchableOpacity 
+                        onPress={() => {}}
+                        style={{flexDirection:'row', marginHorizontal:10, alignItems:'center'}}>
+                    <View style={{borderWidth:1, borderRadius:50, marginEnd:10}}>
+                        <Entypo name="log-out" size={25} color='#000' />
                     </View>
                     <Text style={{fontSize:22, fontWeight:'bold',color:'#000', marginEnd:'auto'}}>Đăng Xuất</Text>
                 </TouchableOpacity>
@@ -76,4 +80,4 @@ const SettingText = () => {
         </View>
     )
 }
-export default SettingText
+export default SettingMain
