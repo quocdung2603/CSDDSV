@@ -28,52 +28,61 @@ import OrderDetail from "../Screens/OrderScreen/OrderDetail";
 import OrderSuccess from "../Screens/OrderScreen/OrderSuccess";
 import PostArticle from "../Screens/ForumScreen/PostArticle";
 import EditArticle from "../Screens/ForumScreen/EditArticle";
+import AddCategory from "../Screens/CategoriesScreen/AddCategory";
+import HomeAd from "../Screens/Admin/HomeAd";
+import ManagerRegis from "../Screens/Admin/ManagerRegis";
 const Stack = createStackNavigator();
 
 
 const AppNavigator = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Tabbar">
+            <Stack.Navigator initialRouteName="Splash">
+                {/* Admin */}
+                <Stack.Screen name="HomeAd" component={HomeAd} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerRegis" component={ManagerRegis} options={{ headerShown: false }} />
                 {/* tabbar */}
-                <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }}/>
+                <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }} />
                 {/* Account */}
-                <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }}/>
-                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-                <Stack.Screen name="ForgotPass" component={ForgotPass} options={{ headerShown: false }}/>
-                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+                <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen name="ForgotPass" component={ForgotPass} options={{ headerShown: false }} />
+                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+
+
                 {/* HomeScreen */}
-                <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+                <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 {/* Category */}
-                <Stack.Screen name="CategoryItem" component={CategoryItem} options={{ headerShown: false }}/>
+                <Stack.Screen name="CategoryItem" component={CategoryItem} options={{ headerShown: false }} />
+                <Stack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
                 {/* Wishlist */}
                 {/* Forum */}
-                <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }}/>
-                <Stack.Screen name="EditArticle" component={EditArticle} options={{ headerShown: false }}/>
-                {/* Product */} 
-                <Stack.Screen name="ProductList" component={ProductList} options={{ headerShown: false }}/>
-                <Stack.Screen name="AddProduct" component={AddProduct} options={{ headerShown: false }}/>
-                <Stack.Screen name="EditProduct" component={EditProduct} options={{ headerShown: false }}/>
-                <Stack.Screen name="DetailProduct" component={DetailProduct} options={{ headerShown: false }}/>
+                <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }} />
+                <Stack.Screen name="EditArticle" component={EditArticle} options={{ headerShown: false }} />
+                {/* Product */}
+                <Stack.Screen name="ProductList" component={ProductList} options={{ headerShown: false }} />
+                <Stack.Screen name="AddProduct" component={AddProduct} options={{ headerShown: false }} />
+                <Stack.Screen name="EditProduct" component={EditProduct} options={{ headerShown: false }} />
+                <Stack.Screen name="DetailProduct" component={DetailProduct} options={{ headerShown: false }} />
                 {/* Cart */}
-                <Stack.Screen name="CartMain" component={CartMain} options={{ headerShown: false }}/>
-                <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }}/>
+                <Stack.Screen name="CartMain" component={CartMain} options={{ headerShown: false }} />
+                <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }} />
                 {/* Order */}
-                <Stack.Screen name="OrderList" component={OrderList} options={{ headerShown: false }}/>
-                <Stack.Screen name="OrderDetail" component={OrderDetail} options={{ headerShown: false }}/>
-                <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{ headerShown: false }}/>
+                <Stack.Screen name="OrderList" component={OrderList} options={{ headerShown: false }} />
+                <Stack.Screen name="OrderDetail" component={OrderDetail} options={{ headerShown: false }} />
+                <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{ headerShown: false }} />
                 {/* Personal */}
                 {/* Store Manage */}
-                <Stack.Screen name="StoreMain" component={StoreMain} options={{ headerShown: false }}/>
-                <Stack.Screen name="ProductManage" component={ProductManage} options={{ headerShown: false }}/>
-                <Stack.Screen name="TransactionManage" component={TransactionManage} options={{ headerShown: false }}/>
-                <Stack.Screen name="StatisticalManage" component={StatisticalManage} options={{ headerShown: false }}/>
-                <Stack.Screen name="SettingStore" component={SettingStore} options={{ headerShown: false }}/>
+                <Stack.Screen name="StoreMain" component={StoreMain} options={{ headerShown: false }} />
+                <Stack.Screen name="ProductManage" component={ProductManage} options={{ headerShown: false }} />
+                <Stack.Screen name="TransactionManage" component={TransactionManage} options={{ headerShown: false }} />
+                <Stack.Screen name="StatisticalManage" component={StatisticalManage} options={{ headerShown: false }} />
+                <Stack.Screen name="SettingStore" component={SettingStore} options={{ headerShown: false }} />
                 {/* Setting */}
-                <Stack.Screen name="SettingMain" component={SettingMain} options={{ headerShown: false }}/>
-                <Stack.Screen name="SettingInformation" component={SettingInformation} options={{ headerShown: false }}/>
-                <Stack.Screen name="SettingAccount" component={SettingAccount} options={{ headerShown: false }}/>
-                <Stack.Screen name="SettingScurity" component={SettingScurity} options={{ headerShown: false }}/>
+                <Stack.Screen name="SettingMain" component={SettingMain} options={{ headerShown: false }} />
+                <Stack.Screen name="SettingInformation" component={SettingInformation} options={{ headerShown: false }} />
+                <Stack.Screen name="SettingAccount" component={SettingAccount} options={{ headerShown: false }} />
+                <Stack.Screen name="SettingScurity" component={SettingScurity} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

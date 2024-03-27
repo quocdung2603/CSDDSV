@@ -8,21 +8,52 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging'
 
 const Login = ({ navigation }) => {
-    // useEffect(() => {
-
-    // })
-    const [email, setEmail] = useState();
-    const [pass, setPass] = useState();
-    const [listAccount, setListAccount] = useState();
-
-    const CheckLogin = () => {
+    useEffect(() => {
         firestore()
             .collection('Users')
             .get()
-            .then(querySnapshot => {
-                console.log('Total users: ', querySnapshot.size);
+            .then(data => {
+                setListAccount(data._docs);
+                // console.log(data);
             });
+    }, [])
+    const [email, setEmail] = useState();
+    const [pass, setPass] = useState();
+    const [listAccount, setListAccount] = useState();
+    const [typeAcc, setTypeAcc] = useState();
+    var idUser
+    var typeacc
+    const CheckLogin = () => {
+        var checkTrueAcc = false
+
+        listAccount.forEach(item => {
+            if (item._data.email === email && item._data.password === pass) {
+                checkTrueAcc = true
+                typeacc = (item._data.typeAcc);
+                idUser = item._data.userId
+            }
+        });
+        if (checkTrueAcc === true) {
+            console.log("Dang nhap thanh cong!")
+            goToTabbar(idUser)
+            console.log(typeAcc);
+            checkTrueAcc = false;
+        }
+        else {
+            console.log("Dang nhap sai thong tin!")
+        }
     }
+    const goToTabbar = async (userId) => {
+        await AsyncStorage.setItem('USERID', userId);
+        console.log(typeAcc);
+        if (typeacc === 0) {
+            navigation.navigate('HomeAd');
+        }
+        else if (typeacc === 1) {
+            navigation.navigate('Tabbar');
+        }
+    };
+
 
     return (
         <View style={{
@@ -123,8 +154,8 @@ const Login = ({ navigation }) => {
                         alignSelf: 'center',
                     }}
                     onPress={() => {
-                        //CheckLogin();
-                        navigation.navigate("Tabbar")
+                        CheckLogin();
+                        // navigation.navigate("Tabbar")
                     }}>
                     <Text style={{ fontSize: 20, color: 'white', }}>Đăng nhập</Text>
                 </TouchableOpacity>

@@ -11,22 +11,62 @@ import {
     Image,
     TextInput,
 } from 'react-native';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Picker } from '@react-native-picker/picker'
+import firestore, { firebase } from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+let userId = "";
+
 
 const CategoryMain = ({ navigation }) => {
+
+    useEffect(() => {
+
+    }, [])
+
     const [SearchBox, setSearchBox] = useState("");
     const [TabStudy, setTabStudy] = useState(1);
     const [TabClothes, setTabClothes] = useState(0);
     const [TabHouseware, setTabHouseware] = useState(0);
+
+    const UploadProduct = async () => {
+        userId = await AsyncStorage.getItem('USERID', userId);
+        firestore()
+            .collection('Products')
+            .doc(userId)
+            .set({
+                userId: userId,
+                noidung: '',
+                imgProduct: '',
+                cmt: [],
+                like: [],
+                share: [],
+                time: new Date(),
+                type: '',
+                nameType: '',
+            })
+    }
+
     return (
         <View style={{ flexDirection: 'column', backgroundColor: '#fff', flex: 1 }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate('AddCategory') }}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginRight: 5 }}>
+                    <AntDesign name='pluscircleo' size={30} color='#000' />
+                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => { navigation.navigate('CartMain') }}
                     style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
@@ -64,7 +104,7 @@ const CategoryMain = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal:10}}>Category</Text>
+            <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
             {TabStudy === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
                     <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,16 +15,29 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+let tempUserId = ""
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
+
+  useEffect(() => {
+    temp()
+  },[])
+
+  const temp = async (userId) => {
+    tempUserId = await AsyncStorage.getItem('USERID', userId);
+    console.log(tempUserId);
+
+  };
+
   console.log(navigation)
   return (
-    <View style={{flex:1, flexDirection:'column', backgroundColor:'#fff'}}>
+    <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
       <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
         <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
-        <TouchableOpacity 
-            onPress={() => { navigation.navigate('CartMain') }}
-            style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
+        <TouchableOpacity
+          onPress={() => { navigation.navigate('CartMain') }}
+          style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
           <Ionicons name='cart' size={30} color='#FE7E00' />
         </TouchableOpacity>
       </View>

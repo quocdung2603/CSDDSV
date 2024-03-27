@@ -7,14 +7,40 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging'
 
 const Register = ({ navigation }) => {
-
-    // useEffect(() => {
-
-    // })
-
+    useEffect(() => {
+        firestore()
+            .collection('Users')
+            .get()
+            .then(data => {
+                setListAccount(data._docs);
+                // console.log(listAccount);
+            })
+    }, [])
+    //backend
+    const [listAccount, setListAccount] = useState();
+    // fontend
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState();
     const [hoTen, SetHoTen] = useState();
+
+    const checkAccountCreated = () => {
+        checkacc = false
+        listAccount.forEach(data => {
+            if (data._data.email === email)
+                checkacc = true
+            console.log(data._data.email);
+        });
+        if (checkacc === true) // tài khoản đã tồn tại
+        {
+            console.log("Tai khoan ton tai")
+        }
+        else if (checkacc === false) {
+            console.log("tao thanh cong")
+            createAccount();
+            navigation.goBack();
+        }
+        console.log(checkacc)
+    }
 
     const createAccount = () => {
         let id = uuid.v4();
@@ -27,11 +53,18 @@ const Register = ({ navigation }) => {
                 email: email,
                 password: pass,
                 userId: id,
+                proFilePic: '',
+                address: '',
+                numberPhone: '',
+                gender: '',
+                post: [],
+                typeAcc: 1,
+                
             })
             .then(() => {
                 console.log('User added!');
                 // saveLocalData();
-                getToken();
+                // getToken();
             });
         console.log('1');
     };
@@ -151,7 +184,7 @@ const Register = ({ navigation }) => {
                     alignSelf: 'center',
                 }}
                 onPress={() => {
-                    createAccount();
+                    checkAccountCreated();
                 }}>
                 <Text style={{ fontSize: 20, color: 'white', }}>Đăng ký</Text>
             </TouchableOpacity>

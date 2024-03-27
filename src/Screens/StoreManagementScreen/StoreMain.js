@@ -68,6 +68,7 @@ const StoreMain = ({navigation}) => {
             </View>
             <View style={{flexDirection:'column', margin:10, borderWidth:1, height:300}}>
                 {/* chart */}
+                
             </View>
             <View style={{ marginHorizontal: 10, borderWidth: 0.5, borderColor: 'grey' }}></View>
             <View style={{flexDirection:'row'}}>

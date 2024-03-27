@@ -24,6 +24,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Picker } from '@react-native-picker/picker'
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid'
 const dataCategory = [
     { label: 'Học Tập', value: '1' },
     { label: 'Gia Dụng', value: '2' },
@@ -38,11 +44,72 @@ const dataTypeHouseware = [
     { label: 'Chảo', value: '1' },
     { label: 'Nồi', value: '1' },
 ];
-const AddProduct = ({navigation}) => {
+// let userId = ""
+const AddProduct = ({ navigation }) => {
+
+    useEffect(() => {
+        // GetUser();
+    }, [])
+
     const [Title, setTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [category, setCategory] = useState("");
     const [TypeProduct, setTypeProduct] = useState("");
+    // camera
+
+    const [imageData, setImageData] = useState(null);
+    const [imagePicked, setImagePicked] = useState(false);
+    const [UploadedPicUrl, setUploadedPicUrl] = useState('');
+
+    const GetUser = async (userId) => {
+        userId = await AsyncStorage.getItem('USERID', userId);
+
+        console.log(userId);
+
+    };
+
+    const openGallery = async () => {
+        const result = await launchImageLibrary({ mediaType: 'photo' });
+        console.log("User selected image " + JSON.stringify(result));
+
+        // Check is user select picture yet
+        if (result.assets != null || result.didCancel == false) {
+            setImagePicked(true);
+            setImageData(result);
+        }
+    };
+    const uploadProfilePic = async () => {
+        const reference = storage().ref(imageData.assets[0].fileName);
+        const pathToFile = imageData.assets[0].uri;
+        await reference.putFile(pathToFile);
+        const url = await storage()
+            .ref(imageData.assets[0].fileName)
+            .getDownloadURL();
+
+        setUploadedPicUrl(url);
+        upp(url);
+        setImagePicked(false);
+    };
+
+    const upp = async url => {
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let productId = uuid.v4;
+        firestore()
+            .collection('Products')
+            .doc(userId)
+            .set({
+                title: Title,
+                img: url,
+                description: Description,
+            })
+            .then(() => {
+                // console.log('profile updated!');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
     const renderItem = item => {
         return (
             <View style={styles.item}>
@@ -62,7 +129,7 @@ const AddProduct = ({navigation}) => {
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <TouchableOpacity
-                    onPress={() => {navigation.goBack()}}
+                    onPress={() => { navigation.goBack() }}
                     style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
                     <AntDesign name="arrowleft" size={30} color="#000" />
                 </TouchableOpacity>
@@ -133,31 +200,49 @@ const AddProduct = ({navigation}) => {
                 </View>
                 <View style={{ flexDirection: 'column', margin: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Mô Tả:</Text>
-                    <View style={{ borderWidth: 1, borderRadius: 10, height: 200, flexDirection:'row', marginVertical:10}}>
+                    <View style={{ borderWidth: 1, borderRadius: 10, height: 200, flexDirection: 'row', marginVertical: 10 }}>
                         <TextInput
                             value={Description}
                             onChangeText={item => { setDescription(item) }}
                             autoComplete='false'
                             keyboardType='default'
                             multiline
-                            style={{ borderBottomWidth: 1, marginStart: 'auto', flex:1}}
+                            style={{ borderBottomWidth: 1, marginStart: 'auto', flex: 1 }}
                         />
                     </View>
                 </View>
-                <View style={{flexDirection:'column', marginHorizontal:10}}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto'}}>Hình ảnh, video minh họa:</Text>
-                    <View style={{flexDirection:'row', marginHorizontal:5}}>
-                        <View style={{borderWidth:1, borderRadius:10, width:100, height:100, marginHorizontal:5}}>
-                            <View style={{margin:5, marginStart:'auto'}}>
+                <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
+                    <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
+                        <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
+                            <View style={{ margin: 5, marginStart: 'auto' }}>
                                 <AntDesign name="closecircle" size={20} color="red" />
                             </View>
                         </View>
-                        <TouchableOpacity 
-                            onPress={() => {Alert.alert("bấm dô đây để mở thư viện chọn ảnh nè, ảnh được chọn sẽ chèn lên đầu hàng")}}
-                            style={{borderWidth:1, borderRadius:10, alignItems:'center', justifyContent:'center', height:100, width:100, marginHorizontal:5}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (imagePicked === false) {
+                                    openGallery();
+                                } else {
+                                    uploadProfilePic();
+                                }
+                            }}
+                            style={{ borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: 100, width: 100, marginHorizontal: 5 }}>
                             <AntDesign name='plus' size={60} color='#000' />
                         </TouchableOpacity>
                     </View>
+                </View>
+                <View style={{ alignItems: 'center', marginTop: 30 }}>
+                    <TouchableOpacity
+                        style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
+                        onPress={() => {
+                            UpLoadImgProDuct();
+                        }}
+                    >
+                        <Text style={{ color: '#000', fontSize: 20 }}>
+                            Upload
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
