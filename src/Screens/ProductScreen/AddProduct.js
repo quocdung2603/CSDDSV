@@ -10,7 +10,8 @@ import {
     View,
     Image,
     TextInput,
-    Button
+    Button,
+    FlatList,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -30,6 +31,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
+
 const dataCategory = [
     { label: 'Học Tập', value: '1' },
     { label: 'Gia Dụng', value: '2' },
@@ -59,8 +61,9 @@ const AddProduct = ({ navigation }) => {
 
     const [imageData, setImageData] = useState(null);
     const [imagePicked, setImagePicked] = useState(false);
-    const [UploadedPicUrl, setUploadedPicUrl] = useState('');
-
+    // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
+    const [listIma, setListIma] = useState([]);
+    console.log(listIma);
     const GetUser = async (userId) => {
         userId = await AsyncStorage.getItem('USERID', userId);
 
@@ -70,37 +73,66 @@ const AddProduct = ({ navigation }) => {
 
     const openGallery = async () => {
         const result = await launchImageLibrary({ mediaType: 'photo' });
-        console.log("User selected image " + JSON.stringify(result));
 
-        // Check is user select picture yet
+
         if (result.assets != null || result.didCancel == false) {
             setImagePicked(true);
-            setImageData(result);
+            // setImagePicked(true);
+            if (imageData == null) {
+                setImageData(result);
+                // console.log(imageData);
+            }
+            else if (imageData.assets.length >= 1) {
+                imageData.assets.push(result.assets[0]);
+            }
         }
     };
-    const uploadProfilePic = async () => {
-        const reference = storage().ref(imageData.assets[0].fileName);
-        const pathToFile = imageData.assets[0].uri;
-        await reference.putFile(pathToFile);
-        const url = await storage()
-            .ref(imageData.assets[0].fileName)
-            .getDownloadURL();
+    const UpLoadImgProDuct = async () => {
+        // get fileName
+        // and uri
+        let temp = []
+        console.log("-------", imageData.assets.length)
+        imageData.assets.forEach(item => {
+            // console.log(item);
 
-        setUploadedPicUrl(url);
-        upp(url);
-        setImagePicked(false);
+            const reference = storage().ref(item.fileName);
+            const pathToFile = item.uri;
+            reference.putFile(pathToFile);
+            const url = storage()
+                .ref(item.fileName)
+                .getDownloadURL()
+                .then(dt => {
+                    temp.push(dt);
+                    setListIma(temp)
+                })
+
+        });
+        upp(listIma);
     };
-
-    const upp = async url => {
+    const cancelIma = async () => {
+        if (imagePicked == true) {
+            setImageData([])
+            setImagePicked(false)
+            setListIma([])
+        }
+    }
+    const upp = async Img => {
+        PS = []
+        console.log(Img);
         let userId = await AsyncStorage.getItem('USERID', userId);
-        let productId = uuid.v4;
+        let productId = uuid.v4();
+        console.log(productId,"fds")
+        PS.push({
+            idPro: productId,
+            title: Title,
+            img: Img,
+            description: Description,
+        })
         firestore()
             .collection('Products')
             .doc(userId)
             .set({
-                title: Title,
-                img: url,
-                description: Description,
+                posts:PS,
             })
             .then(() => {
                 // console.log('profile updated!');
@@ -108,7 +140,30 @@ const AddProduct = ({ navigation }) => {
             .catch(error => {
                 console.log(error);
             });
+        setImagePicked(true);
     };
+
+
+
+    const test = async () => {
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let productId = uuid.v4();
+        console.log("11")
+        firestore()
+            .collection('test')
+            .doc('userId')
+            .collection('productId')
+            .doc("abc")
+            .set({
+                listpro: [],
+            })
+            .then((ex) => {
+                console.log(ex);
+            })
+            .catch(function (ex) {
+                console.error('Error adding document: ', ex);
+            });
+    }
 
     const renderItem = item => {
         return (
@@ -213,26 +268,23 @@ const AddProduct = ({ navigation }) => {
                 </View>
                 <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
-                    <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
-                        <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
-                            <View style={{ margin: 5, marginStart: 'auto' }}>
-                                <AntDesign name="closecircle" size={20} color="red" />
-                            </View>
-                        </View>
+                    <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
                         <TouchableOpacity
                             onPress={() => {
-                                if (imagePicked === false) {
-                                    openGallery();
-                                } else {
-                                    uploadProfilePic();
-                                }
+                                openGallery();
                             }}
-                            style={{ borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: 100, width: 100, marginHorizontal: 5 }}>
-                            <AntDesign name='plus' size={60} color='#000' />
+                        >
+                            <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
                         </TouchableOpacity>
                     </View>
+                    <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
+                        <View style={{ margin: 5, marginStart: 'auto' }}>
+                            <AntDesign name="closecircle" size={20} color="red" />
+                            <Image />
+                        </View>
+                    </View>
                 </View>
-                <View style={{ alignItems: 'center', marginTop: 30 }}>
+                <View style={{ alignItems: 'center', marginTop: 30, flexDirection: 'row', justifyContent: 'center' }}>
                     <TouchableOpacity
                         style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
                         onPress={() => {
@@ -243,6 +295,31 @@ const AddProduct = ({ navigation }) => {
                             Upload
                         </Text>
                     </TouchableOpacity>
+                    {imagePicked === true ? (
+                        <TouchableOpacity
+
+                            style={{ width: 100, alignItems: 'center', borderRadius: 20, backgroundColor: 'red' }}
+                            onPress={() => {
+                                cancelIma();
+                            }}
+                        >
+                            <Text style={{ color: 'white', fontSize: 20 }}>
+                                Cancel
+                            </Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+
+                            style={{ width: 100, alignItems: 'center', borderRadius: 20, backgroundColor: 'pink' }}
+                            onPress={() => {
+                                cancelIma();
+                            }}
+                        >
+                            <Text style={{ color: 'white', fontSize: 20 }}>
+                                Cancel
+                            </Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
         </View>

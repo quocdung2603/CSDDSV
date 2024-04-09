@@ -21,13 +21,37 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const ProductManage = ({navigation}) => {
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Picker } from '@react-native-picker/picker'
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid'
+
+const ProductManage = ({ navigation }) => {
+
+    useEffect(()=>{
+        GetListPro();
+    },[])
+
     const [searchText, setSearchText] = useState('');
     const [products, setProducts] = useState([
         { id: 1, name: 'Product 1', category: 'Category 1', image: require('../../../Img/tdmu_logo.png'), checked: false },
         { id: 2, name: 'Product 2', category: 'Category 2', image: require('../../../Img/tdmu_logo.png'), checked: false },
         // Add more products as needed
     ]);
+
+    const [listPro, setListPro] = useState()
+    const GetListPro = async () => {
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let doIt = firestore()
+        .collection('Products')
+        .doc(userId)
+        .get()
+
+        setListPro(doIt);
+        console.log(listPro._j._data.posts)
+    }
 
     const handleSearch = (text) => {
         setSearchText(text);
@@ -53,17 +77,17 @@ const ProductManage = ({navigation}) => {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor:'#fff', flexDirection:'column'}}>
+        <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <TouchableOpacity
-                    onPress={() => {navigation.goBack()}}
-                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto'}}>
+                    onPress={() => { navigation.goBack() }}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
                     <AntDesign name="arrowleft" size={30} color="#FE7E00" />
                 </TouchableOpacity>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Quản Lý Sản Phẩm</Text>
-                <View style={{ marginStart:'auto'}}></View>
+                <View style={{ marginStart: 'auto' }}></View>
             </View>
-            <View style ={{margin:10}}>
+            <View style={{ margin: 10 }}>
                 <TextInput
                     style={{
                         height: 40,
@@ -87,14 +111,14 @@ const ProductManage = ({navigation}) => {
                         borderBottomWidth: 1,
                         borderBottomColor: '#ccc',
                         paddingBottom: 10,
-                        marginHorizontal:10
+                        marginHorizontal: 10
                     }}
                     key={product.id}
                 >
-                    <CheckBox 
-                        style={{marginEnd:'auto'}}
-                        checked={product.checked} 
-                        onPress={() => handleCheckBoxToggle(product.id)} 
+                    <CheckBox
+                        style={{ marginEnd: 'auto' }}
+                        checked={product.checked}
+                        onPress={() => handleCheckBoxToggle(product.id)}
                     />
                     <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                         <Image source={product.image} style={{ width: 50, height: 50, marginRight: 10 }} />
@@ -103,15 +127,15 @@ const ProductManage = ({navigation}) => {
                             <Text style={{ fontSize: 16, color: '#666' }}>{product.category}</Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row'}}>
-                        <TouchableOpacity 
-                            style={{marginEnd:5}}
-                            onPress={() => {}}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                            style={{ marginEnd: 5 }}
+                            onPress={() => { }}>
                             <FontAwesome5 name='edit' size={25} color='#000' />
                         </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={{marginStart:5}}
-                            onPress={() => {}}>
+                        <TouchableOpacity
+                            style={{ marginStart: 5 }}
+                            onPress={() => { }}>
                             <Ionicons name='trash' size={25} color='#000' />
                         </TouchableOpacity>
                     </View>

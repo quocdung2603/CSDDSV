@@ -31,6 +31,7 @@ import EditArticle from "../Screens/ForumScreen/EditArticle";
 import AddCategory from "../Screens/CategoriesScreen/AddCategory";
 import HomeAd from "../Screens/Admin/HomeAd";
 import ManagerRegis from "../Screens/Admin/ManagerRegis";
+import AddPost from "../Screens/ForumScreen/AddPost";
 const Stack = createStackNavigator();
 
 
@@ -59,6 +60,7 @@ const AppNavigator = () => {
                 {/* Forum */}
                 <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }} />
                 <Stack.Screen name="EditArticle" component={EditArticle} options={{ headerShown: false }} />
+                <Stack.Screen name="AddPost" component={AddPost} options={{ headerShown: false }} />
                 {/* Product */}
                 <Stack.Screen name="ProductList" component={ProductList} options={{ headerShown: false }} />
                 <Stack.Screen name="AddProduct" component={AddProduct} options={{ headerShown: false }} />
