@@ -46,11 +46,11 @@ const dataTypeHouseware = [
     { label: 'Chảo', value: '1' },
     { label: 'Nồi', value: '1' },
 ];
-// let userId = ""
+
 const AddProduct = ({ navigation }) => {
 
     useEffect(() => {
-        // GetUser();
+
     }, [])
 
     const [Title, setTitle] = useState("");
@@ -63,13 +63,6 @@ const AddProduct = ({ navigation }) => {
     const [imagePicked, setImagePicked] = useState(false);
     // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
     const [listIma, setListIma] = useState([]);
-    console.log(listIma);
-    const GetUser = async (userId) => {
-        userId = await AsyncStorage.getItem('USERID', userId);
-
-        console.log(userId);
-
-    };
 
     const openGallery = async () => {
         const result = await launchImageLibrary({ mediaType: 'photo' });
@@ -77,10 +70,8 @@ const AddProduct = ({ navigation }) => {
 
         if (result.assets != null || result.didCancel == false) {
             setImagePicked(true);
-            // setImagePicked(true);
             if (imageData == null) {
                 setImageData(result);
-                // console.log(imageData);
             }
             else if (imageData.assets.length >= 1) {
                 imageData.assets.push(result.assets[0]);
@@ -88,12 +79,9 @@ const AddProduct = ({ navigation }) => {
         }
     };
     const UpLoadImgProDuct = async () => {
-        // get fileName
-        // and uri
+
         let temp = []
-        console.log("-------", imageData.assets.length)
         imageData.assets.forEach(item => {
-            // console.log(item);
 
             const reference = storage().ref(item.fileName);
             const pathToFile = item.uri;
@@ -107,7 +95,7 @@ const AddProduct = ({ navigation }) => {
                 })
 
         });
-        upp(listIma);
+        uppp(listIma);
     };
     const cancelIma = async () => {
         if (imagePicked == true) {
@@ -116,54 +104,76 @@ const AddProduct = ({ navigation }) => {
             setListIma([])
         }
     }
-    const upp = async Img => {
-        PS = []
-        console.log(Img);
+
+    const uppp = async Img => {
         let userId = await AsyncStorage.getItem('USERID', userId);
         let productId = uuid.v4();
-        console.log(productId,"fds")
+        let PS = ({
+            userId: userId,
+            idPro: productId,
+            title: Title,
+            img: Img,
+            description: Description,
+            time: new Date(),
+            rule: false,
+            category:"Học tập"
+        })
+
+        let t = firestore()
+            .collection('Products')
+            .doc(userId)
+        let check = await t.get()
+        if (check.exists) {
+            let temp = []
+            temp = check._data.post;
+            temp.push(PS)
+            console.log(temp)
+            firestore()
+                .collection('Products')
+                .doc(userId)
+                .set({
+                    post: temp
+                })
+        }
+        else {
+            let temp = []
+            temp.push(PS)
+            firestore()
+                .collection('Products')
+                .doc(userId)
+                .set({
+                    post: temp,
+                })
+            // console.log(temp)
+        }
+
+        setImagePicked(true);
+    }
+
+    const upp = async Img => {
+        PS = []
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let productId = uuid.v4();
         PS.push({
             idPro: productId,
             title: Title,
             img: Img,
             description: Description,
+            time: new Date()
         })
         firestore()
             .collection('Products')
             .doc(userId)
             .set({
-                posts:PS,
+                posts: PS,
             })
             .then(() => {
-                // console.log('profile updated!');
             })
             .catch(error => {
                 console.log(error);
             });
         setImagePicked(true);
     };
-
-
-
-    const test = async () => {
-        let userId = await AsyncStorage.getItem('USERID', userId);
-        let productId = uuid.v4();
-        console.log("11")
-        firestore()
-            .collection('test')
-            .doc('userId')
-            .collection('productId')
-            .doc("abc")
-            .set({
-                listpro: [],
-            })
-            .then((ex) => {
-                console.log(ex);
-            })
-            .catch(function (ex) {
-                console.error('Error adding document: ', ex);
-            });
-    }
 
     const renderItem = item => {
         return (

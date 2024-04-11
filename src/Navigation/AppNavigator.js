@@ -32,6 +32,12 @@ import AddCategory from "../Screens/CategoriesScreen/AddCategory";
 import HomeAd from "../Screens/Admin/HomeAd";
 import ManagerRegis from "../Screens/Admin/ManagerRegis";
 import AddPost from "../Screens/ForumScreen/AddPost";
+import Forum from "../Screens/ForumScreen/Forum";
+import ManagerPro from "../Screens/Admin/ManagerPro";
+import DetailPro from "../Screens/Admin/Component/DetailPro";
+import ShowCate from "../Screens/CategoriesScreen/Component/ShowCate";
+import IndexChat from "../Screens/Chat/IndexChat";
+
 const Stack = createStackNavigator();
 
 
@@ -42,6 +48,8 @@ const AppNavigator = () => {
                 {/* Admin */}
                 <Stack.Screen name="HomeAd" component={HomeAd} options={{ headerShown: false }} />
                 <Stack.Screen name="ManagerRegis" component={ManagerRegis} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerPro" component={ManagerPro} options={{ headerShown: false }} />
+                <Stack.Screen name="DetailPro" component={DetailPro} options={{ headerShown: false }} />
                 {/* tabbar */}
                 <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }} />
                 {/* Account */}
@@ -49,17 +57,19 @@ const AppNavigator = () => {
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="ForgotPass" component={ForgotPass} options={{ headerShown: false }} />
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-
-
+                {/* Chat */}
+                <Stack.Screen name="IndexChat" component={IndexChat} options={{ headerShown: false }} />
                 {/* HomeScreen */}
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 {/* Category */}
                 <Stack.Screen name="CategoryItem" component={CategoryItem} options={{ headerShown: false }} />
                 <Stack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
+                <Stack.Screen name="ShowCate" component={ShowCate} options={{ headerShown: false }} />
                 {/* Wishlist */}
                 {/* Forum */}
                 <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }} />
                 <Stack.Screen name="EditArticle" component={EditArticle} options={{ headerShown: false }} />
+                <Stack.Screen name="Forum" component={Forum} options={{ headerShown: false }} />
                 <Stack.Screen name="AddPost" component={AddPost} options={{ headerShown: false }} />
                 {/* Product */}
                 <Stack.Screen name="ProductList" component={ProductList} options={{ headerShown: false }} />

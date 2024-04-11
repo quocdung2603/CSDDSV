@@ -31,15 +31,15 @@ const Forum = ({ navigation }) => {
         GetPost()
     }, [])
 
-    const [list, setList] = useState([])
+    const [list, setList] = useState()
 
     const GetPost = async () => {
-        firestore()
-            .collection('Posts')
-            .get()
-            .then(dt => {
-                console.log(dt)
-            })
+        // firestore()
+        //     .collection('Posts')
+        //     .onSnapshot(dt => {
+        //         setList(dt._docs)
+        //         console.log(list);
+        //     })
     }
 
     return (
@@ -58,7 +58,7 @@ const Forum = ({ navigation }) => {
                 </View>
             </TouchableOpacity>
             <ScrollView style={{ margin: 10 }}>
-                
+
                 <View style={{ flexDirection: 'column', margin: 10, borderWidth: 0.5, borderRadius: 10, borderColor: 'grey', padding: 2 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Avatar.Image size={50} source={require('../../../Img/Dong_Doan.jpg')} />

@@ -69,6 +69,17 @@ const HomeAd = ({ navigation }) => {
                         </Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity style={{ borderWidth: 1, marginHorizontal: 10, marginVertical: 5, height: 30, justifyContent: 'center' }}
+                    onPress={() => {
+                        navigation.navigate('ManagerPro')
+                    }}
+                >
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ color: 'black', fontSize: 15, fontWeight: 'bold', fontSize: 15 }}>
+                            Quản lý sản phẩm
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
             </View>
         </View>

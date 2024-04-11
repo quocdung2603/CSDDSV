@@ -26,12 +26,12 @@ import { Picker } from '@react-native-picker/picker'
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-let userId = "";
 
 
 const CategoryMain = ({ navigation }) => {
 
     useEffect(() => {
+
 
     }, [])
 
@@ -40,23 +40,15 @@ const CategoryMain = ({ navigation }) => {
     const [TabClothes, setTabClothes] = useState(0);
     const [TabHouseware, setTabHouseware] = useState(0);
 
-    const UploadProduct = async () => {
+
+    const getUserId = async () => {
         userId = await AsyncStorage.getItem('USERID', userId);
-        firestore()
-            .collection('Products')
-            .doc(userId)
-            .set({
-                userId: userId,
-                noidung: '',
-                imgProduct: '',
-                cmt: [],
-                like: [],
-                share: [],
-                time: new Date(),
-                type: '',
-                nameType: '',
-            })
+
     }
+    let cate = "Đồ thể dục"
+
+
+
 
     return (
         <View style={{ flexDirection: 'column', backgroundColor: '#fff', flex: 1 }}>
@@ -129,7 +121,11 @@ const CategoryMain = ({ navigation }) => {
             ) : ""}
             {TabClothes === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('ShowCate', { cate })
+                        }}
+                        style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Đồ Thể Dục</Text>
                             <Text style={{ fontSize: 17 }}>3 products</Text>
@@ -137,7 +133,8 @@ const CategoryMain = ({ navigation }) => {
                         <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
                             <Text>ABC</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
+
                     <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Áo Sơ Mi</Text>

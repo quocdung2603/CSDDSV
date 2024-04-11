@@ -50,7 +50,8 @@ const ProductManage = ({ navigation }) => {
         .get()
 
         setListPro(doIt);
-        console.log(listPro._j._data.posts)
+        // console.log(listPro._j._data.posts)
+        console.log(listPro)
     }
 
     const handleSearch = (text) => {

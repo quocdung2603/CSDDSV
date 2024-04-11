@@ -11,6 +11,7 @@ import {
     Image,
     TextInput,
 } from 'react-native';
+
 import { Avatar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -33,7 +34,7 @@ const AddPost = ({ navigation }) => {
     }, [])
 
     const [textPost, setTextPost] = useState()
-    
+
 
     const SetPost = async () => {
         let userId = await AsyncStorage.getItem('USERID', userId);
@@ -44,6 +45,7 @@ const AddPost = ({ navigation }) => {
             cmt: [],
             like: [],
             time: new Date(),
+            rule: false,
         })
         let t = firestore()
             .collection('Posts')
@@ -51,7 +53,7 @@ const AddPost = ({ navigation }) => {
         let check = await t.get()
         if (check.exists) {
             let temp = []
-            temp=check._data.post
+            temp = check._data.post
             temp.push(PS)
             firestore()
                 .collection('Posts')
@@ -70,7 +72,6 @@ const AddPost = ({ navigation }) => {
                     post: temp,
                 })
         }
-        // console.log("321")
     }
 
 
@@ -86,7 +87,7 @@ const AddPost = ({ navigation }) => {
                 }}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('')
+                        navigation.navigate('Forum')
                     }}>
                     <Image source={require('../../../Img/left.png')}
                         style={{
