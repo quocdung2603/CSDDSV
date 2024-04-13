@@ -53,58 +53,40 @@ const IndexChat = ({ navigation }) => {
     }
 
     return (
-        <View style={{
-            flex: 1
-        }}>
-            <View
-                style={{
-                    backgroundColor: 'skyblue',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    height: 50
-                }}
-            >
-                <AntDesign name='caretleft' size={30} color={'red'}
-                />
-                <Text
-                    style={{
-                        fontSize: 20,
-                        color: 'black',
-                        alignSelf: 'center'
-                    }}
-                >
-                    Box Chat
-                </Text>
-                <View
-                    style={{
-                        marginRight: '5%'
-                    }}
-                />
+        <View style={{flex: 1, flexDirection:'column'}}>
+            <View style={{flexDirection: 'row',alignItems: 'center', marginVertical:10}}>
+                <AntDesign name='caretleft' size={30} color={'#FCBB3C'} style={{marginEnd:'auto', marginStart:10}}/>
             </View>
-            <View style={{
-                borderWidth: 1,
-                marginTop: 20
-            }}>
+            {/* <View style={{borderWidth:1}}>
                 <ScrollView>
                     <FlatList
                         data={listChat}
                         renderItem={({ item, index }) => {
                             return (
                                 <>
-                                    <View
-                                        style={{
-                                            borderWidth: 1,
-                                            height: 10,
-                                        }}
-                                    >
-
-                                    </View>
+                                    
                                 </>
                             )
                         }}
                     />
                 </ScrollView>
+            </View> */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}>
+                <View style={{ width: 40, height: 40, backgroundColor: 10, borderRadius: 20, backgroundColor: 'yellow' }}></View>
+                <View style={{flexDirection:'column', marginStart:10}}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold'}}>Nguyễn Quốc Dũng</Text>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold'}}>10:43 PM</Text>
+                </View>
+                <TouchableOpacity
+                    onPress={() => { Alert.alert("Xem chi tiết người dùng") }}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginStart: 'auto', marginEnd: 10 }}>
+                    <Ionicons name='eye' size={20} color='#000' />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { Alert.alert("Khóa tài khoản người dùng") }}
+                    style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
+                    <Octicons name='blocked' size={20} color='#000' />
+                </TouchableOpacity>
             </View>
         </View>
     )

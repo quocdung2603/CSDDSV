@@ -77,18 +77,19 @@ const ShowCate = ({ route, navigation }) => {
                             renderItem={({ item, index }) => {
                                 return (
                                     <>
-                                        <TouchableOpacity style={{
-                                            borderWidth: 1,
-                                            marginVertical: 10,
-                                        }}
-
-                                            onPress={() => {
-                                                navigation.navigate('DetailProduct', item)
-                                            }}
-                                        >
-                                            <Text>
-                                                Tên sản phẩm {item.title}
-                                            </Text>
+                                        <TouchableOpacity
+                                            style={{ flex: 1, flexDirection: 'row', borderWidth: 1, borderRadius: 10, margin: 5 }}
+                                            onPress={() => { navigation.navigate('DetailProduct', item) }} >
+                                            <View style={{ flex: 0.75, flexDirection: 'column', marginEnd: 'auto', backgroundColor: 'yellow' }}>
+                                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}> {item.title} </Text>
+                                                <Text style={{ fontSize: 13 }}>{item.userId}</Text>
+                                                <Text style={{ fontSize: 13 }}>{item.idPro}</Text>
+                                            </View>
+                                            <View style={{ flex: 0.25, flexDirection: 'column', marginStart: 'auto', backgroundColor: 'violet' }}>
+                                                <Text>Hình ảnh</Text>
+                                                <Text>Hình ảnh</Text>
+                                                <Text>Hình ảnh</Text>
+                                            </View>
                                         </TouchableOpacity>
                                     </>
                                 )

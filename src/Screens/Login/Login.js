@@ -17,8 +17,8 @@ const Login = ({ navigation }) => {
                 // console.log(data);
             });
     }, [])
-    const [email, setEmail] = useState();
-    const [pass, setPass] = useState();
+    const [email, setEmail] = useState("t");
+    const [pass, setPass] = useState("t");
     const [listAccount, setListAccount] = useState();
     const [typeAcc, setTypeAcc] = useState();
     var idUser

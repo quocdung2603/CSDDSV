@@ -65,39 +65,14 @@ const ManagerPro = ({ navigation }) => {
     }
 
     return (
-        <View style={{
-            flex: 1
-        }}>
-            <View
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: 20,
-                        color: 'black',
-                        fontWeight: '600'
-                    }}
-                >
-                    Quản lý sản phẩm
+        <View style={{ flex: 1, margin:10}}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 30, color: '#FCBB3C', fontWeight: 'bold' }} >
+                    QUẢN LÝ SẢN PHẨM
                 </Text>
             </View>
-            <View
-                style={{
-                    borderWidth: 1,
-                    marginTop: 30
-                }}
-            >
-                <View
-                    style={{
-                        marginHorizontal: 40,
-                        justifyContent: 'center',
-
-                    }}
-                >
+            <View style={{}} >
+                <View style={{ marginHorizontal: 40, marginVertical:10, justifyContent: 'center', }} >
                     <TextInput
                         style={styles.input}
                         placeholder="Nhập nội dung"
@@ -107,50 +82,25 @@ const ManagerPro = ({ navigation }) => {
                         underlineColorAndroid="transparent"
                     />
                 </View>
-
-                <View
-                    style={{
-                        alignItems: 'center'
-                    }}
-                >
-                    <Text
-                        style={{
-                            color: 'black',
-                            fontSize: 14,
-                        }}
-                    >
-                        Danh sách sản phẩm
-                    </Text>
-                </View>
-                <ScrollView
-                    style={{
-                        marginTop: 10,
-                        borderWidth: 1
-                    }}
-                >
+                <ScrollView>
                     {
                         listPro && <FlatList
                             data={listPro}
                             renderItem={({ item, index }) => {
                                 return <>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            goToPro(item);
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontSize: 18
-                                            }}
-                                        >
-                                            Tên sản phẩm: {item.title}
-                                        </Text>
-                                        <Text>
-                                            userId: {item.userId}
-                                        </Text>
-                                        <Text>
-                                            {item.idPro}
-                                        </Text>
+                                    <TouchableOpacity 
+                                        style={{flex:1, flexDirection:'row', borderWidth:1, borderRadius:10,margin:5}}
+                                        onPress={() => { goToPro(item); }} >
+                                        <View style={{flex:0.75, flexDirection:'column',marginEnd:'auto', backgroundColor:'yellow'}}>
+                                            <Text style={{fontSize: 17, fontWeight:'bold' }}> {item.title} </Text>
+                                            <Text style={{fontSize:13}}>{item.userId}</Text> 
+                                            <Text style={{fontSize:13}}>{item.idPro}</Text>
+                                        </View>
+                                        <View style={{flex: 0.25, flexDirection:'column',marginStart:'auto', backgroundColor:'violet'}}>
+                                            <Text>Hình ảnh</Text>
+                                            <Text>Hình ảnh</Text>
+                                            <Text>Hình ảnh</Text>
+                                        </View>
                                     </TouchableOpacity>
                                 </>
                             }}
@@ -170,7 +120,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 10,
         borderRadius: 5,
-        marginTop: 10,
     },
 });
 

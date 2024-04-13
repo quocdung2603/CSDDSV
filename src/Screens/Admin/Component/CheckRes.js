@@ -75,7 +75,7 @@ const CheckRes = (props) => {
 
     return (
         <View>
-            {check === '1' ? (<Entypo name='check' />) : (<Feather name='x' />)}
+            {check === '1' ? (<Entypo name='check' size={20} />) : (<Feather name='x' size={20} />)}
         </View>
     )
 }

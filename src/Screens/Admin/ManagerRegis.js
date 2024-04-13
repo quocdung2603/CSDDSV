@@ -28,6 +28,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CheckRes from './Component/CheckRes';
+import { fonts } from 'react-native-elements/dist/config';
 let listU = []
 const ManagerRegis = ({ navigation }) => {
 
@@ -77,23 +78,21 @@ const ManagerRegis = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ borderWidth: 1, margin: 10, alignItems: 'center' }}>
-                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>
-                    Danh sách tài khoản đăng ký trao đổi
+            <View style={{ margin: 10, alignItems: 'center' }}>
+                <Text style={{ color: '#FCBB3C', fontSize: 30, fontWeight: 'bold' }}>
+                    ĐĂNG KÝ MỞ CỬA HÀNG
                 </Text>
             </View>
-            <View style={{ marginHorizontal: 10, borderTopWidth: 1 }}>
+            <View style={{flexDirection:'column', margin:10, padding:5, borderWidth:1, borderRadius:10, borderColor:'#fff', backgroundColor:'#fff'}}>
                 {listUser && <FlatList
                     data={listUser}
                     renderItem={({ item, index }) => {
                         return (<>
-                            <View style={{ borderWidth: 1, flexDirection: 'row' }}>
-                                <View>
-                                    <Text>
-                                        {item.name}
-                                    </Text>
-                                </View>
-                                <CheckRes user={item} />
+                            <View style={{ flexDirection:'row', alignItems:'center', marginHorizontal:10, marginVertical:5, padding:10, borderWidth:1, borderRadius:10 }}>
+                                <Text style={{fontSize:17, fontWeight:'bold', marginEnd:'auto'}}>
+                                    {item.name}
+                                </Text>
+                                <CheckRes user={item}/>
                             </View>
                         </>)
                     }}

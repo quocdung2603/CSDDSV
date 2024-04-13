@@ -38,6 +38,7 @@ import DetailPro from "../Screens/Admin/Component/DetailPro";
 import ShowCate from "../Screens/CategoriesScreen/Component/ShowCate";
 import IndexChat from "../Screens/Chat/IndexChat";
 import Chat from "../Screens/Chat/Chat";
+import ManagerUser from "../Screens/Admin/ManagerUser";
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="ManagerRegis" component={ManagerRegis} options={{ headerShown: false }} />
                 <Stack.Screen name="ManagerPro" component={ManagerPro} options={{ headerShown: false }} />
                 <Stack.Screen name="DetailPro" component={DetailPro} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerUser" component={ManagerUser} options={{ headerShown: false }} />
                 {/* tabbar */}
                 <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }} />
                 {/* Account */}
