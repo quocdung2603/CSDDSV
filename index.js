@@ -13,4 +13,4 @@ import IndexChat from './src/Screens/Chat/IndexChat';
 import Chat from './src/Screens/Chat/Chat.js';
 LogBox.ignoreAllLogs();
 enableScreens(true)
-AppRegistry.registerComponent(appName, () => Chat);
+AppRegistry.registerComponent(appName, () => AppNavigator);

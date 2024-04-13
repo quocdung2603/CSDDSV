@@ -55,7 +55,7 @@ const CategoryMain = ({ navigation }) => {
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('AddCategory') }}
+                    onPress={() => { navigation.navigate('IndexChat') }}
                     style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginRight: 5 }}>
                     <AntDesign name='pluscircleo' size={30} color='#000' />
                 </TouchableOpacity>

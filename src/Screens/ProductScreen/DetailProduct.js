@@ -20,17 +20,31 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Picker } from '@react-native-picker/picker'
+import firestore, { firebase } from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const DetailProduct = ({ route, navigation }) => {
     let item = route.params
-    console.log(item)
-    useEffect(() => {
 
-    })
+    // console.log(item)
+    useEffect(() => {
+    }, [])
+    // const GetUser = async () => {
+    //     // userId = await AsyncStorage.getItem('USERID', userId);
+
+    // }
+
+    const goToChat = async () => {
+        let userIdd = await AsyncStorage.getItem('USERID', userIdd);
+        navigation.navigate('Chat', { item, userIdd });
+    }
 
     const randomIma = item.img[Math.floor(Math.random() * item.img.length)]
-    // console.log(randomIma)
 
-    
+
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}>
@@ -76,10 +90,10 @@ const DetailProduct = ({ route, navigation }) => {
             </ScrollView>
             <TouchableOpacity style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
                 onPress={() => {
-
+                    goToChat();
                 }}
             >
-                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Add To Cart</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Liên hệ người bán</Text>
             </TouchableOpacity>
         </View>
     )

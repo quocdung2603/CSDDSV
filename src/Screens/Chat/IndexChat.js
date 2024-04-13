@@ -33,14 +33,23 @@ import uuid from 'react-native-uuid'
 const IndexChat = ({ navigation }) => {
 
     useEffect(() => {
+        getChat()
+    }, [])
 
-    })
+    const [listChat, setListChat] = useState()
 
     const getChat = async () => {
-
-        firestore()
+        temp = null
+        let doit = await firestore()
             .collection('Chats')
-            .doc()
+            .doc('1-2')
+            .get()
+            .then(dt => {
+                // console.log(dt, 1)
+                temp = dt
+                setListChat(temp)
+            })
+        console.log(listChat)
     }
 
     return (
@@ -78,7 +87,23 @@ const IndexChat = ({ navigation }) => {
                 marginTop: 20
             }}>
                 <ScrollView>
+                    <FlatList
+                        data={listChat}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <>
+                                    <View
+                                        style={{
+                                            borderWidth: 1,
+                                            height: 10,
+                                        }}
+                                    >
 
+                                    </View>
+                                </>
+                            )
+                        }}
+                    />
                 </ScrollView>
             </View>
         </View>

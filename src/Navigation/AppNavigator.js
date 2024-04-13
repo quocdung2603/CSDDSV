@@ -37,6 +37,7 @@ import ManagerPro from "../Screens/Admin/ManagerPro";
 import DetailPro from "../Screens/Admin/Component/DetailPro";
 import ShowCate from "../Screens/CategoriesScreen/Component/ShowCate";
 import IndexChat from "../Screens/Chat/IndexChat";
+import Chat from "../Screens/Chat/Chat";
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                 {/* Chat */}
                 <Stack.Screen name="IndexChat" component={IndexChat} options={{ headerShown: false }} />
+                <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
                 {/* HomeScreen */}
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 {/* Category */}

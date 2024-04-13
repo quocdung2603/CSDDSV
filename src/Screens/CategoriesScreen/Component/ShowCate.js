@@ -53,11 +53,9 @@ const ShowCate = ({ route, navigation }) => {
                 }
             })
         })
-        setListPro(list);
+        let listCate = list.filter((item) => item.category === cate)
+        setListPro(listCate);
     }
-    // console.log(listPro, "--")
-    let listCate = listPro.filter((item) => item.category === cate)
-    // console.log(listCate)
 
     return (
         <View style={{
@@ -75,7 +73,7 @@ const ShowCate = ({ route, navigation }) => {
                 <ScrollView>
                     {
                         listPro && <FlatList
-                            data={listCate}
+                            data={listPro}
                             renderItem={({ item, index }) => {
                                 return (
                                     <>
