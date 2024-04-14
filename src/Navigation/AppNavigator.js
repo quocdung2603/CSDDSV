@@ -39,6 +39,7 @@ import ShowCate from "../Screens/CategoriesScreen/Component/ShowCate";
 import IndexChat from "../Screens/Chat/IndexChat";
 import Chat from "../Screens/Chat/Chat";
 import ManagerUser from "../Screens/Admin/ManagerUser";
+import ListComment from "../Screens/ForumScreen/ListComment";
 
 const Stack = createStackNavigator();
 
@@ -75,6 +76,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="EditArticle" component={EditArticle} options={{ headerShown: false }} />
                 <Stack.Screen name="Forum" component={Forum} options={{ headerShown: false }} />
                 <Stack.Screen name="AddPost" component={AddPost} options={{ headerShown: false }} />
+                <Stack.Screen name="ListComment" component={ListComment} options={{ headerShown: false }} />
                 {/* Product */}
                 <Stack.Screen name="ProductList" component={ProductList} options={{ headerShown: false }} />
                 <Stack.Screen name="AddProduct" component={AddProduct} options={{ headerShown: false }} />

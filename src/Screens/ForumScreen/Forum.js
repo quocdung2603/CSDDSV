@@ -20,6 +20,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker'
@@ -79,68 +80,35 @@ const Forum = ({ navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <>
-                                {/* post */}
-
-                                <QueryUser user={item.userId} time={item.time} />
-                                <View style={{ marginHorizontal: 10, padding: 5 }}>
-                                    <Text style={{ fontSize: 20, textAlign: 'justify' }}>
-                                        Tôi năm nay hơn 20 tuổi đầu rồi nhưng chưa thấy ai tệ như Nguyễn Tấn Tài, Người gì đâu vừa tệ bạc vừa lười biến, nếu mà có cây súng chắc là tôi đấm nó chết mẹ luôn.
-                                    </Text>
-                                </View>
-                                <View style={{ height: 220, width: 'auto' }}>
-                                    <Image
-                                        style={{
-                                            borderRadius: 15,
-                                            height: 220,
-                                        }}
-                                        source={{ uri: 'https://cdn.tuoitre.vn/zoom/700_390/471584752817336320/2023/7/7/rapper-anh-phan-giai-dien-kinh-tphcm-mo-rong-2023-2-16887092298671161758699-79-63-1049-1916-crop-16887099901531383354892.jpg' }}
-                                    />
-                                </View>
-                                {/* comment */}
-                                <View style={{
-                                    borderWidth: 0.5,
-                                    borderRadius: 15,
-                                    height: 'auto',
-                                    marginHorizontal: 20,
-                                }}>
-                                    <View
-                                        style={{
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                        }}
-                                    >
-                                        <TouchableOpacity
+                                <View style={{ flexDirection: 'column', borderWidth:0.5, borderRadius:10, marginVertical:5}}>
+                                    <QueryUser user={item.userId} time={item.time} />
+                                    <View style={{ marginHorizontal: 10, padding: 5 }}>
+                                        <Text style={{ fontSize: 20, textAlign: 'justify' }}>
+                                            Tôi năm nay hơn 20 tuổi đầu rồi nhưng chưa thấy ai tệ như Nguyễn Tấn Tài, Người gì đâu vừa tệ bạc vừa lười biến, nếu mà có cây súng chắc là tôi đấm nó chết mẹ luôn.
+                                        </Text>
+                                    </View>
+                                    <View style={{ height: 220, width: 'auto', marginHorizontal:10 }}>
+                                        <Image
                                             style={{
-                                                // borderWidth: 1,
-                                                width: 40,
-                                                marginLeft: 30,
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
+                                                borderRadius: 15,
+                                                height: 220,
                                             }}
-                                        >
+                                            source={{ uri: 'https://cdn.tuoitre.vn/zoom/700_390/471584752817336320/2023/7/7/rapper-anh-phan-giai-dien-kinh-tphcm-mo-rong-2023-2-16887092298671161758699-79-63-1049-1916-crop-16887099901531383354892.jpg' }}
+                                        />
+                                    </View>
+                                    {/* comment */}
+                                    <View
+                                        style={{ flexDirection:'row', alignItems:'center', marginVertical:5}}>
+                                        <TouchableOpacity
+                                            style={{marginEnd:'auto', marginStart:40}} >
                                             <AntDesign name='like2' size={25} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={{
-                                                // borderWidth: 1,
-                                                width: 40,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <EvilIcons name='comment' size={30} />
+                                        <TouchableOpacity onPress={() => {navigation.navigate('ListComment')}} >
+                                            <Entypo name='chat' size={25} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            style={{
-                                                // borderWidth: 1,
-                                                width: 40,
-                                                marginRight: 30,
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}
-                                        >
-                                            <AntDesign name='sharealt' size={25} />
+                                            style={{marginEnd:40, marginStart:'auto'}} >
+                                            <Ionicons name='share-social' size={25} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>

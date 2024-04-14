@@ -76,7 +76,7 @@ const QueryUser = (props) => {
     }
 
     return (
-        <View style={{ flexDirection: 'column', margin: 10, borderWidth: 0.5, borderRadius: 10, borderColor: 'grey', padding: 2 }}>
+        <View style={{ flexDirection: 'column', margin: 10, borderColor: 'grey', padding: 2 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {
                     Avata !== null ? <Avatar.Image size={50} source={{ uri: Avata }} /> : <Avatar.Image size={50} source={require('../../../../Img/Dong_Doan.jpg')} />
@@ -96,7 +96,6 @@ const QueryUser = (props) => {
                                 <Ionicons name='ellipsis-horizontal' size={30} color='grey' />
                             </TouchableOpacity> : <></>
                     }
-
                 </View>
             </View>
         </View>
