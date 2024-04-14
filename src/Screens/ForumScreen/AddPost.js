@@ -35,13 +35,56 @@ const AddPost = ({ navigation }) => {
 
     const [textPost, setTextPost] = useState()
 
+    const [imageData, setImageData] = useState(null);
+    const [imagePicked, setImagePicked] = useState(false);
+    // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
+    const [listIma, setListIma] = useState([]);
 
-    const SetPost = async () => {
+    const openGallery = async () => {
+        const result = await launchImageLibrary({ mediaType: 'photo' });
+
+
+        if (result.assets != null || result.didCancel == false) {
+            setImagePicked(true);
+            if (imageData == null) {
+                setImageData(result);
+            }
+            else if (imageData.assets.length >= 1) {
+                imageData.assets.push(result.assets[0]);
+            }
+        }
+    };
+
+    const UpLoadImgProDuct = async () => {
+
+        let temp = []
+        imageData.assets.forEach(item => {
+
+            const reference = storage().ref(item.fileName);
+            const pathToFile = item.uri;
+            reference.putFile(pathToFile);
+            storage()
+                .ref(item.fileName)
+                .getDownloadURL()
+                .then(dt => {
+                    temp.push(dt);
+                    setListIma(temp)
+                })
+
+        });
+        SetPost(listIma);
+    };
+
+
+
+    const SetPost = async Img => {
         let userId = await AsyncStorage.getItem('USERID', userId);
+        let idPost = uuid.v4();
         let PS = ({
+            idPost: idPost,
             userId: userId,
             text: textPost,
-            // img: img,
+            img: Img,
             cmt: [],
             like: [],
             time: new Date(),
@@ -106,7 +149,7 @@ const AddPost = ({ navigation }) => {
                         fontWeight: 'bold',
                     }}
                     onPress={() => {
-                        SetPost();
+                        UpLoadImgProDuct();
                     }}>
                     {' '}
                     Đăng
@@ -170,7 +213,7 @@ const AddPost = ({ navigation }) => {
                     alignItems: 'center',
                 }}
                 onPress={() => {
-
+                    openGallery();
                 }}>
                 <Image
                     source={require('../../../Img/image-gallery.png')}
