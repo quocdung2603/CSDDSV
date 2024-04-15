@@ -27,79 +27,79 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker'
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
-
 const IndexChat = ({ navigation }) => {
+    let userId = ''
 
     useEffect(() => {
-        getChat()
+        getAllChats()
     }, [])
 
     const [listChat, setListChat] = useState()
 
-    const getChat = async () => {
-        temp = null
-        let doit = await firestore()
-            .collection('Chats')
-            .doc('1-2')
+    const getAllChats = async () => {
+
+        let userId = await AsyncStorage.getItem('USERID')
+        console.log(userId)
+        const doit = await firestore()
+            .collection('Users')
+            .doc('2ed630f2-71b8-4ed3-9d87-8c94921048e1')
+            .collection('2ed630f2-71b8-4ed3-9d87-8c94921048e1-d67de9de-678f-4e44-aa3e-dc669baedd5b')
             .get()
-            .then(dt => {
-                // console.log(dt, 1)
-                temp = dt
-                setListChat(temp)
-            })
-        console.log(listChat)
-    }
+        console.log(doit)
+    };
+
+
     // biến, const
     const [SC, setSC] = useState(0);
     return (
         <View style={{ flex: 1, flexDirection: 'column' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
-                <TouchableOpacity onPress={() => {navigation.goBack()}} style={{ marginEnd: 'auto', marginStart: 10 }} >
-                    <AntDesign name='caretleft' size={30} color={'#FCBB3C'}/>
+                <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ marginEnd: 'auto', marginStart: 10 }} >
+                    <AntDesign name='caretleft' size={30} color={'#FCBB3C'} />
                 </TouchableOpacity>
-                <Text style={{fontSize:25, fontWeight:'bold', color:'#FCCC6F'}}>BOX CHAT</Text>
-                <View style={{marginStart:'auto', marginEnd:10}}></View>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#FCCC6F' }}>BOX CHAT</Text>
+                <View style={{ marginStart: 'auto', marginEnd: 10 }}></View>
             </View>
             <View style={{}}>
-                <ScrollView>
-                    <FlatList
-                        data={listChat}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}>
-                                        <View style={{ width: 40, height: 40, backgroundColor: 10, borderRadius: 20, backgroundColor: 'yellow' }}></View>
-                                        <View style={{ flexDirection: 'column', marginStart: 10 }}>
-                                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Nguyễn Quốc Dũng</Text>
-                                            <Text style={{ fontSize: 13, fontWeight: 'bold' }}>10:43 PM</Text>
-                                        </View>
+
+                {/* <FlatList
+                    data={listChat}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}>
+                                    <View style={{ width: 40, height: 40, backgroundColor: 10, borderRadius: 20, backgroundColor: 'yellow' }}></View>
+                                    <View style={{ flexDirection: 'column', marginStart: 10 }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Nguyễn Quốc Dũng</Text>
+                                        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>10:43 PM</Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        onPress={() => { SC === 0 ? setSC(1) : setSC(0) }}
+                                        style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginStart: 'auto' }}>
+                                        <Entypo name='dots-three-horizontal' size={20} color='#000' />
+                                    </TouchableOpacity>
+                                </View>
+                                {SC === 1 ? (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginHorizontal: 20 }}>
                                         <TouchableOpacity
-                                            onPress={() => { SC === 0 ? setSC(1) : setSC(0) }}
-                                            style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginStart: 'auto' }}>
-                                            <Entypo name='dots-three-horizontal' size={20} color='#000' />
+                                            style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, padding: 2, borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F' }}>
+                                            <Entypo name='lock' size={25} color='#000' />
+                                            <Text style={{ color: '#000', fontWeight: 'bold' }}>Khóa tin nhắn</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, padding: 2, borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F' }}>
+                                            <Entypo name='lock' size={25} color='#000' />
+                                            <Text style={{ color: '#000', fontWeight: 'bold' }}>Xóa tin nhắn</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {SC === 1 ? (
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginHorizontal: 20 }}>
-                                            <TouchableOpacity
-                                                style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, padding: 2, borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F' }}>
-                                                <Entypo name='lock' size={25} color='#000' />
-                                                <Text style={{ color: '#000', fontWeight: 'bold' }}>Khóa tin nhắn</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, padding: 2, borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F' }}>
-                                                <Entypo name='lock' size={25} color='#000' />
-                                                <Text style={{ color: '#000', fontWeight: 'bold' }}>Xóa tin nhắn</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    ) : ""}
-                                </>
-                            )
-                        }}
-                    />
-                </ScrollView>
+                                ) : ""}
+                            </>
+                        )
+                    }}
+                /> */}
+
             </View>
         </View>
     )

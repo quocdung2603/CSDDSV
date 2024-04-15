@@ -23,6 +23,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Avatar } from 'react-native-paper';
 
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker'
@@ -32,26 +33,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 import { create } from 'react-test-renderer';
 import MapView from 'react-native-maps'
-
-
+import QueryAvata from './Component/QueryAvata';
+let id
 const Chat = ({ route, navigation }) => {
     let idNhan = route.params.item.userId
     let idUser = route.params.userIdd
-    // console.log(idNhan, 1);
+    console.log(id, 123);
 
     const idChat = idNhan < idUser ? idNhan + "-" + idUser : idUser + "-" + idNhan
 
     useEffect(() => {
         getChat()
+        getName()
     }, [])
 
-    const [messages, setMessages] = useState('');
+    const [messages, setMessages] = useState();
     const [imageData, setImageData] = useState(null);
     const [chatedUser1, setChatedUser1] = useState([]);
     const [chatedUser2, setChatedUser2] = useState([]);
     const [address, setAddress] = useState()
     const [arrayMess, setArrayMess] = useState()
-    let listchat
+    const [Name, seTName] = useState()
+
+    const getName = async () => {
+        let temp
+        id = AsyncStorage.getItem('USERID', id);
+        let doit = await firestore()
+            .collection('Users')
+            .doc(idUser)
+            .get()
+            .then(dt => {
+                temp = dt._data.name
+            })
+        seTName(temp)
+    }
+
     const getChat = () => {
 
         const doit = firestore()
@@ -60,12 +76,12 @@ const Chat = ({ route, navigation }) => {
             .collection(idChat)
         doit.onSnapshot(dt => {
             const allMess = dt.docs.map(snap => {
-                console.log(snap.data(), 1)
+                // console.log(snap.data(), 1)
                 return { ...snap.data(), createAt: new Date() };
             });
-            allMess.sort()
+            allMess.sort((a, b) => a.createAt - b.createAt);
             setArrayMess(allMess)
-            console.log(arrayMess, 1);
+            // console.log(arrayMess, 1);
         })
 
     }
@@ -148,8 +164,6 @@ const Chat = ({ route, navigation }) => {
         }
     }
 
-    // console.log(arrayMess, 2)
-
     return (
         <View style={{
             flex: 1
@@ -172,7 +186,7 @@ const Chat = ({ route, navigation }) => {
                         alignSelf: 'center'
                     }}
                 >
-                    Tên người dùng
+                    {Name}
                 </Text>
                 <View
                     style={{
@@ -191,14 +205,22 @@ const Chat = ({ route, navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <>
-                                <View
-                                    style={{ borderWidth: 1 }}
-                                >
-                                    <Text style={{
-                                        fontSize: 30
-                                    }}>
-                                        {item.box.mess}
-                                    </Text>
+                                <View>
+                                    <View
+                                        style={{
+                                            borderWidth: 1,
+                                            flexDirection: 'row',
+                                            alignItems: 'center'
+                                        }}
+                                    >
+
+                                        <QueryAvata userId={item.box.userId} />
+                                        <Text style={{
+                                            fontSize: 30
+                                        }}>
+                                            {item.box.mess}
+                                        </Text>
+                                    </View>
                                 </View>
                             </>
                         )
