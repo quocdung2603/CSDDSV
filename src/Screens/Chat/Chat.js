@@ -38,14 +38,29 @@ let id
 const Chat = ({ route, navigation }) => {
     let idNhan = route.params.item.userId
     let idUser = route.params.userIdd
-    console.log(id, 123);
 
     const idChat = idNhan < idUser ? idNhan + "-" + idUser : idUser + "-" + idNhan
 
     useEffect(() => {
         getChat()
         getName()
+        addList()
     }, [])
+
+    const addList = async () => {
+        let listChat
+        check = false
+
+        await firestore()
+            .collection('stu')
+            .doc('123')
+            .set({
+                m: 2,
+                
+            })
+        console.log(listChat);
+        // console.log(doIt, 1)
+    }
 
     const [messages, setMessages] = useState();
     const [imageData, setImageData] = useState(null);
@@ -63,7 +78,7 @@ const Chat = ({ route, navigation }) => {
             .doc(idUser)
             .get()
             .then(dt => {
-                temp = dt._data.name
+                temp = dt._data.name;
             })
         seTName(temp)
     }

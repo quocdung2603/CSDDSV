@@ -33,7 +33,7 @@ const IndexChat = ({ navigation }) => {
     let userId = ''
 
     useEffect(() => {
-        getAllChats()
+        getAllChats();
     }, [])
 
     const [listChat, setListChat] = useState()
