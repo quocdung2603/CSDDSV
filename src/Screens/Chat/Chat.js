@@ -44,23 +44,7 @@ const Chat = ({ route, navigation }) => {
     useEffect(() => {
         getChat()
         getName()
-        addList()
     }, [])
-
-    const addList = async () => {
-        let listChat
-        check = false
-
-        await firestore()
-            .collection('stu')
-            .doc('123')
-            .set({
-                m: 2,
-                
-            })
-        console.log(listChat);
-        // console.log(doIt, 1)
-    }
 
     const [messages, setMessages] = useState();
     const [imageData, setImageData] = useState(null);
@@ -176,6 +160,52 @@ const Chat = ({ route, navigation }) => {
                 .add({
                     box: tt
                 })
+        }
+        addList()
+    }
+
+    const addList = async () => {
+        let listChat
+        check = false
+
+        let doit = await firestore()
+            .collection('Users')
+            .where('userId', '==', idUser)
+            .where('listChat', 'array-contains', idNhan)
+            .get()
+
+        listChat = (doit._docs)
+        if (doit._docs.length === 0) {
+
+            let getList = await firestore()
+                .collection('Users')
+                .doc(idUser)
+                .get()
+            let tempp = getList._data.listChat
+            tempp.push(idNhan)
+            await firestore()
+                .collection('Users')
+                .doc(idUser)
+                .update({
+                    listChat: tempp
+                })
+            tempp = null
+            let getList1 = await firestore()
+                .collection('Users')
+                .doc(idNhan)
+                .get()
+            tempp = getList1._data.listChat
+            tempp.push(idUser)
+            await firestore()
+                .collection('Users')
+                .doc(idNhan)
+                .update({
+                    listChat: tempp
+                })
+        }
+        else {
+
+            console.log(listChat);
         }
     }
 
