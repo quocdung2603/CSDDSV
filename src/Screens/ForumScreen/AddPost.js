@@ -43,7 +43,6 @@ const AddPost = ({ navigation }) => {
     const openGallery = async () => {
         const result = await launchImageLibrary({ mediaType: 'photo' });
 
-
         if (result.assets != null || result.didCancel == false) {
             setImagePicked(true);
             if (imageData == null) {

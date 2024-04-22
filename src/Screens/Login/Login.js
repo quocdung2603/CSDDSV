@@ -36,7 +36,7 @@ const Login = ({ navigation }) => {
         if (checkTrueAcc === true) {
             console.log("Dang nhap thanh cong!")
             goToTabbar(idUser)
-            console.log(typeAcc);
+            // console.log(typeAcc);
             checkTrueAcc = false;
         }
         else {
@@ -45,7 +45,7 @@ const Login = ({ navigation }) => {
     }
     const goToTabbar = async (userId) => {
         await AsyncStorage.setItem('USERID', userId);
-        console.log(typeAcc);
+        // console.log(typeAcc);
         if (typeacc === 0) {
             navigation.navigate('HomeAd');
         }

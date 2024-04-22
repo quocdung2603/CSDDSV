@@ -22,7 +22,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     temp()
-  },[])
+  }, [])
 
   const temp = async (userId) => {
     tempUserId = await AsyncStorage.getItem('USERID', userId);

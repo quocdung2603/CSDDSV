@@ -30,7 +30,6 @@ import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
 const IndexChat = ({ navigation }) => {
-    let userId = ''
 
     useEffect(() => {
         getAllChats();
@@ -39,17 +38,34 @@ const IndexChat = ({ navigation }) => {
     const [listChat, setListChat] = useState()
 
     const getAllChats = async () => {
-
+        var listUser = []
         let userId = await AsyncStorage.getItem('USERID')
-        console.log(userId)
-        const doit = await firestore()
+        const t = await firestore()
             .collection('Users')
-            .doc('2ed630f2-71b8-4ed3-9d87-8c94921048e1')
-            .collection('2ed630f2-71b8-4ed3-9d87-8c94921048e1-d67de9de-678f-4e44-aa3e-dc669baedd5b')
+            .doc(userId)
             .get()
-        console.log(doit)
+
+        t._data.listChat.map(item => {
+            m = userId < item ? userId + "-" + item : item + "-" + userId
+            listUser.push(m);
+        })
+        setListChat(listUser);
+        // const tt = await firestore()
+        //     .collection('Chats')
+        //     .doc(userId)
+        //     .collection()
+        //     .get()
+        //     .then(dt => {
+        //         console.log(dt, 123)
+        //     })
+        // console(tt, 456)
     };
 
+    const showComponent = async () => {
+
+    }
+
+    // console.log(listChat, 123);
 
     // biến, const
     const [SC, setSC] = useState(0);
