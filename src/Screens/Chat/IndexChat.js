@@ -79,8 +79,7 @@ const IndexChat = ({ navigation }) => {
                 <View style={{ marginStart: 'auto', marginEnd: 10 }}></View>
             </View>
             <View style={{}}>
-
-                {/* <FlatList
+                <FlatList
                     data={listChat}
                     renderItem={({ item, index }) => {
                         return (
@@ -114,7 +113,7 @@ const IndexChat = ({ navigation }) => {
                             </>
                         )
                     }}
-                /> */}
+                />
 
             </View>
         </View>

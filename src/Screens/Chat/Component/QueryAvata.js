@@ -52,7 +52,7 @@ const QueryAvata = (props) => {
 
     return (
         <View>
-            <Avatar.Image size={25} source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/csddsv-815bd.appspot.com/o/1000000034.jpg?alt=media&token=e8e2e64b-43c2-43fb-921d-dc004e310818' }} />
+            <Avatar.Image size={props.size} source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/csddsv-815bd.appspot.com/o/1000000034.jpg?alt=media&token=e8e2e64b-43c2-43fb-921d-dc004e310818' }} />
         </View>
     )
 }

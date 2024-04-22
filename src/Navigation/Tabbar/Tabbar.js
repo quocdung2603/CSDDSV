@@ -36,7 +36,7 @@ function Tabar({ route }) {
                     } else if (rn === forumName) {
                         iconName = focused ? 'newspaper' : 'newspaper-outline';
                     } else if (rn === chatName) {
-                        iconName = focused ? 'clipboard' : 'clipboard-outline';
+                        iconName = focused ? 'chatbox' : 'chatbox-outline';
                     } else if (rn === personalName) {
                         iconName = focused ? 'person' : 'person-outline';
                     }
