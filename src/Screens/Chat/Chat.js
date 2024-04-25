@@ -73,7 +73,7 @@ const Chat = ({ route, navigation }) => {
 
     const newChat = async () => {
         temp = ({
-            senderId: idNhan,
+            senderId: idUser,
             mess: messages,
             createAt: new Date(),
         })

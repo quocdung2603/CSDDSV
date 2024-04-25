@@ -81,7 +81,7 @@ const ChatInBox = ({ route, navigation }) => {
         })
 
         tempp = ({
-            senderId: idNhan,
+            senderId: idUser,
             mess: messages,
             createAt: new Date(),
         })

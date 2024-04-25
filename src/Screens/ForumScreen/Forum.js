@@ -71,7 +71,7 @@ const Forum = ({ navigation }) => {
                     <Text style={{ fontSize: 18 }}>Bạn cần đăng bài tìm sản phẩm gì ?</Text>
                 </View>
                 <View style={{ marginStart: 'auto', flex: 0.1, marginStart: 10 }}>
-                    <AntDesign name='picture' size={37} color='#000' />
+                    <AntDesign name='picture' size={37} color='#000' /> 
                 </View>
             </TouchableOpacity>
             <ScrollView style={{ margin: 10 }}>
@@ -80,34 +80,34 @@ const Forum = ({ navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <>
-                                <View style={{ flexDirection: 'column', borderWidth:0.5, borderRadius:10, marginVertical:5}}>
+                                <View style={{ flexDirection: 'column', borderWidth: 0.5, borderRadius: 10, marginVertical: 5 }}>
                                     <QueryUser user={item.userId} time={item.time} />
                                     <View style={{ marginHorizontal: 10, padding: 5 }}>
                                         <Text style={{ fontSize: 20, textAlign: 'justify' }}>
-                                            Tôi năm nay hơn 20 tuổi đầu rồi nhưng chưa thấy ai tệ như Nguyễn Tấn Tài, Người gì đâu vừa tệ bạc vừa lười biến, nếu mà có cây súng chắc là tôi đấm nó chết mẹ luôn.
+                                            {item.text}
                                         </Text>
                                     </View>
-                                    <View style={{ height: 220, width: 'auto', marginHorizontal:10 }}>
+                                    <View style={{ height: 220, width: 'auto', marginHorizontal: 10 }}>
                                         <Image
                                             style={{
                                                 borderRadius: 15,
                                                 height: 220,
                                             }}
-                                            source={{ uri: 'https://cdn.tuoitre.vn/zoom/700_390/471584752817336320/2023/7/7/rapper-anh-phan-giai-dien-kinh-tphcm-mo-rong-2023-2-16887092298671161758699-79-63-1049-1916-crop-16887099901531383354892.jpg' }}
+                                            source={{ uri: item.img }}
                                         />
                                     </View>
                                     {/* comment */}
                                     <View
-                                        style={{ flexDirection:'row', alignItems:'center', marginVertical:5}}>
+                                        style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
                                         <TouchableOpacity
-                                            style={{marginEnd:'auto', marginStart:40}} >
+                                            style={{ marginEnd: 'auto', marginStart: 40 }} >
                                             <AntDesign name='like2' size={25} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => {navigation.navigate('ListComment')}} >
+                                        <TouchableOpacity onPress={() => { navigation.navigate('ListComment') }} >
                                             <Entypo name='chat' size={25} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            style={{marginEnd:40, marginStart:'auto'}} >
+                                            style={{ marginEnd: 40, marginStart: 'auto' }} >
                                             <Ionicons name='share-social' size={25} />
                                         </TouchableOpacity>
                                     </View>
