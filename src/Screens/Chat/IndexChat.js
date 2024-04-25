@@ -29,6 +29,8 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
+import QueryAvata from './Component/QueryAvata';
+import QueryName from './Component/QueryName';
 const IndexChat = ({ navigation }) => {
 
     useEffect(() => {
@@ -50,21 +52,12 @@ const IndexChat = ({ navigation }) => {
             listUser.push(m);
         })
         setListChat(listUser);
-        // const tt = await firestore()
-        //     .collection('Chats')
-        //     .doc(userId)
-        //     .collection()
-        //     .get()
-        //     .then(dt => {
-        //         console.log(dt, 123)
-        //     })
-        // console(tt, 456)
     };
 
     const showComponent = async () => {
 
     }
-
+    console.log(listChat)
     // console.log(listChat, 123);
 
     // biến, const
@@ -85,9 +78,9 @@ const IndexChat = ({ navigation }) => {
                         return (
                             <>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}>
-                                    <View style={{ width: 40, height: 40, backgroundColor: 10, borderRadius: 20, backgroundColor: 'yellow' }}></View>
+                                    <QueryAvata userId={item} />
                                     <View style={{ flexDirection: 'column', marginStart: 10 }}>
-                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Nguyễn Quốc Dũng</Text>
+                                        <QueryName userId={item} />
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>10:43 PM</Text>
                                     </View>
                                     <TouchableOpacity
