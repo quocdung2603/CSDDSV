@@ -49,15 +49,22 @@ const IndexChat = ({ navigation }) => {
 
         t._data.listChat.map(item => {
             m = userId < item ? userId + "-" + item : item + "-" + userId
-            listUser.push(m);
+            let inForChat = {
+                userId: userId,
+                sender: item,
+                idChat: m
+            }
+            listUser.push(inForChat);
         })
         setListChat(listUser);
     };
 
-    const showComponent = async () => {
-
+    const goToChat = async (item) => {
+        let userIdd = await AsyncStorage.getItem('USERID', userIdd);
+        console.log(userIdd)
+        navigation.navigate('ChatInBox', { item, userIdd });
     }
-    console.log(listChat)
+    // console.log(listChat, 123);
     // console.log(listChat, 123);
 
     // biến, const
@@ -77,10 +84,14 @@ const IndexChat = ({ navigation }) => {
                     renderItem={({ item, index }) => {
                         return (
                             <>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}>
-                                    <QueryAvata userId={item} />
+                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10, borderWidth: 1, borderRadius: 10 }}
+                                    onPress={() => {
+                                        goToChat(item)
+                                    }}
+                                >
+                                    <QueryAvata userId={item.sender} />
                                     <View style={{ flexDirection: 'column', marginStart: 10 }}>
-                                        <QueryName userId={item} />
+                                        <QueryName userId={item.sender} />
                                         <Text style={{ fontSize: 13, fontWeight: 'bold' }}>10:43 PM</Text>
                                     </View>
                                     <TouchableOpacity
@@ -88,7 +99,7 @@ const IndexChat = ({ navigation }) => {
                                         style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginStart: 'auto' }}>
                                         <Entypo name='dots-three-horizontal' size={20} color='#000' />
                                     </TouchableOpacity>
-                                </View>
+                                </TouchableOpacity >
                                 {SC === 1 ? (
                                     <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginHorizontal: 20 }}>
                                         <TouchableOpacity
@@ -102,14 +113,15 @@ const IndexChat = ({ navigation }) => {
                                             <Text style={{ color: '#000', fontWeight: 'bold' }}>Xóa tin nhắn</Text>
                                         </TouchableOpacity>
                                     </View>
-                                ) : ""}
+                                ) : ""
+                                }
                             </>
                         )
                     }}
                 />
 
             </View>
-        </View>
+        </View >
     )
 }
 export default IndexChat;

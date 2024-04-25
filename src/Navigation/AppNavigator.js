@@ -38,6 +38,7 @@ import DetailPro from "../Screens/Admin/Component/DetailPro";
 import ShowCate from "../Screens/CategoriesScreen/Component/ShowCate";
 import IndexChat from "../Screens/Chat/IndexChat";
 import Chat from "../Screens/Chat/Chat";
+import ChatInBox from "../Screens/Chat/ChatInBox";
 import ManagerUser from "../Screens/Admin/ManagerUser";
 import ListComment from "../Screens/ForumScreen/ListComment";
 
@@ -64,6 +65,7 @@ const AppNavigator = () => {
                 {/* Chat */}
                 <Stack.Screen name="IndexChat" component={IndexChat} options={{ headerShown: false }} />
                 <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+                <Stack.Screen name="ChatInBox" component={ChatInBox} options={{ headerShown: false }} />
                 {/* HomeScreen */}
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 {/* Category */}

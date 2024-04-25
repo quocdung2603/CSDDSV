@@ -19,14 +19,16 @@ import uuid from 'react-native-uuid';
 import { create } from 'react-test-renderer';
 import MapView from 'react-native-maps';
 import QueryAvata from './Component/QueryAvata';
+import QueryName from './Component/QueryName';
 
 let id
-const Chat = ({ route, navigation }) => {
-    let idNhan = route.params.item.userId
+const ChatInBox = ({ route, navigation }) => {
+    console.log(route.params)
+    let idNhan = route.params.item.sender;
     let idUser = route.params.userIdd
-    let idUC = AsyncStorage.getItem('USERID');
+    let idUC = AsyncStorage.getItem('USERID', idUC);
     const idChat = idNhan < idUser ? idNhan + "-" + idUser : idUser + "-" + idNhan
-
+    console.log(idUC, 123)
     useEffect(() => {
         getChat()
         getName()
@@ -42,10 +44,10 @@ const Chat = ({ route, navigation }) => {
 
     const getName = async () => {
         let temp
-        id = await AsyncStorage.getItem('USERID', id);
+        id = AsyncStorage.getItem('USERID', id);
         let doit = await firestore()
             .collection('Users')
-            .doc(idUser)
+            .doc(idNhan)
             .get()
             .then(dt => {
                 temp = dt._data.name;
@@ -73,13 +75,13 @@ const Chat = ({ route, navigation }) => {
 
     const newChat = async () => {
         temp = ({
-            senderId: idNhan,
+            senderId: idUser,
             mess: messages,
             createAt: new Date(),
         })
 
         tempp = ({
-            senderId: idUser,
+            senderId: idNhan,
             mess: messages,
             createAt: new Date(),
         })
@@ -158,7 +160,7 @@ const Chat = ({ route, navigation }) => {
             .where('listChat', 'array-contains', idNhan)
             .get()
 
-        listChat = (doit._docs)
+        listChat = (doit._docs);
         if (doit._docs.length === 0) {
 
             let getList = await firestore()
@@ -189,10 +191,10 @@ const Chat = ({ route, navigation }) => {
         }
         else {
 
-            console.log(listChat);
+            // console.log(listChat);
         }
     };
-
+    console.log(arrayMess)
     return (
         <View style={{ flex: 1 }}>
             <View style={{ backgroundColor: 'skyblue', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', height: 50 }} >
@@ -247,6 +249,7 @@ const Chat = ({ route, navigation }) => {
                 <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
                 <TextInput
                     onChangeText={(txt) => { setMessages(txt) }} value={messages}
+
                     style={{ marginStart: 5, marginEnd: 5, borderWidth: 0.5, borderRadius: 10, maxHeight: 40, width: 275 }}
                     placeholder='Nhập tin nhắn'
                 />
@@ -258,4 +261,4 @@ const Chat = ({ route, navigation }) => {
     );
 };
 
-export default Chat;
+export default ChatInBox;

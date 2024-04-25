@@ -33,10 +33,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 
 const QueryName = (props) => {
+    // console.log(props, 123)
     useEffect(() => {
         getAvata()
     })
-    console.log(props)
+    // console.log(props)
     const [Avata, setAvata] = useState()
     const getAvata = async () => {
         let temp
@@ -46,9 +47,9 @@ const QueryName = (props) => {
             .get()
             .then(dt => {
                 temp = (dt._data.name)
-                console.log(dt)
+                // console.log(dt)
             })
-
+        setAvata(temp)
     }
 
     return (
