@@ -175,6 +175,7 @@ const ChatInBox = ({ route, navigation }) => {
                 .update({
                     listChat: tempp
                 })
+
             tempp = null
             let getList1 = await firestore()
                 .collection('Users')
@@ -188,10 +189,6 @@ const ChatInBox = ({ route, navigation }) => {
                 .update({
                     listChat: tempp
                 })
-        }
-        else {
-
-            // console.log(listChat);
         }
     };
     console.log(arrayMess)
