@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
+        buildToolsVersion = '34.0.0'
         minSdkVersion = 21
         compileSdkVersion = 34
         targetSdkVersion = 34
-        ndkVersion = "25.1.8937393"
-        kotlinVersion = "1.8.0"
+        ndkVersion = '25.1.8937393'
+        kotlinVersion = '1.8.0'
     }
     repositories {
         google()
@@ -13,9 +13,9 @@ buildscript {
     }
     dependencies {
         classpath('com.google.gms:google-services:4.4.1')
-        classpath("com.android.tools.build:gradle")
-        classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath('com.android.tools.build:gradle')
+        classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
     }
 }
 
@@ -33,10 +33,10 @@ allprojects {
                 // This should always be `mapbox` (not your username).
                 username = 'mapbox'
                 // Use the secret token you stored in gradle.properties as the password
-                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ''
             }
         }
     }
 }
 
-apply plugin: "com.facebook.react.rootproject"
+apply plugin: 'com.facebook.react.rootproject'

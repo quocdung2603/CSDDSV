@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
-import MapView from 'react-native-maps';
 
 const Index = () => {
 
@@ -13,22 +12,8 @@ const Index = () => {
                 borderColor: 'black',
             }}
         >
-            <MapView
-                initialRegion={{
-                    latitude: 11.136039,
-                    longitude: 106.701686,
-                    latitudeDelta: 0.1,
-                    longitudeDelta: 0.1,
-                }}
-                // style={{
-                //     width: Dimensions.get('window').width,
-                //     height: Dimensions.get('window').height,
-                // }}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                }}
-            />
+            <Text>fdafdas</Text>
+
         </View>
     )
 }
