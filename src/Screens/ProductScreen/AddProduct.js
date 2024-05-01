@@ -116,7 +116,7 @@ const AddProduct = ({ navigation }) => {
             description: Description,
             time: new Date(),
             rule: false,
-            category:"Học tập"
+            category: "Học tập"
         })
 
         let t = firestore()
@@ -278,6 +278,16 @@ const AddProduct = ({ navigation }) => {
                 </View>
                 <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
+                    <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                openGallery();
+                            }}
+                        >
+                            <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>File mềm</Text>
                     <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
                         <TouchableOpacity
                             onPress={() => {

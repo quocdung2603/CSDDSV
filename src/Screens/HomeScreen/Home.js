@@ -200,6 +200,7 @@ const Home = ({ navigation }) => {
           width: WIDTH,
           height: HEIGHT * 0.25,
         }}
+        
       >
         <ScrollView
           onScroll={({ nativeEvent }) => onchange(nativeEvent)}
