@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Dimensions,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
-  View
+  View,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -17,20 +19,33 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 let tempUserId = ""
-
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 const Home = ({ navigation }) => {
 
   useEffect(() => {
     temp()
   }, [])
-
+  const [ii, setII] = useState(0)
+  onchange = (nativeEvent) => {
+    if (nativeEvent) {
+      const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
+      if (slide != ii) {
+        setII(slide)
+      }
+    }
+  }
   const temp = async (userId) => {
     tempUserId = await AsyncStorage.getItem('USERID', userId);
     console.log(tempUserId);
 
   };
+  const images = [
+    'https://stbook.vn/static/covers/CP111BK120211115134605/cover.clsbi',
+    'https://pos.nvncdn.com/fb7988-79234/ps/20221206_tZi8bGaVYHjxHqoLw9xHb0o2.jpeg',
+    'https://homeoffice.com.vn/images/detailed/23/ban-ket-hop-ke-01.jpg',
+  ]
 
-  console.log(navigation)
   return (
     <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
       <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
@@ -179,113 +194,60 @@ const Home = ({ navigation }) => {
       </View>
       <View
         style={{
-          marginHorizontal: 10,
-          borderWidth: 1,
           marginTop: 30,
-          height: 100,
-          borderRadius: 15,
-        }}
-      >
-        <Text>
-          amination
-        </Text>
-      </View>
-      <View
-        style={{
+          borderRadius: 20,
           borderWidth: 1,
-          alignSelf: 'center',
-          marginTop: 10,
-          width: 125,
-          flexDirection: 'row',
-          justifyContent: 'space-around',
+          width: WIDTH,
+          height: HEIGHT * 0.25,
         }}
       >
-        <View
+        <ScrollView
+          onScroll={({ nativeEvent }) => onchange(nativeEvent)}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          horizontal
           style={{
-            borderColor: 'orange',
-            width: 40,
-            borderWidth: 2,
-            borderRadius: 5,
+            width: WIDTH,
+            height: HEIGHT * 0.25,
           }}
         >
-
-        </View>
+          {
+            images.map((e, index) =>
+              <Image
+                key={e}
+                resizeMode='stretch'
+                source={{ uri: e }}
+                style={{
+                  borderRadius: 20,
+                  width: WIDTH,
+                  height: HEIGHT * 0.25,
+                }}
+              />
+            )
+          }
+        </ScrollView>
         <View
           style={{
-            borderColor: 'orange',
-            width: 40,
-            borderWidth: 2,
-            borderRadius: 5,
-          }}
-        >
-
-        </View>
-        <View
-          style={{
-            borderColor: 'orange',
-            width: 40,
-            borderWidth: 2,
-            borderRadius: 5,
-          }}
-        >
-
-        </View>
-      </View>
-      <View
-        style={{
-          marginHorizontal: 10,
-          marginTop: 20,
-          borderWidth: 1,
-          height: 150,
-        }}
-      >
-        <View
-          style={{
+            position: 'absolute',
+            bottom: 0,
             flexDirection: 'row',
+            alignSelf: 'center'
           }}
         >
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 20,
-            }}
-          >
-            Categories
-          </Text>
-          <Text
-            style={{
-              textDecorationLine: 'underline',
-              marginStart: 'auto',
-            }}
-          >
-            View all
-          </Text>
-        </View>
-        <View
-          style={{
-            borderWidth: 1,
-            marginTop: 3,
-            height: 'auto',
-          }}
-        >
-          <ScrollView
-            horizontal={true}
-            style={{
-              height: 'auto',
-            }}
-          >
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
-          </ScrollView>
+          {
+            images.map((e, index) =>
+              <Text
+                key={e}
+                style={ii == index ? { fontSize: 20 } : {}}
+              >
+                😣
+              </Text>
+            )
+          }
+
         </View>
       </View>
+
       <View
         style={{
           marginHorizontal: 10,
