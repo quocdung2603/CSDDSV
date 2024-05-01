@@ -41,7 +41,7 @@ import Chat from "../Screens/Chat/Chat";
 import ChatInBox from "../Screens/Chat/ChatInBox";
 import ManagerUser from "../Screens/Admin/ManagerUser";
 import ListComment from "../Screens/ForumScreen/ListComment";
-
+import FakeFile from "../Screens/CategoriesScreen/Component/FakeFile";
 const Stack = createStackNavigator();
 
 
@@ -72,6 +72,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="CategoryItem" component={CategoryItem} options={{ headerShown: false }} />
                 <Stack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
                 <Stack.Screen name="ShowCate" component={ShowCate} options={{ headerShown: false }} />
+                <Stack.Screen name="FakeFile" component={FakeFile} options={{ headerShown: false }} />
                 {/* Wishlist */}
                 {/* Forum */}
                 <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }} />

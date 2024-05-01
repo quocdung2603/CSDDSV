@@ -32,6 +32,8 @@ import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 
+import DocumentPicker, { DocumentPickerOptions, DocumentPickerResponse } from 'react-native-document-picker'
+
 const dataCategory = [
     { label: 'Học Tập', value: '1' },
     { label: 'Gia Dụng', value: '2' },
@@ -47,22 +49,42 @@ const dataTypeHouseware = [
     { label: 'Nồi', value: '1' },
 ];
 
+
+
 const AddProduct = ({ navigation }) => {
+    const [fileData, setfileData] = useState(null);
+    const [fileRef, setfileRef] = useState('');
+    const [fileUrl, setfileUrl] = useState('');
 
-    useEffect(() => {
+    const chooseFile = async () => {
+        try {
+            const response = await DocumentPicker.pickSingle({
+                type: [DocumentPicker.types.pdf],
+            });
+            console.log(response);
+            setfileData(response);
+            uploadImage()
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-    }, [])
+    const uploadImage = async () => {
+        try {
+            const response = storage().ref(`/profile/${fileData.name}`);
 
-    const [Title, setTitle] = useState("");
-    const [Description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
-    const [TypeProduct, setTypeProduct] = useState("");
-    // camera
+            const put = await response.putFile(fileData.uri);
 
-    const [imageData, setImageData] = useState(null);
-    const [imagePicked, setImagePicked] = useState(false);
-    // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
-    const [listIma, setListIma] = useState([]);
+            setfileRef(put.metadata.fullPath);
+            const url = await response.getDownloadURL();
+
+            setfileUrl(url);
+
+            alert('Image Uploaded Successfully');
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const openGallery = async () => {
         const result = await launchImageLibrary({ mediaType: 'photo' });
@@ -149,6 +171,22 @@ const AddProduct = ({ navigation }) => {
 
         setImagePicked(true);
     }
+    useEffect(() => {
+
+    }, [])
+
+    const [Title, setTitle] = useState("");
+    const [Description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
+    const [TypeProduct, setTypeProduct] = useState("");
+    // camera
+
+    const [imageData, setImageData] = useState(null);
+    const [imagePicked, setImagePicked] = useState(false);
+    // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
+    const [listIma, setListIma] = useState([]);
+
+
 
     const upp = async Img => {
         PS = []
@@ -190,6 +228,7 @@ const AddProduct = ({ navigation }) => {
             </View>
         );
     };
+
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
@@ -290,9 +329,7 @@ const AddProduct = ({ navigation }) => {
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>File mềm</Text>
                     <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
                         <TouchableOpacity
-                            onPress={() => {
-                                openGallery();
-                            }}
+                            onPress={() => { chooseFile() }}
                         >
                             <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
                         </TouchableOpacity>
@@ -308,7 +345,8 @@ const AddProduct = ({ navigation }) => {
                     <TouchableOpacity
                         style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
                         onPress={() => {
-                            UpLoadImgProDuct();
+                            // UpLoadImgProDuct();
+                            chooseFile();
                         }}
                     >
                         <Text style={{ color: '#000', fontSize: 20 }}>

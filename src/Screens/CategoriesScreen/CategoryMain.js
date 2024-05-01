@@ -99,7 +99,11 @@ const CategoryMain = ({ navigation }) => {
             <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
             {TabStudy === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
+                    <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
+                        onPress={() => {
+                            navigation.navigate('FakeFile')
+                        }}
+                    >
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Phần Mềm</Text>
                             <Text style={{ fontSize: 17 }}>3 products</Text>
@@ -107,7 +111,7 @@ const CategoryMain = ({ navigation }) => {
                         <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
                             <Text>Hình ảnh</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Phần Cứng</Text>

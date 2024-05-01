@@ -12,6 +12,7 @@ import AddCategory from './src/Screens/CategoriesScreen/AddCategory';
 import IndexChat from './src/Screens/Chat/IndexChat';
 import Chat from './src/Screens/Chat/Chat.js';
 import Index from './src/Screens/Map/Index.js';
+import FakeFile from './src/Screens/CategoriesScreen/Component/FakeFile.js';
 LogBox.ignoreAllLogs();
 enableScreens(true)
 AppRegistry.registerComponent(appName, () => AppNavigator);
