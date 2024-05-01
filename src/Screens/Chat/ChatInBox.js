@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import { create } from 'react-test-renderer';
 import MapView from 'react-native-maps';
+
 import QueryAvata from './Component/QueryAvata';
 import QueryName from './Component/QueryName';
 
@@ -207,8 +208,8 @@ const ChatInBox = ({ route, navigation }) => {
                             <>
                                 {idUser !== item.box.senderId ? (
                                     //ngta nhắn
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10, marginEnd: 'auto', width: 280 }} >
-                                        <View style={{ marginStart: 20 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginEnd:'auto' }} >
+                                        <View style={{ marginEnd:'auto'}}>
                                             <QueryAvata userId={item.box.senderId} size={30} />
                                         </View>
                                         <View style={{ flexDirection: 'column', marginStart: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
@@ -216,25 +217,23 @@ const ChatInBox = ({ route, navigation }) => {
                                                 <QueryName userId={item.box.senderId} />
                                                 <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>11:00</Text>
                                             </View>
-                                            <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
+                                            <Text style={{ fontSize: 17, maxWidth:280 }}>{item.box.mess}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     //minh nhắn
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10, marginStart: 'auto', width: 280 }} >
-                                        <View style={{ flexDirection: 'column', marginEnd: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
-
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                {/* <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5 }}>{Name}</Text> */}
-                                                <QueryName userId={idUser} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>10:00</Text>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginStart: 'auto'}} >
+                                            <View style={{ flexDirection: 'column', borderWidth: 1, borderRadius: 10, padding: 5, marginStart:'auto', marginEnd:5 }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <QueryName userId={idUser} />
+                                                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>10:00</Text>
+                                                </View>
+                                                <Text style={{ fontSize: 17, maxWidth:280 }}>{item.box.mess}</Text>
                                             </View>
-                                            <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
+                                            <View style={{marginStart:'auto' }}>
+                                                <QueryAvata userId={idUser} size={30} />
+                                            </View>
                                         </View>
-                                        <View style={{ marginEnd: 20 }}>
-                                            <QueryAvata userId={idUser} size={30} />
-                                        </View>
-                                    </View>
                                 )}
                             </>
                         );

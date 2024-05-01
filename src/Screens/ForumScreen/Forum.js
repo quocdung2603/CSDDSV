@@ -71,7 +71,7 @@ const Forum = ({ navigation }) => {
                     <Text style={{ fontSize: 18 }}>Bạn cần đăng bài tìm sản phẩm gì ?</Text>
                 </View>
                 <View style={{ marginStart: 'auto', flex: 0.1, marginStart: 10 }}>
-                    <AntDesign name='picture' size={37} color='#000' /> 
+                    <AntDesign name='picture' size={37} color='#000' />
                 </View>
             </TouchableOpacity>
             <ScrollView style={{ margin: 10 }}>

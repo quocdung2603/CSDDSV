@@ -51,9 +51,7 @@ const QueryAvata = (props) => {
     }
 
     return (
-        <View>
-            <Avatar.Image size={props.size} source={{ uri: Avata }} />
-        </View>
+        <Avatar.Image size={props.size} source={{ uri: Avata }} />
     )
 }
 export default QueryAvata;

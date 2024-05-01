@@ -53,9 +53,7 @@ const QueryName = (props) => {
     }
 
     return (
-        <View>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{Avata}</Text>
-        </View>
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{Avata}</Text>
     )
 }
 export default QueryName;
