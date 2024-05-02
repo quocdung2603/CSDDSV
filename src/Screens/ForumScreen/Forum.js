@@ -49,11 +49,11 @@ const Forum = ({ navigation }) => {
 
     const getList = (data) => {
         let goooo = []
-        console.log(data,123)
+        // console.log(data,123)
         data.map(item => {
             let i = item._data;
             // i.map(ii => {
-                goooo.push(i)
+            goooo.push(i)
             // })
         })
         goooo.sort((a, b) => b.time - a.time);
@@ -105,7 +105,7 @@ const Forum = ({ navigation }) => {
                                             style={{ marginEnd: 'auto', marginStart: 40 }} >
                                             <AntDesign name='like2' size={25} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => { navigation.navigate('ListComment') }} >
+                                        <TouchableOpacity onPress={() => { navigation.navigate('ListComment', { item }) }} >
                                             <Entypo name='chat' size={25} />
                                         </TouchableOpacity>
                                         <TouchableOpacity

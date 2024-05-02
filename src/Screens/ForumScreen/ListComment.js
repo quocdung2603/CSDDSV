@@ -30,28 +30,101 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 import Comment from './component/Comment';
 import RepComment from './component/RepComment';
+import QueryAvata from '../Chat/Component/QueryAvata';
+import QueryName from '../Chat/Component/QueryName';
+let userId = ''
+const ListComment = ({ route, navigation }) => {
+    let { idPost, cmt } = route.params.item
+    console.log(idPost, cmt)
+    const [text, setText] = useState('')
 
-const ListComment = ({navigation}) => {
+    useEffect(() => {
 
+    }, [])
+
+    // const getId = async () => {
+
+    // }
+    const upCmt = async () => {
+        userId = await AsyncStorage.getItem('USERID');
+        cmt.push({
+            userId: userId,
+            text: text,
+            createAt: new Date(),
+        })
+        console.log(cmt, 123)
+        setText('')
+        await firestore()
+            .collection('Posts')
+            .doc(idPost)
+            .update({
+                cmt: cmt,
+            })
+
+    }
+    console.log(cmt)
     return (
-        <View style={{flex:1, flexDirection:'column'}}>
-            <View style={{flexDirection:'row', alignItems:'center', margin:10}}>
-                <AntDesign name='caretleft' size={30} color='#000'/>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+                <AntDesign name='caretleft' size={30} color='#000' />
             </View>
             {/*  */}
-            <Comment />
-            <RepComment />
-            <Comment />
-            <View style={{flexDirection:'row', alignItems:'center', marginHorizontal:10, marginTop:'auto'}}>
+            <FlatList
+                data={cmt}
+                renderItem={({ item, index }) => {
+                    return (
+                        <>
+                            <View style={{ flexDirection: 'column', marginHorizontal: 10, marginVertical: 5 }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <QueryAvata userId={item.userId} size={40} />
+                                    <View style={{ flexDirection: 'column', marginStart: 10 }}>
+                                        {/* <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 10 }}>Nguyễn Quốc Dũng</Text> */}
+                                        <QueryName userId={item.userId} />
+
+                                        <Text style={{ marginStart: 10 }}>15/4/2024 12:05 AM</Text>
+                                    </View>
+                                </View>
+                                <View style={{ marginHorizontal: 10, padding: 5 }}>
+                                    <Text style={{ fontSize: 16, textAlign: 'justify' }}>
+                                        {item.text}
+                                    </Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
+                                    <TouchableOpacity
+                                        onPress={() => { }}
+                                        style={{ marginEnd: 'auto', marginStart: 100 }} >
+                                        <AntDesign name='like2' size={20} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => { }}
+                                        style={{ marginEnd: 100, marginStart: 'auto' }}>
+                                        <Entypo name='chat' size={20} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </>
+                    )
+                }}
+            />
+            {/*  */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginTop: 'auto' }}>
                 <View
-                    style={{borderWidth:0.5, borderRadius:10, width:300, maxHeight:50, marginEnd:'auto'}}>
+                    style={{ borderWidth: 0.5, borderRadius: 10, width: 300, maxHeight: 50, marginEnd: 'auto' }}>
                     <TextInput
                         keyboardType='default'
                         placeholder='Nhập bình luận của bạn'
+                        value={text}
+                        onChangeText={(txt) => {
+                            setText(txt)
+                        }}
                     />
                 </View>
-                <TouchableOpacity style={{marginStart:'auto', borderWidth:0.5, borderRadius:10, padding:10}}>
-                    <Text style={{fontSize:18, fontWeight:'bold'}}>Gửi</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        upCmt()
+                    }}
+                    style={{ marginStart: 'auto', borderWidth: 0.5, borderRadius: 10, padding: 10 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Gửi</Text>
                 </TouchableOpacity>
             </View>
         </View>

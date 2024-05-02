@@ -30,7 +30,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 
 
-const Comment = ({ navigation }) => {
+const Comment = ({ route, navigation }) => {
 
     return (
         <View style={{ flexDirection: 'column', marginHorizontal: 10, marginVertical: 5 }}>
