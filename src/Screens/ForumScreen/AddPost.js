@@ -81,9 +81,15 @@ const AddPost = ({ navigation }) => {
             temp.push(PS)
             firestore()
                 .collection('Posts')
-                .doc(userId)
+                .doc(idPost)
                 .set({
-                    post: temp,
+                    idPost: idPost,
+                    userId: userId,
+                    text: textPost,
+                    img: url,
+                    cmt: [],
+                    like: [],
+                    time: new Date(),
                 })
         }
         else {
@@ -91,9 +97,15 @@ const AddPost = ({ navigation }) => {
             temp.push(PS)
             firestore()
                 .collection('Posts')
-                .doc(userId)
+                .doc(idPost)
                 .set({
-                    post: temp,
+                    idPost: idPost,
+                    userId: userId,
+                    text: textPost,
+                    img: url,
+                    cmt: [],
+                    like: [],
+                    time: new Date(),
                 })
         }
     }

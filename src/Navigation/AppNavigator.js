@@ -42,6 +42,7 @@ import ChatInBox from "../Screens/Chat/ChatInBox";
 import ManagerUser from "../Screens/Admin/ManagerUser";
 import ListComment from "../Screens/ForumScreen/ListComment";
 import FakeFile from "../Screens/CategoriesScreen/Component/FakeFile";
+import Mapp from "../Screens/Map/Index";
 const Stack = createStackNavigator();
 
 
@@ -66,6 +67,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="IndexChat" component={IndexChat} options={{ headerShown: false }} />
                 <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
                 <Stack.Screen name="ChatInBox" component={ChatInBox} options={{ headerShown: false }} />
+                <Stack.Screen name="Mapp" component={Mapp} options={{ headerShown: false }} />
                 {/* HomeScreen */}
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 {/* Category */}

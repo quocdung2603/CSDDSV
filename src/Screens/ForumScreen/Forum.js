@@ -49,11 +49,12 @@ const Forum = ({ navigation }) => {
 
     const getList = (data) => {
         let goooo = []
+        console.log(data,123)
         data.map(item => {
-            let i = item._data.post;
-            i.map(ii => {
-                goooo.push(ii)
-            })
+            let i = item._data;
+            // i.map(ii => {
+                goooo.push(i)
+            // })
         })
         setList(goooo);
         console.log(goooo, 1)

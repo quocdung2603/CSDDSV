@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 
 
 import MapView from 'react-native-maps';
 
-const Index = () => {
+const Mapp = ({ navigation }) => {
 
 
     return (
@@ -71,4 +71,4 @@ const Index = () => {
         </View>
     )
 }
-export default Index;
+export default Mapp;

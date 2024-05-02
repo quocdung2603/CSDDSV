@@ -19,7 +19,7 @@ import uuid from 'react-native-uuid';
 import { create } from 'react-test-renderer';
 import MapView from 'react-native-maps';
 import QueryAvata from './Component/QueryAvata';
-
+import QueryName from './Component/QueryName';
 let id
 const Chat = ({ route, navigation }) => {
     let idNhan = route.params.item.userId
@@ -192,7 +192,24 @@ const Chat = ({ route, navigation }) => {
             console.log(listChat);
         }
     };
-
+    const coverTime = time => {
+        let date = time.toDate();
+        let mm = date.getMonth() + 1;
+        let dd = date.getDate();
+        let yyyy = date.getFullYear();
+        let munis = date.getMinutes();// phút
+        let hh = date.getHours(); // giờ
+        if (dd < '10')
+            dd = '0' + dd;
+        if (mm < '10')
+            mm = '0' + mm;
+        if (hh < '10')
+            hh = '0' + hh;
+        if (munis < '10')
+            munis = '0' + munis;
+        date = hh + ':' + munis + ' ' + dd + '/' + mm;
+        return date;
+    }
     return (
         <View style={{ flex: 1 }}>
             <View style={{ backgroundColor: 'skyblue', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', height: 50 }} >
@@ -215,7 +232,7 @@ const Chat = ({ route, navigation }) => {
                                         <View style={{ flexDirection: 'column', marginStart: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <QueryName userId={item.box.senderId} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>11:00</Text>
+                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
                                             <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
                                         </View>
@@ -228,7 +245,7 @@ const Chat = ({ route, navigation }) => {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 {/* <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5 }}>{Name}</Text> */}
                                                 <QueryName userId={idUser} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>10:00</Text>
+                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
                                             <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
                                         </View>
@@ -244,7 +261,11 @@ const Chat = ({ route, navigation }) => {
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginTop: 'auto' }}>
                 <Entypo name='image' size={30} style={{ marginEnd: 5 }} />
-                <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('Mapp')
+                }}>
+                    <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
+                </TouchableOpacity>
                 <TextInput
                     onChangeText={(txt) => { setMessages(txt) }} value={messages}
                     style={{ marginStart: 5, marginEnd: 5, borderWidth: 0.5, borderRadius: 10, maxHeight: 40, width: 275 }}

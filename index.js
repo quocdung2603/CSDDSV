@@ -13,6 +13,7 @@ import IndexChat from './src/Screens/Chat/IndexChat';
 import Chat from './src/Screens/Chat/Chat.js';
 import Index from './src/Screens/Map/Index.js';
 import FakeFile from './src/Screens/CategoriesScreen/Component/FakeFile.js';
+import TT1 from './src/Test1/TT1.js';
 LogBox.ignoreAllLogs();
 enableScreens(true)
 AppRegistry.registerComponent(appName, () => AppNavigator);

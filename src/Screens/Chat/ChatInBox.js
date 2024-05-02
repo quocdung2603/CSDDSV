@@ -192,6 +192,24 @@ const ChatInBox = ({ route, navigation }) => {
                 })
         }
     };
+    const coverTime = time => {
+        let date = time.toDate();
+        let mm = date.getMonth() + 1;
+        let dd = date.getDate();
+        let yyyy = date.getFullYear();
+        let munis = date.getMinutes();// phút
+        let hh = date.getHours(); // giờ
+        if (dd < '10')
+            dd = '0' + dd;
+        if (mm < '10')
+            mm = '0' + mm;
+        if (hh < '10')
+            hh = '0' + hh;
+        if (munis < '10')
+            munis = '0' + munis;
+        date = hh + ':' + munis + ' ' + dd + '/' + mm;
+        return date;
+    }
     console.log(arrayMess)
     return (
         <View style={{ flex: 1 }}>
@@ -208,32 +226,32 @@ const ChatInBox = ({ route, navigation }) => {
                             <>
                                 {idUser !== item.box.senderId ? (
                                     //ngta nhắn
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginEnd:'auto' }} >
-                                        <View style={{ marginEnd:'auto'}}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginEnd: 'auto' }} >
+                                        <View style={{ marginEnd: 'auto' }}>
                                             <QueryAvata userId={item.box.senderId} size={30} />
                                         </View>
                                         <View style={{ flexDirection: 'column', marginStart: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <QueryName userId={item.box.senderId} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>11:00</Text>
+                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
-                                            <Text style={{ fontSize: 17, maxWidth:280 }}>{item.box.mess}</Text>
+                                            <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     //minh nhắn
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginStart: 'auto'}} >
-                                            <View style={{ flexDirection: 'column', borderWidth: 1, borderRadius: 10, padding: 5, marginStart:'auto', marginEnd:5 }}>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <QueryName userId={idUser} />
-                                                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>10:00</Text>
-                                                </View>
-                                                <Text style={{ fontSize: 17, maxWidth:280 }}>{item.box.mess}</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginStart: 'auto' }} >
+                                        <View style={{ flexDirection: 'column', borderWidth: 1, borderRadius: 10, padding: 5, marginStart: 'auto', marginEnd: 5 }}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <QueryName userId={idUser} />
+                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
-                                            <View style={{marginStart:'auto' }}>
-                                                <QueryAvata userId={idUser} size={30} />
-                                            </View>
+                                            <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
                                         </View>
+                                        <View style={{ marginStart: 'auto' }}>
+                                            <QueryAvata userId={idUser} size={30} />
+                                        </View>
+                                    </View>
                                 )}
                             </>
                         );
@@ -242,7 +260,11 @@ const ChatInBox = ({ route, navigation }) => {
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginTop: 'auto' }}>
                 <Entypo name='image' size={30} style={{ marginEnd: 5 }} />
-                <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('Mapp')
+                }}>
+                    <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
+                </TouchableOpacity>
                 <TextInput
                     onChangeText={(txt) => { setMessages(txt) }} value={messages}
 

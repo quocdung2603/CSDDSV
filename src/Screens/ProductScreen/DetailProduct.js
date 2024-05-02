@@ -44,12 +44,15 @@ const DetailProduct = ({ route, navigation }) => {
 
     const randomIma = item.img[Math.floor(Math.random() * item.img.length)]
 
+    console.log(item, 123)
 
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}>
             <View style={{ flexDirection: 'column', borderWidth: 1 }}>
+                
                 <ImageBackground
+
                     source={{ uri: randomIma }}
                 >
 
