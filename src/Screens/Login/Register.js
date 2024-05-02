@@ -59,7 +59,8 @@ const Register = ({ navigation }) => {
                 gender: '',
                 post: [],
                 typeAcc: 1,
-                listChat: []
+                listChat: [],
+                block: false,
             })
             .then(() => {
                 console.log('User added!');
