@@ -25,17 +25,23 @@ const Login = ({ navigation }) => {
     var typeacc
     const CheckLogin = () => {
         var checkTrueAcc = false
-
+        var checkBlock
         listAccount.forEach(item => {
             if (item._data.email === email && item._data.password === pass) {
                 checkTrueAcc = true
+                checkBlock = item._data.block
                 typeacc = (item._data.typeAcc);
                 idUser = item._data.userId
             }
         });
         if (checkTrueAcc === true) {
-            console.log("Dang nhap thanh cong!")
-            goToTabbar(idUser)
+            if (checkBlock == true) {
+
+            }
+            else {
+                console.log("Dang nhap thanh cong!")
+                goToTabbar(idUser)
+            }
             // console.log(typeAcc);
             checkTrueAcc = false;
         }

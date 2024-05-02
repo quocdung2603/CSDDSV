@@ -54,6 +54,21 @@ const ManagerUser = () => {
 
     }
 
+    const blockAcc = async (uid) => {
+
+        let doIt = await firestore()
+            .collection('Users')
+            .where('userId', '==', uid)
+            .get()
+        // console.log(doIt._docs[0]._data.block);
+        await firestore()
+            .collection('Users')
+            .doc(uid)
+            .update({
+                block: !doIt._docs[0]._data.block
+            })
+    }
+
     const [searchQuery, setSearchQuery] = useState('');
     return (
         <View style={{ flex: 1 }}>
@@ -88,7 +103,7 @@ const ManagerUser = () => {
                                     <Ionicons name='eye' size={20} color='#000' />
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => { Alert.alert("Khóa tài khoản người dùng") }}
+                                    onPress={() => blockAcc(item.userId)}
                                     style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
                                     <Octicons name='blocked' size={20} color='#000' />
                                 </TouchableOpacity>
