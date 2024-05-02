@@ -36,7 +36,6 @@ const ChatInBox = ({ route, navigation }) => {
     }, [])
 
     const [messages, setMessages] = useState();
-    const [imageData, setImageData] = useState(null);
     const [chatedUser1, setChatedUser1] = useState([]);
     const [chatedUser2, setChatedUser2] = useState([]);
     const [address, setAddress] = useState()
@@ -56,35 +55,62 @@ const ChatInBox = ({ route, navigation }) => {
         seTName(temp)
     }
 
-    const getChat = () => {
+    const getChat = async () => {
 
         const doit = firestore()
             .collection('Chats')
             .doc(idUser)
             .collection(idChat)
         doit.onSnapshot(dt => {
-            const allMess = dt.docs.map(snap => {
+            let allMess = dt.docs.map(snap => {
                 // console.log(snap.data(), 1)
                 return { ...snap.data(), createAt: new Date() };
             });
-            allMess.sort((a, b) => a.createAt - b.createAt);
+            allMess.sort((a, b) => a.box.createAt - b.box.createAt);
+            // console.log(allMess, 1);
             setArrayMess(allMess)
-            // console.log(arrayMess, 1);
         })
 
     }
+    const [textPost, setTextPost] = useState()
+
+    const [imageData, setImageData] = useState(null);
+    const [imagePicked, setImagePicked] = useState(false);
+
+    const openGallery = async () => {
+        const result = await launchImageLibrary({ mediaType: 'photo' });
+        setImageData(result);
+        // console.log(result);
+        UpLoadImgProDuct()
+    };
+
+    let url = ''
+    const UpLoadImgProDuct = async () => {
+
+        const reference = storage().ref(imageData.assets[0].fileName);
+        const pathToFile = imageData.assets[0].uri;
+
+        await reference.putFile(pathToFile);
+        url = await storage()
+            .ref(imageData.assets[0].fileName)
+            .getDownloadURL();
+        newChat()
+    };
 
     const newChat = async () => {
+        console.log(url)
         temp = ({
             senderId: idUser,
             mess: messages,
             createAt: new Date(),
+            img: url
         })
 
         tempp = ({
             senderId: idUser,
             mess: messages,
             createAt: new Date(),
+            img: url
         })
 
         let check = firestore()
@@ -210,7 +236,7 @@ const ChatInBox = ({ route, navigation }) => {
         date = hh + ':' + munis + ' ' + dd + '/' + mm;
         return date;
     }
-    console.log(arrayMess)
+    // console.log(arrayMess)
     return (
         <View style={{ flex: 1 }}>
             <View style={{ backgroundColor: 'skyblue', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', height: 50 }} >
@@ -221,6 +247,10 @@ const ChatInBox = ({ route, navigation }) => {
             <View style={{}}>
                 <FlatList
                     data={arrayMess}
+                    style={{
+                        height: '87%'
+
+                    }}
                     renderItem={({ item, index }) => {
                         return (
                             <>
@@ -235,7 +265,21 @@ const ChatInBox = ({ route, navigation }) => {
                                                 <QueryName userId={item.box.senderId} />
                                                 <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
-                                            <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
+                                            <>
+                                                {
+                                                    item.box.mess !== '' ? (
+                                                        <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
+                                                    ) : (
+                                                        <Image
+                                                            style={{
+                                                                borderRadius: 15,
+                                                                height: 220,
+                                                            }}
+                                                            source={{ uri: item.box.img }}
+                                                        />
+                                                    )
+                                                }
+                                            </>
                                         </View>
                                     </View>
                                 ) : (
@@ -246,7 +290,22 @@ const ChatInBox = ({ route, navigation }) => {
                                                 <QueryName userId={idUser} />
                                                 <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
                                             </View>
-                                            <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
+                                            <>
+                                                {
+
+                                                    item.box.mess !== '' ? (
+                                                        <Text style={{ fontSize: 17, maxWidth: 280 }}>{item.box.mess}</Text>
+                                                    ) : (
+                                                        <Image
+                                                            style={{
+                                                                borderRadius: 15,
+                                                                height: 220,
+                                                            }}
+                                                            source={{ uri: item.box.img }}
+                                                        />
+                                                    )
+                                                }
+                                            </>
                                         </View>
                                         <View style={{ marginStart: 'auto' }}>
                                             <QueryAvata userId={idUser} size={30} />
@@ -259,7 +318,13 @@ const ChatInBox = ({ route, navigation }) => {
                 />
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginTop: 'auto' }}>
-                <Entypo name='image' size={30} style={{ marginEnd: 5 }} />
+                <TouchableOpacity
+                    onPress={() => {
+                        openGallery();
+                    }}
+                >
+                    <Entypo name='image' size={30} style={{ marginEnd: 5 }} />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Mapp')
                 }}>
@@ -275,7 +340,7 @@ const ChatInBox = ({ route, navigation }) => {
                     <Feather name='send' size={30} style={{ marginStart: 5 }} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 };
 

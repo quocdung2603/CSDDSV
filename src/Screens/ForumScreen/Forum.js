@@ -56,6 +56,7 @@ const Forum = ({ navigation }) => {
                 goooo.push(i)
             // })
         })
+        goooo.sort((a, b) => b.time - a.time);
         setList(goooo);
         console.log(goooo, 1)
     }

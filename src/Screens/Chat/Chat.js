@@ -60,13 +60,13 @@ const Chat = ({ route, navigation }) => {
             .doc(idUser)
             .collection(idChat)
         doit.onSnapshot(dt => {
-            const allMess = dt.docs.map(snap => {
+            let allMess = dt.docs.map(snap => {
                 // console.log(snap.data(), 1)
                 return { ...snap.data(), createAt: new Date() };
             });
-            allMess.sort((a, b) => a.createAt - b.createAt);
+            allMess.sort((a, b) => a.box.createAt - b.box.createAt);
             setArrayMess(allMess)
-            // console.log(arrayMess, 1);
+            console.log(arrayMess, 1);
         })
 
     }
