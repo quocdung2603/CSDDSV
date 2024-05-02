@@ -10,6 +10,7 @@ import {
     View,
     Image,
     TextInput,
+    FlatList
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,11 +28,12 @@ import firestore, { firebase } from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Avatar } from 'react-native-paper';
-
+import QueryUser from '../ForumScreen/component/QueryUser'
 const Personal = ({ navigation }) => {
 
     useEffect(() => {
         loadUser()
+        getPost()
     }, [])
 
     const [data, setData] = useState();
@@ -40,7 +42,7 @@ const Personal = ({ navigation }) => {
     const loadUser = async () => {
         let userId = await AsyncStorage.getItem('USERID', userId);
         console.log(userId)
-        firestore()
+        await firestore()
             .collection('Users')
             .doc(userId)
             .get()
@@ -49,6 +51,20 @@ const Personal = ({ navigation }) => {
                 setName(temp._data.name)
                 setAva(temp._data.proFilePic)
             })
+    }
+    const [listPost, setListPost] = useState()
+    const getPost = async () => {
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let doIt = await firestore()
+            .collection('Posts')
+            .where('userId', '==', userId)
+            .get()
+        let temp = []
+        doIt._docs.map(item => {
+            temp.push(item._data)
+        })
+        console.log(temp, 123)
+        setListPost(temp)
     }
 
     const [TabPost, setTabPost] = useState(1);
@@ -105,18 +121,48 @@ const Personal = ({ navigation }) => {
             {TabPost === 1 ? (
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <ScrollView>
-                        <View style={{ flexDirection: 'column', margin: 10, borderWidth: 0.5, borderRadius: 10, borderColor: 'grey', padding: 2 }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Avatar.Image size={50} source={require('../../../Img/Dong_Doan.jpg')} />
-                                <View style={{ flexDirection: 'column' }}>
-                                    <Text style={{ fontSize: 22, fontWeight: 'bold', marginStart: 10 }}>Đoàn Xuân Đông</Text>
-                                    <Text style={{ marginStart: 10 }}>21/3/2024 9:20 AM</Text>
-                                </View>
-                            </View>
-                            <View style={{ marginHorizontal: 10, padding: 5 }}>
-                                <Text style={{ fontSize: 20, textAlign: 'justify' }}>Tôi năm nay hơn 20 tuổi đầu rồi nhưng chưa thấy ai tệ như Nguyễn Tấn Tài, Người gì đâu vừa tệ bạc vừa lười biến, nếu mà có cây súng chắc là tôi đấm nó chết mẹ luôn.</Text>
-                            </View>
-                        </View>
+                        <FlatList
+                            data={listPost}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <>
+                                        <View style={{ flexDirection: 'column', borderWidth: 0.5, borderRadius: 10, marginVertical: 5 }}>
+                                            <QueryUser user={item.userId} time={item.time} />
+                                            <View style={{ marginHorizontal: 10, padding: 5 }}>
+                                                <Text style={{ fontSize: 20, textAlign: 'justify' }}>
+                                                    {item.text}
+                                                </Text>
+                                            </View>
+                                            <View style={{ height: 220, width: 'auto', marginHorizontal: 10 }}>
+                                                <Image
+                                                    style={{
+                                                        borderRadius: 15,
+                                                        height: 220,
+                                                    }}
+                                                    source={{ uri: item.img }}
+                                                />
+                                            </View>
+                                            {/* comment */}
+                                            <View
+                                                style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
+                                                <TouchableOpacity
+                                                    style={{ marginEnd: 'auto', marginStart: 40 }} >
+                                                    <AntDesign name='like2' size={25} />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => { navigation.navigate('ListComment', { item }) }} >
+                                                    <Entypo name='chat' size={25} />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={{ marginEnd: 40, marginStart: 'auto' }} >
+                                                    <Ionicons name='share-social' size={25} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </>
+                                )
+                            }}
+
+                        />
                     </ScrollView>
                 </View>
             ) : ""}
