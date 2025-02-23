@@ -40,9 +40,11 @@ import IndexChat from "../Screens/Chat/IndexChat";
 import Chat from "../Screens/Chat/Chat";
 import ChatInBox from "../Screens/Chat/ChatInBox";
 import ManagerUser from "../Screens/Admin/ManagerUser";
+import ManagerCategory from "../Screens/Admin/ManagerCategory"
 import ListComment from "../Screens/ForumScreen/ListComment";
 import FakeFile from "../Screens/CategoriesScreen/Component/FakeFile";
 import Mapp from "../Screens/Map/Index";
+
 const Stack = createStackNavigator();
 
 
@@ -56,6 +58,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="ManagerPro" component={ManagerPro} options={{ headerShown: false }} />
                 <Stack.Screen name="DetailPro" component={DetailPro} options={{ headerShown: false }} />
                 <Stack.Screen name="ManagerUser" component={ManagerUser} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerCategory" component={ManagerCategory} options={{ headerShown: false }} />
                 {/* tabbar */}
                 <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }} />
                 {/* Account */}

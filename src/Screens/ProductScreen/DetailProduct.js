@@ -50,7 +50,7 @@ const DetailProduct = ({ route, navigation }) => {
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}>
             <View style={{ flexDirection: 'column', borderWidth: 1 }}>
-                
+
                 <ImageBackground
 
                     source={{ uri: randomIma }}
@@ -102,4 +102,4 @@ const DetailProduct = ({ route, navigation }) => {
     )
 };
 
-export default DetailProduct
+export default DetailProduct;

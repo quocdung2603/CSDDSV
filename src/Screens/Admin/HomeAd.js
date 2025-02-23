@@ -49,25 +49,25 @@ const HomeAd = ({ navigation }) => {
                     CHÀO MỪNG ADMIN
                 </Text>
             </View>
-            <View style={{flexDirection:'column', borderWidth: 1, margin:10, backgroundColor:'#fff', borderRadius:10, borderColor:10, padding:10 }}>
-                <TouchableOpacity 
-                    onPress={()=>{ND === 1 ? setND(0) : setND(1)}}    
-                    style={{ borderWidth: 1, borderRadius:10, borderColor:'#FCBB3C', backgroundColor:'#FCBB3C', margin:10, padding:10, justifyContent: 'center' }}>
-                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign:'center' }}>
+            <View style={{ flexDirection: 'column', borderWidth: 1, margin: 10, backgroundColor: '#fff', borderRadius: 10, borderColor: 10, padding: 10 }}>
+                <TouchableOpacity
+                    onPress={() => { ND === 1 ? setND(0) : setND(1) }}
+                    style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCBB3C', backgroundColor: '#FCBB3C', margin: 10, padding: 10, justifyContent: 'center' }}>
+                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                         QUẢN LÝ NGƯỜI DÙNG
                     </Text>
                 </TouchableOpacity>
                 {ND === 1 ? (
-                    <View style={{ flexDirection: 'column', marginVertical: 10,marginHorizontal:30 }}>
+                    <View style={{ flexDirection: 'column', marginVertical: 10, marginHorizontal: 30 }}>
                         <TouchableOpacity
-                            onPress={() => {navigation.navigate('ManagerUser') }}
+                            onPress={() => { navigation.navigate('ManagerUser') }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Tài khoản
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => {Alert.alert("Danh sách người dùng bị chặn") }}
+                            onPress={() => { Alert.alert("Danh sách người dùng bị chặn") }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Danh sách chặn
@@ -75,22 +75,22 @@ const HomeAd = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 ) : ""}
-                <TouchableOpacity 
-                    style={{ borderWidth: 1, borderRadius:10, borderColor:'#FCBB3C', backgroundColor:'#FCBB3C', margin:10, padding:10, justifyContent: 'center' }}
-                    onPress={() => {TD === 1 ? setTD(0) : setTD(1) }}>
-                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign:'center' }}>QUẢN LÝ TRAO ĐỔI</Text>
+                <TouchableOpacity
+                    style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCBB3C', backgroundColor: '#FCBB3C', margin: 10, padding: 10, justifyContent: 'center' }}
+                    onPress={() => { TD === 1 ? setTD(0) : setTD(1) }}>
+                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>QUẢN LÝ TRAO ĐỔI</Text>
                 </TouchableOpacity>
                 {TD === 1 ? (
-                    <View style={{ flexDirection: 'column', marginVertical: 10,marginHorizontal:30 }}>
+                    <View style={{ flexDirection: 'column', marginVertical: 10, marginHorizontal: 30 }}>
                         <TouchableOpacity
-                            onPress={() => {navigation.navigate('ManagerRegis')}}
+                            onPress={() => { navigation.navigate('ManagerRegis') }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Đăng ký mở cửa hàng
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => {Alert.alert("Danh sách coi dc các hoạt động trao đổi dang diễn ra")}}
+                            onPress={() => { Alert.alert("Danh sách coi dc các hoạt động trao đổi dang diễn ra") }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Danh sách trao đổi
@@ -98,21 +98,28 @@ const HomeAd = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 ) : ""}
-                <TouchableOpacity style={{ borderWidth: 1, borderRadius:10, borderColor:'#FCBB3C', backgroundColor:'#FCBB3C', margin:10, padding:10, justifyContent: 'center' }}
-                    onPress={() => {SP === 1 ? setSP(0) : setSP(1)}}>
-                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign:'center' }}>QUẢN LÝ SẢN PHẨM</Text>
+                <TouchableOpacity style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCBB3C', backgroundColor: '#FCBB3C', margin: 10, padding: 10, justifyContent: 'center' }}
+                    onPress={() => { SP === 1 ? setSP(0) : setSP(1) }}>
+                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>QUẢN LÝ SẢN PHẨM</Text>
                 </TouchableOpacity>
                 {SP === 1 ? (
-                    <View style={{ flexDirection: 'column', marginVertical: 10,marginHorizontal:30 }}>
+                    <View style={{ flexDirection: 'column', marginVertical: 10, marginHorizontal: 30 }}>
                         <TouchableOpacity
-                            onPress={() => {navigation.navigate('ManagerPro')}}
+                            onPress={() => { navigation.navigate('ManagerPro') }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Danh sách sản phẩm
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => {Alert.alert("Danh sách sản phẩm bị chặn")}}
+                            onPress={() => { navigation.navigate('ManagerCategory') }}
+                            style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
+                            <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
+                                Danh sách danh mục sản phẩm
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { Alert.alert("Danh sách sản phẩm bị chặn") }}
                             style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCCC6F', backgroundColor: '#FCCC6F', margin: 10, padding: 10, justifyContent: 'center' }}>
                             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                                 Danh sách chặn
@@ -120,10 +127,10 @@ const HomeAd = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 ) : ""}
-                <TouchableOpacity 
-                    onPress={() => {navigation.navigate('Login')}}
-                    style={{ borderWidth: 1, borderRadius:10, borderColor:'#FCBB3C', backgroundColor:'#FCBB3C', margin:10, padding:10, justifyContent: 'center' }}>
-                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign:'center' }}>
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate('Login') }}
+                    style={{ borderWidth: 1, borderRadius: 10, borderColor: '#FCBB3C', backgroundColor: '#FCBB3C', margin: 10, padding: 10, justifyContent: 'center' }}>
+                    <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>
                         ĐĂNG XUẤT
                     </Text>
                 </TouchableOpacity>

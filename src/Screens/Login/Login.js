@@ -14,7 +14,7 @@ const Login = ({ navigation }) => {
             .get()
             .then(data => {
                 setListAccount(data._docs);
-                // console.log(data);
+                // console.log(data._docs);
             });
     }, [])
     const [email, setEmail] = useState("t");
@@ -42,7 +42,6 @@ const Login = ({ navigation }) => {
                 console.log("Dang nhap thanh cong!")
                 goToTabbar(idUser)
             }
-            // console.log(typeAcc);
             checkTrueAcc = false;
         }
         else {
@@ -51,7 +50,6 @@ const Login = ({ navigation }) => {
     }
     const goToTabbar = async (userId) => {
         await AsyncStorage.setItem('USERID', userId);
-        // console.log(typeAcc);
         if (typeacc === 0) {
             navigation.navigate('HomeAd');
         }

@@ -34,10 +34,10 @@ import uuid from 'react-native-uuid'
 
 import DocumentPicker, { DocumentPickerOptions, DocumentPickerResponse } from 'react-native-document-picker'
 
-const dataCategory = [
-    { label: 'Học Tập', value: '1' },
-    { label: 'Gia Dụng', value: '2' },
-];
+// const dataCategory = [
+//     { label: 'Học Tập', value: '1' },
+//     { label: 'Gia Dụng', value: '2' },
+// ];
 const dataTypeStudy = [
     { label: 'Phần Mềm', value: '1' },
     { label: 'Phần Cứng', value: '2' },
@@ -52,6 +52,27 @@ const dataTypeHouseware = [
 
 
 const AddProduct = ({ navigation }) => {
+    const [dataCategory, setDataCategory] = useState([]);
+    useEffect(() => {
+        const unsubscribe = firestore()
+            .collection("Manager")
+            .doc("Cate")
+            .onSnapshot(documentSnapshot => {
+                if (documentSnapshot.exists) {
+                    const rawData = documentSnapshot.data().Cate;
+                    const formattedData = rawData.map((item, index) => ({
+                        label: item,
+                        value: (index + 1).toString()
+                    }));
+                    setDataCategory(formattedData);
+                }
+            });
+
+        // Cleanup listener on component unmount
+        return () => unsubscribe();
+    }, []);
+
+    console.log(dataCategory);
     const [fileData, setfileData] = useState(null);
     const [fileRef, setfileRef] = useState('');
     const [fileUrl, setfileUrl] = useState('');
@@ -171,9 +192,6 @@ const AddProduct = ({ navigation }) => {
 
         setImagePicked(true);
     }
-    useEffect(() => {
-
-    }, [])
 
     const [Title, setTitle] = useState("");
     const [Description, setDescription] = useState("");
