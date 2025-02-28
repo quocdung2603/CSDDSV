@@ -34,24 +34,8 @@ import uuid from 'react-native-uuid'
 
 import DocumentPicker, { DocumentPickerOptions, DocumentPickerResponse } from 'react-native-document-picker'
 
-// const dataCategory = [
-//     { label: 'Học Tập', value: '1' },
-//     { label: 'Gia Dụng', value: '2' },
-// ];
-const dataTypeStudy = [
-    { label: 'Phần Mềm', value: '1' },
-    { label: 'Phần Cứng', value: '2' },
-];
-const dataTypeHouseware = [
-    { label: 'Bàn', value: '1' },
-    { label: 'Ghế', value: '1' },
-    { label: 'Chảo', value: '1' },
-    { label: 'Nồi', value: '1' },
-];
-
-
-
 const AddProduct = ({ navigation }) => {
+    
     const [dataCategory, setDataCategory] = useState([]);
     useEffect(() => {
         const unsubscribe = firestore()
@@ -72,7 +56,6 @@ const AddProduct = ({ navigation }) => {
         return () => unsubscribe();
     }, []);
 
-    console.log(dataCategory);
     const [fileData, setfileData] = useState(null);
     const [fileRef, setfileRef] = useState('');
     const [fileUrl, setfileUrl] = useState('');
@@ -159,7 +142,7 @@ const AddProduct = ({ navigation }) => {
             description: Description,
             time: new Date(),
             rule: false,
-            category: "Học tập"
+            category: dataCategory[category - 1].label
         })
 
         let t = firestore()
@@ -196,8 +179,8 @@ const AddProduct = ({ navigation }) => {
     const [Title, setTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [category, setCategory] = useState("");
-    const [TypeProduct, setTypeProduct] = useState("");
     // camera
+
 
     const [imageData, setImageData] = useState(null);
     const [imagePicked, setImagePicked] = useState(false);
@@ -230,6 +213,9 @@ const AddProduct = ({ navigation }) => {
             });
         setImagePicked(true);
     };
+
+    // console.log(dataCategory);
+    // console.log(dataCategory[category - 1].label)
 
     const renderItem = item => {
         return (
@@ -295,7 +281,7 @@ const AddProduct = ({ navigation }) => {
                         renderItem={renderItem}
                     />
                 </View>
-                <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
+                {/* <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Phân Loại:</Text>
                     <Dropdown
                         style={styles.dropdown}
@@ -319,7 +305,7 @@ const AddProduct = ({ navigation }) => {
                         )}
                         renderItem={renderItem}
                     />
-                </View>
+                </View> */}
                 <View style={{ flexDirection: 'column', margin: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Mô Tả:</Text>
                     <View style={{ borderWidth: 1, borderRadius: 10, height: 200, flexDirection: 'row', marginVertical: 10 }}>
@@ -363,8 +349,8 @@ const AddProduct = ({ navigation }) => {
                     <TouchableOpacity
                         style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
                         onPress={() => {
-                            // UpLoadImgProDuct();
-                            chooseFile();
+                            UpLoadImgProDuct();
+                            // chooseFile();
                         }}
                     >
                         <Text style={{ color: '#000', fontSize: 20 }}>

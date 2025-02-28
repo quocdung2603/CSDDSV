@@ -12,7 +12,7 @@ import {
     TextInput,
     FlatList
 } from 'react-native';
-
+import { Dropdown } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -44,12 +44,32 @@ const ManagerCategory = ({ navigation }) => {
             })
     }, [listCate])
 
-    // listCate.forEach(item => {
-    //     console.log(item, 1)
-    // })
-    // useEffect(() => {
-
-    // },[])
+    // const [category, setCategory] = useState("");
+    // const dataCategory = [
+    //     { label: 'Học cứng', value: '1' },
+    //     { label: 'Học mềm', value: '2' },
+    //     { label: 'Áo', value: '3' },
+    //     { label: 'Quần', value: '4' },
+    //     { label: 'Bàn', value: '5' },
+    //     { label: 'Ghế', value: '6' },
+    //     { label: 'Gia dụng', value: '7' },
+    // ];
+    // console.log(dataCategory[category])
+    // const renderItem = item => {
+    //     return (
+    //         <View style={styles.item}>
+    //             <Text style={styles.textItem}>{item.label}</Text>
+    //             {item.value === category && (
+    //                 <AntDesign
+    //                     style={styles.icon}
+    //                     color="black"
+    //                     name="Safety"
+    //                     size={20}
+    //                 />
+    //             )}
+    //         </View>
+    //     );
+    // };
     const addCate = async () => {
         let found = false;
 
@@ -125,7 +145,9 @@ const ManagerCategory = ({ navigation }) => {
                 >
                     <Icon name="plus" size={30} color="#000" />
                 </TouchableOpacity>
+
             </View>
+            
             <View style={{
                 // border: 1,
                 marginRight: '10%',
@@ -178,3 +200,83 @@ const ManagerCategory = ({ navigation }) => {
 }
 
 export default ManagerCategory;
+
+const styles = StyleSheet.create({
+    contentView: {
+        width: 320,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        marginTop: 20
+    },
+    circle: {
+        width: 50,
+        height: 30,
+        borderRadius: 30,
+        backgroundColor: '#7F3DFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 4
+    },
+    number: {
+        color: 'white',
+        fontSize: 12,
+        textAlign: 'center'
+    },
+    dropdown: {
+        //margin: 10,
+        height: 50,
+        width: 150,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+    },
+    icon: {
+        marginRight: 10,
+    },
+    item: {
+        padding: 17,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textItem: {
+        flex: 1,
+        fontSize: 16,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    touchable: {
+        borderWidth: 1,
+        borderRadius: 10,
+        marginLeft: 10,
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+});

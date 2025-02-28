@@ -52,6 +52,7 @@ const CategoryMain = ({ navigation }) => {
 
     return (
         <View style={{ flexDirection: 'column', backgroundColor: '#fff', flex: 1 }}>
+
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
                 <TouchableOpacity
@@ -65,6 +66,7 @@ const CategoryMain = ({ navigation }) => {
                     <Ionicons name='cart' size={30} color='#000' />
                 </TouchableOpacity>
             </View>
+
             <View style={{ flexDirection: 'row', margin: 10, borderWidth: 1, borderRadius: 10, padding: 5, alignItems: 'center' }}>
                 <FontAwesome6 name='magnifying-glass' size={30} color='#000' style={{ marginEnd: 'auto' }} />
                 <TextInput
@@ -76,6 +78,7 @@ const CategoryMain = ({ navigation }) => {
                     style={{ backgroundColor: 'white', marginStart: 10, marginEnd: 10, width: 300, fontSize: 20 }} />
                 <MaterialCommunityIcons name='line-scan' size={30} color='#000' style={{ marginStart: 'auto' }} />
             </View>
+
             <View style={{ flexDirection: 'column', margin: 10 }}>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto' }}>Category</Text>
                 <View style={{ flexDirection: 'row', margin: 10 }}>
@@ -96,7 +99,9 @@ const CategoryMain = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
+
             <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
+            
             {TabStudy === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
                     <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
