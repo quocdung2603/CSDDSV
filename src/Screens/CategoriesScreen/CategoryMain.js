@@ -30,16 +30,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CategoryMain = ({ navigation }) => {
 
-    useEffect(() => {
-
-
-    }, [])
-
     const [SearchBox, setSearchBox] = useState("");
     const [TabStudy, setTabStudy] = useState(1);
     const [TabClothes, setTabClothes] = useState(0);
     const [TabHouseware, setTabHouseware] = useState(0);
+    const [dataCate, setDataCate] = useState()
 
+    useEffect(() => {
+
+        const reLoadCate = firestore()
+            .collection("Manager")
+            .onSnapshot(snap => {
+                snap.forEach(doc => {
+                    setDataCate(doc.data().Cate)
+                })
+            })
+        return () => reLoadCate()
+
+    }, [])
+
+    console.log(dataCate)
 
     const getUserId = async () => {
         userId = await AsyncStorage.getItem('USERID', userId);
@@ -47,7 +57,23 @@ const CategoryMain = ({ navigation }) => {
     }
     let cate = "Đồ thể dục"
 
-
+    const ItemCate = () => {
+        <>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate('ShowCate', { cate })
+                }}
+                style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
+                <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
+                    <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Đồ Thể Dục</Text>
+                    <Text style={{ fontSize: 17 }}>3 products</Text>
+                </View>
+                <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
+                    <Text>ABC</Text>
+                </View>
+            </TouchableOpacity>
+        </>
+    }
 
 
     return (
@@ -81,27 +107,33 @@ const CategoryMain = ({ navigation }) => {
 
             <View style={{ flexDirection: 'column', margin: 10 }}>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto' }}>Category</Text>
+
                 <View style={{ flexDirection: 'row', margin: 10 }}>
+
                     <TouchableOpacity
                         onPress={() => { setTabStudy(1); setTabClothes(0); setTabHouseware(0) }}
                         style={{ marginEnd: 'auto', borderWidth: 1, borderRadius: 10, borderColor: TabStudy === 1 ? '#FE7E00' : 'grey', backgroundColor: TabStudy === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>HỌC TẬP</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         onPress={() => { setTabStudy(0); setTabClothes(1); setTabHouseware(0) }}
                         style={{ borderWidth: 1, borderRadius: 10, borderColor: TabClothes === 1 ? '#FE7E00' : 'grey', backgroundColor: TabClothes === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>QUẦN ÁO</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         onPress={() => { setTabStudy(0); setTabClothes(0); setTabHouseware(1) }}
                         style={{ marginStart: 'auto', borderWidth: 1, borderRadius: 10, borderColor: TabHouseware === 1 ? '#FE7E00' : 'grey', backgroundColor: TabHouseware === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>GIA DỤNG</Text>
                     </TouchableOpacity>
+
                 </View>
+
             </View>
 
             <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
-            
+
             {TabStudy === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
                     <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
@@ -110,22 +142,22 @@ const CategoryMain = ({ navigation }) => {
                         }}
                     >
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Phần Mềm</Text>
+                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Mềm</Text>
                             <Text style={{ fontSize: 17 }}>3 products</Text>
                         </View>
                         <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
                             <Text>Hình ảnh</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
+                    <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Phần Cứng</Text>
+                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
                             <Text style={{ fontSize: 17 }}>3 products</Text>
                         </View>
                         <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
                             <Text>Hình ảnh</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </ScrollView>
             ) : ""}
             {TabClothes === 1 ? (
@@ -144,24 +176,7 @@ const CategoryMain = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Áo Sơ Mi</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </View>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Giày</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </View>
+
                 </ScrollView>
             ) : ""}
             {TabHouseware === 1 ? (

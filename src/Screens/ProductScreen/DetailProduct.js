@@ -44,7 +44,7 @@ const DetailProduct = ({ route, navigation }) => {
 
     const randomIma = item.img[Math.floor(Math.random() * item.img.length)]
 
-    console.log(item, 123)
+    // console.log(item, 123)
 
 
     return (

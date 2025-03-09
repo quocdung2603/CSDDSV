@@ -44,32 +44,6 @@ const ManagerCategory = ({ navigation }) => {
             })
     }, [listCate])
 
-    // const [category, setCategory] = useState("");
-    // const dataCategory = [
-    //     { label: 'Học cứng', value: '1' },
-    //     { label: 'Học mềm', value: '2' },
-    //     { label: 'Áo', value: '3' },
-    //     { label: 'Quần', value: '4' },
-    //     { label: 'Bàn', value: '5' },
-    //     { label: 'Ghế', value: '6' },
-    //     { label: 'Gia dụng', value: '7' },
-    // ];
-    // console.log(dataCategory[category])
-    // const renderItem = item => {
-    //     return (
-    //         <View style={styles.item}>
-    //             <Text style={styles.textItem}>{item.label}</Text>
-    //             {item.value === category && (
-    //                 <AntDesign
-    //                     style={styles.icon}
-    //                     color="black"
-    //                     name="Safety"
-    //                     size={20}
-    //                 />
-    //             )}
-    //         </View>
-    //     );
-    // };
     const addCate = async () => {
         let found = false;
 
