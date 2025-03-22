@@ -27,6 +27,9 @@ import firestore, { firebase } from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import ListCate from './Component/ListCate';
+import { FlatList } from 'react-native-gesture-handler';
+
 
 const CategoryMain = ({ navigation }) => {
 
@@ -48,32 +51,66 @@ const CategoryMain = ({ navigation }) => {
         return () => reLoadCate()
 
     }, [])
+    // console.log(dataCate, 213)
+    const [dataPro, setDataPro] = useState()
 
-    console.log(dataCate)
+    useEffect(() => {
+        const reLoadProduct = firestore()
+            .collection("Products")
+            .onSnapshot(snap => {
+                const tempData = []
+                snap.forEach(doc => {
+                    const tempItem = (doc.data().post) || []
+                    tempItem.forEach(element => {
+                        tempData.push(element)
+                    });
+                });
+                setDataPro(tempData)
+            });
+        // tempData = []
+        return () => reLoadProduct()
+    }, [])
+
+    // console.log(dataPro, 123)
+    const [mainClothes, setMainClothes] = useState([])
+    const [mainOthers, setOthers] = useState([])
+    let clothesMap = new Map();
+    let otherMap = new Map();
+    const classify = async () => {
+        let keywords = ["quần", "áo", "thể"];
+
+        dataCate.forEach(item => {
+            let words = item.split(" ").map(word => word.toLowerCase());
+            let found = false; // Biến kiểm tra xem item có từ khóa không
+
+            for (let word of words) {
+                for (let keyword of keywords) {
+                    if (word === keyword) {
+                        clothesMap.set(item, true);
+                        found = true; // Đánh dấu đã tìm thấy từ khóa
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
+            if (!found) {
+                otherMap.set(item, true);
+            }
+        });
+        setMainClothes([...clothesMap.keys()]);
+        setOthers([...otherMap.keys()]);
+    };
+
+    useEffect(() => {
+        classify()
+    }, [dataCate])
 
     const getUserId = async () => {
         userId = await AsyncStorage.getItem('USERID', userId);
 
     }
-    let cate = "Đồ thể dục"
 
-    const ItemCate = () => {
-        <>
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate('ShowCate', { cate })
-                }}
-                style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                    <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Đồ Thể Dục</Text>
-                    <Text style={{ fontSize: 17 }}>3 products</Text>
-                </View>
-                <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                    <Text>ABC</Text>
-                </View>
-            </TouchableOpacity>
-        </>
-    }
 
 
     return (
@@ -82,7 +119,9 @@ const CategoryMain = ({ navigation }) => {
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('IndexChat') }}
+                    onPress={() => {
+                        navigation.navigate('IndexChat')
+                    }}
                     style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginRight: 5 }}>
                     <AntDesign name='pluscircleo' size={30} color='#000' />
                 </TouchableOpacity>
@@ -138,7 +177,7 @@ const CategoryMain = ({ navigation }) => {
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
                     <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
                         onPress={() => {
-                            navigation.navigate('FakeFile')
+
                         }}
                     >
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
@@ -162,53 +201,29 @@ const CategoryMain = ({ navigation }) => {
             ) : ""}
             {TabClothes === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('ShowCate', { cate })
-                        }}
-                        style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Đồ Thể Dục</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {
+                        mainClothes && <FlatList
+                            data={mainClothes}
+                            renderItem={({ item }) => {
+                                return <>
+                                    <ListCate data={item} product={dataPro} navigation={navigation} />
+                                </>
+                            }}
 
-
+                        />
+                    }
                 </ScrollView>
             ) : ""}
             {TabHouseware === 1 ? (
-                <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Bàn</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </View>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Ghế</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </View>
-                    <View style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Tủ</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>ABC</Text>
-                        </View>
-                    </View>
-                </ScrollView>
+                <FlatList
+                    data={mainOthers}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <ListCate data={item} product={dataPro} navigation={navigation} />
+                    )}
+                    contentContainerStyle={{ margin: 10 }}
+                />
+
             ) : ""}
         </View>
     )

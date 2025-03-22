@@ -121,7 +121,7 @@ const ManagerCategory = ({ navigation }) => {
                 </TouchableOpacity>
 
             </View>
-            
+
             <View style={{
                 // border: 1,
                 marginRight: '10%',

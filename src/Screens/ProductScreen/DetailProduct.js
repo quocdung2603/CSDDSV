@@ -27,16 +27,21 @@ import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DetailProduct = ({ route, navigation }) => {
-    let item = route.params
+    // let item = route.params
+    const { item } = route.params
 
-    // console.log(item)
+    const [getId, setGetId] = useState("")
     useEffect(() => {
+
+        GetUser()
+        // goToChat()
     }, [])
-    // const GetUser = async () => {
-    //     // userId = await AsyncStorage.getItem('USERID', userId);
 
-    // }
+    const GetUser = async () => {
 
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        setGetId(userId);
+    }
     const goToChat = async () => {
         let userIdd = await AsyncStorage.getItem('USERID', userIdd);
         navigation.navigate('Chat', { item, userIdd });
@@ -44,8 +49,7 @@ const DetailProduct = ({ route, navigation }) => {
 
     const randomIma = item.img[Math.floor(Math.random() * item.img.length)]
 
-    // console.log(item, 123)
-
+    console.log(item, 123)
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}>
@@ -65,9 +69,9 @@ const DetailProduct = ({ route, navigation }) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 180, marginBottom: 10 }}>
-                        <View style={{ borderWidth: 1, borderRadius: 20, paddingHorizontal: 15, paddingVertical: 5, marginEnd: 'auto', margin: 10, marginBottom: 'auto' }}>
+                        {/* <View style={{ borderWidth: 1, borderRadius: 20, paddingHorizontal: 15, paddingVertical: 5, marginEnd: 'auto', margin: 10, marginBottom: 'auto' }}>
                             <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Table</Text>
-                        </View>
+                        </View> */}
                         <View style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginBottom: 'auto', margin: 10 }}>
                             <Ionicons name="bookmark" size={30} color="#0AC9BD" />
                         </View>
@@ -88,16 +92,29 @@ const DetailProduct = ({ route, navigation }) => {
                         <Text style={{ fontSize: 15, color: 'grey' }}>{item.description}</Text>
                     </View>
                 </View>
+
                 <View style={{ margin: 10, borderWidth: 0.5, borderColor: 'grey' }}></View>
 
             </ScrollView>
-            <TouchableOpacity style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
-                onPress={() => {
-                    goToChat();
-                }}
-            >
-                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Liên hệ người bán</Text>
-            </TouchableOpacity>
+            {
+                getId == item.userId ?
+                    <>
+                        <View style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
+                        >
+                            <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Món hàng này là của bạn</Text>
+                        </View>
+                    </>
+                    :
+                    <>
+                        <TouchableOpacity style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() => {
+                                goToChat();
+                            }}
+                        >
+                            <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Liên hệ người bán</Text>
+                        </TouchableOpacity>
+                    </>
+            }
         </View>
     )
 };
