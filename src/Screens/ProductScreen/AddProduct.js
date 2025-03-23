@@ -32,10 +32,10 @@ import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 
-import DocumentPicker, { DocumentPickerOptions, DocumentPickerResponse } from 'react-native-document-picker'
+import DocumentPicker from 'react-native-document-picker';
 
 const AddProduct = ({ navigation }) => {
-    
+
     const [dataCategory, setDataCategory] = useState([]);
     useEffect(() => {
         const unsubscribe = firestore()
@@ -61,16 +61,18 @@ const AddProduct = ({ navigation }) => {
     const [fileUrl, setfileUrl] = useState('');
 
     const chooseFile = async () => {
-        try {
-            const response = await DocumentPicker.pickSingle({
-                type: [DocumentPicker.types.pdf],
-            });
-            console.log(response);
-            setfileData(response);
-            uploadImage()
-        } catch (err) {
-            console.log(err);
-        }
+        // try {
+        //     const response = await DocumentPicker.pickSingle({
+        //         type: [DocumentPicker.types.pdf],
+        //     });
+        //     console.log(response);
+        //     setfileData(response);
+        //     uploadImage()
+        // } catch (err) {
+        //     console.log(err);
+        // }
+
+
     };
 
     const uploadImage = async () => {
@@ -179,6 +181,20 @@ const AddProduct = ({ navigation }) => {
     const [Title, setTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [category, setCategory] = useState("");
+    const [typeCate, setTypeCate] = useState(0)
+    // 0 la các cate bình thường
+    // 1 là các cate liên quan học tập
+    useEffect(() => {
+        checkCate()
+    }, [category])
+
+    const checkCate = () => {
+        const selectedCategory = dataCategory[category - 1]?.label;
+        const isStudyCategory = selectedCategory === "Học mềm" || selectedCategory === "Học cứng";
+
+        setTypeCate(isStudyCategory ? 1 : 0);
+        console.log(isStudyCategory ? 1 : 0);
+    };
     // camera
 
 
@@ -186,7 +202,6 @@ const AddProduct = ({ navigation }) => {
     const [imagePicked, setImagePicked] = useState(false);
     // const [UploadedPicUrl, setUploadedPicUrl] = useState('');
     const [listIma, setListIma] = useState([]);
-
 
 
     const upp = async Img => {
@@ -281,31 +296,7 @@ const AddProduct = ({ navigation }) => {
                         renderItem={renderItem}
                     />
                 </View>
-                {/* <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Phân Loại:</Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={category === "1" ? dataTypeStudy : dataTypeHouseware}
-                        search
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Phân Loại"
-                        searchPlaceholder="Search..."
-                        value={TypeProduct}
-                        onChange={item => {
-                            setCategory(item.value);
-                        }}
-                        renderLeftIcon={() => (
-                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-                        )}
-                        renderItem={renderItem}
-                    />
-                </View> */}
+
                 <View style={{ flexDirection: 'column', margin: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Mô Tả:</Text>
                     <View style={{ borderWidth: 1, borderRadius: 10, height: 200, flexDirection: 'row', marginVertical: 10 }}>
@@ -320,30 +311,42 @@ const AddProduct = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
-                    <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                openGallery();
-                            }}
-                        >
-                            <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>File mềm</Text>
-                    <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
-                        <TouchableOpacity
-                            onPress={() => { chooseFile() }}
-                        >
-                            <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
-                        <View style={{ margin: 5, marginStart: 'auto' }}>
-                            <AntDesign name="closecircle" size={20} color="red" />
-                            <Image />
-                        </View>
-                    </View>
+
+                    {
+                        typeCate == 1 ? <>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>File mềm</Text>
+                            <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
+                                <TouchableOpacity
+                                    onPress={() => { chooseFile() }}
+                                >
+                                    <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                            :
+                            <>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
+                                <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            openGallery();
+                                        }}
+                                    >
+                                        <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
+                                    <View style={{ margin: 5, marginStart: 'auto' }}>
+                                        <AntDesign name="closecircle" size={20} color="red" />
+                                        <Image />
+                                    </View>
+                                </View>
+                            </>
+                    }
+
+
+
+
                 </View>
                 <View style={{ alignItems: 'center', marginTop: 30, flexDirection: 'row', justifyContent: 'center' }}>
                     <TouchableOpacity

@@ -47,7 +47,7 @@ const StoreMain = ({ navigation }) => {
     }
 
     const [listPro, setListPro] = useState([])
-    const [SoLuongPro,setSoLuongPro] = useState()
+    const [SoLuongPro, setSoLuongPro] = useState()
     const GetPro = async () => {
         let userId = await AsyncStorage.getItem('USERID', userId);
         let doIt = firestore()
@@ -55,7 +55,7 @@ const StoreMain = ({ navigation }) => {
             .doc(userId)
             .get()
         setListPro(doIt);
-        console.log(listPro._j._data.posts.length,"111")
+        // console.log(listPro._j._data.posts.length,"111")
         setSoLuongPro(listPro._j._data.posts.length)
     }
 

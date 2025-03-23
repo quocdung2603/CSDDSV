@@ -39,6 +39,7 @@ const Personal = ({ navigation }) => {
     const [data, setData] = useState();
     const [ava, setAva] = useState('');
     const [name, setName] = useState('');
+
     const loadUser = async () => {
         let userId = await AsyncStorage.getItem('USERID', userId);
         console.log(userId)
@@ -52,6 +53,7 @@ const Personal = ({ navigation }) => {
                 setAva(temp._data.proFilePic)
             })
     }
+
     const [listPost, setListPost] = useState()
     const getPost = async () => {
         let userId = await AsyncStorage.getItem('USERID', userId);
@@ -63,7 +65,7 @@ const Personal = ({ navigation }) => {
         doIt._docs.map(item => {
             temp.push(item._data)
         })
-        console.log(temp, 123)
+        // console.log(temp, 123)
         setListPost(temp)
     }
 
