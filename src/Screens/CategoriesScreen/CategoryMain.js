@@ -28,6 +28,7 @@ import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ListCate from './Component/ListCate';
+import ListCateSoft from './Component/ListCateSoft';
 import { FlatList } from 'react-native-gesture-handler';
 
 
@@ -72,34 +73,67 @@ const CategoryMain = ({ navigation }) => {
     }, [])
 
     // console.log(dataPro, 123)
-    const [mainClothes, setMainClothes] = useState([])
-    const [mainOthers, setOthers] = useState([])
+    const [mainClothes, setMainClothes] = useState([]);
+    const [mainOthers, setMainOthers] = useState([]);
+    const [softLearning, setSoftLearning] = useState([]);
+    const [hardLearning, setHardLearning] = useState([]);
+
     let clothesMap = new Map();
     let otherMap = new Map();
+    let softLearningMap = new Map();
+    let hardLearningMap = new Map();
+
     const classify = async () => {
-        let keywords = ["quần", "áo", "thể"];
+        let keywordsClothes = ["quần", "áo", "thể"];
+        let keywordsSoftLearning = ["học mềm"];
+        let keywordsHardLearning = ["học cứng"];
 
         dataCate.forEach(item => {
             let words = item.split(" ").map(word => word.toLowerCase());
-            let found = false; // Biến kiểm tra xem item có từ khóa không
+            let foundClothes = false;
+            let foundSoft = false;
+            let foundHard = false;
 
+            // Kiểm tra từ khóa quần áo
             for (let word of words) {
-                for (let keyword of keywords) {
+                for (let keyword of keywordsClothes) {
                     if (word === keyword) {
                         clothesMap.set(item, true);
-                        found = true; // Đánh dấu đã tìm thấy từ khóa
+                        foundClothes = true;
                         break;
                     }
                 }
-                if (found) break;
+                if (foundClothes) break;
             }
 
-            if (!found) {
+            // Kiểm tra từ khóa học mềm
+            for (let keyword of keywordsSoftLearning) {
+                if (item.toLowerCase().includes(keyword)) {
+                    softLearningMap.set(item, true);
+                    foundSoft = true;
+                    break;
+                }
+            }
+
+            // Kiểm tra từ khóa học cứng
+            for (let keyword of keywordsHardLearning) {
+                if (item.toLowerCase().includes(keyword)) {
+                    hardLearningMap.set(item, true);
+                    foundHard = true;
+                    break;
+                }
+            }
+
+            // Thêm vào Others nếu không thuộc học mềm, học cứng, hoặc quần áo
+            if (!foundClothes && !foundSoft && !foundHard) {
                 otherMap.set(item, true);
             }
         });
+
         setMainClothes([...clothesMap.keys()]);
-        setOthers([...otherMap.keys()]);
+        setMainOthers([...otherMap.keys()]);
+        setSoftLearning([...softLearningMap.keys()]);
+        setHardLearning([...hardLearningMap.keys()]);
     };
 
     useEffect(() => {
@@ -175,6 +209,7 @@ const CategoryMain = ({ navigation }) => {
 
             {TabStudy === 1 ? (
                 <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
+
                     <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
                         onPress={() => {
 
@@ -188,6 +223,7 @@ const CategoryMain = ({ navigation }) => {
                             <Text>Hình ảnh</Text>
                         </View>
                     </TouchableOpacity>
+
                     <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
@@ -197,6 +233,7 @@ const CategoryMain = ({ navigation }) => {
                             <Text>Hình ảnh</Text>
                         </View>
                     </TouchableOpacity>
+
                 </ScrollView>
             ) : ""}
             {TabClothes === 1 ? (

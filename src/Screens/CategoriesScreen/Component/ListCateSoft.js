@@ -30,7 +30,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useNavigation } from '@react-navigation/native';
 
-const ListCate = ({ data, product, navigation }) => {
+const ListCateSoft = ({ data, product, navigation }) => {
 
     const [productClassifed, setProductClassifed] = useState([])
     const [titleCate, setTitleCate] = useState(data)
@@ -42,7 +42,7 @@ const ListCate = ({ data, product, navigation }) => {
     const classifyProduct = () => {
         setProductClassifed(prevState => {
             let temp = product.filter(item => item.category == data);
-            console.log(temp,123)
+            console.log(temp)
             return temp;
         });
     }
@@ -66,4 +66,4 @@ const ListCate = ({ data, product, navigation }) => {
     )
 }
 
-export default ListCate;
+export default ListCateSoft;

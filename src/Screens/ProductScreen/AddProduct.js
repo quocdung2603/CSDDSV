@@ -36,6 +36,7 @@ import DocumentPicker from 'react-native-document-picker';
 
 const AddProduct = ({ navigation }) => {
 
+
     const [dataCategory, setDataCategory] = useState([]);
     useEffect(() => {
         const unsubscribe = firestore()
@@ -61,36 +62,98 @@ const AddProduct = ({ navigation }) => {
     const [fileUrl, setfileUrl] = useState('');
 
     const chooseFile = async () => {
-        // try {
-        //     const response = await DocumentPicker.pickSingle({
-        //         type: [DocumentPicker.types.pdf],
-        //     });
-        //     console.log(response);
-        //     setfileData(response);
-        //     uploadImage()
-        // } catch (err) {
-        //     console.log(err);
-        // }
-
-
-    };
-
-    const uploadImage = async () => {
+        await requestDocumentPermission();
         try {
-            const response = storage().ref(`/profile/${fileData.name}`);
-
-            const put = await response.putFile(fileData.uri);
-
-            setfileRef(put.metadata.fullPath);
-            const url = await response.getDownloadURL();
-
-            setfileUrl(url);
-
-            alert('Image Uploaded Successfully');
+            const response = await DocumentPicker.pickSingle({
+                type: [DocumentPicker.types.pdf],
+                copyTo: 'cachesDirectory'
+            });
+            setfileData(response);
+            // uploadFile(); cái này khi bấm nút okey mới được chạy
         } catch (err) {
             console.log(err);
         }
     };
+
+    const requestDocumentPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                {
+                    title: "Document Permission",
+                    message: "App needs access to your documents",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use the document");
+            } else {
+                console.log("Document permission denied");
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
+    const uploadFile = async () => {
+        try {
+            const response = storage().ref(`/file/${fileData.name}`);
+            const put = await response.putFile(fileData.fileCopyUri); // Sử dụng fileCopyUri thay vì uri
+            setfileRef(put.metadata.fullPath);
+            const url = await response.getDownloadURL();
+            await upload(url)
+            // console.log(url);
+            setfileUrl(url);
+            alert('Tải file mềm thành công');
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const upload = async (url) => {
+
+        let userId = await AsyncStorage.getItem('USERID', userId);
+        let productId = uuid.v4();
+
+        let PS = ({
+            userId: userId,
+            idPro: productId,
+            title: Title,
+            link: url,
+            description: Description,
+            time: new Date(),
+            rule: false,
+            category: dataCategory[category - 1].label
+        })
+        let t = firestore()
+            .collection('Products')
+            .doc(userId)
+        let check = await t.get()
+        if (check.exists) {
+            let temp = []
+            temp = check._data.post;
+            temp.push(PS)
+            // console.log(temp)
+            firestore()
+                .collection('Products')
+                .doc(userId)
+                .set({
+                    post: temp
+                })
+        }
+        else {
+            let temp = []
+            temp.push(PS)
+            firestore()
+                .collection('Products')
+                .doc(userId)
+                .set({
+                    post: temp,
+                })
+        }
+    }
 
     const openGallery = async () => {
         const result = await launchImageLibrary({ mediaType: 'photo' });
@@ -155,7 +218,6 @@ const AddProduct = ({ navigation }) => {
             let temp = []
             temp = check._data.post;
             temp.push(PS)
-            console.log(temp)
             firestore()
                 .collection('Products')
                 .doc(userId)
@@ -190,10 +252,10 @@ const AddProduct = ({ navigation }) => {
 
     const checkCate = () => {
         const selectedCategory = dataCategory[category - 1]?.label;
-        const isStudyCategory = selectedCategory === "Học mềm" || selectedCategory === "Học cứng";
+        const isStudyCategory = selectedCategory === "Học mềm";
 
         setTypeCate(isStudyCategory ? 1 : 0);
-        console.log(isStudyCategory ? 1 : 0);
+        // console.log(isStudyCategory ? 1 : 0);
     };
     // camera
 
@@ -349,17 +411,7 @@ const AddProduct = ({ navigation }) => {
 
                 </View>
                 <View style={{ alignItems: 'center', marginTop: 30, flexDirection: 'row', justifyContent: 'center' }}>
-                    <TouchableOpacity
-                        style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
-                        onPress={() => {
-                            UpLoadImgProDuct();
-                            // chooseFile();
-                        }}
-                    >
-                        <Text style={{ color: '#000', fontSize: 20 }}>
-                            Upload
-                        </Text>
-                    </TouchableOpacity>
+
                     {imagePicked === true ? (
                         <TouchableOpacity
 
@@ -385,6 +437,36 @@ const AddProduct = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                     )}
+
+                    {
+                        typeCate == 1 ? <>
+                            <TouchableOpacity
+                                style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
+                                onPress={() => {
+                                    uploadFile()
+                                }}
+                            >
+                                <Text style={{ color: '#000', fontSize: 20 }}>
+                                    Upload file
+                                </Text>
+                            </TouchableOpacity>
+                        </>
+                            :
+                            <>
+                                <TouchableOpacity
+                                    style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
+                                    onPress={() => {
+                                        UpLoadImgProDuct();
+                                        // chooseFile();
+                                    }}
+                                >
+                                    <Text style={{ color: '#000', fontSize: 20 }}>
+                                        Upload hình
+                                    </Text>
+                                </TouchableOpacity>
+                            </>
+                    }
+
                 </View>
             </View>
         </View>

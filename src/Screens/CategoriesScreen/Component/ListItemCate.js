@@ -20,7 +20,7 @@ const ListItemCate = ({ route, navigation }) => {
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.card}
                         onPress={() => {
-                            navigation.navigate('DetailProduct',{item})
+                            navigation.navigate('DetailProduct', { item })
                         }}
                     >
                         <Image
