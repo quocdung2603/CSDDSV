@@ -16,4 +16,4 @@ import TT1 from './src/Test1/TT1.js';
 import FakeFile from './src/Screens/CategoriesScreen/Component/FakeFile.js';
 LogBox.ignoreAllLogs();
 enableScreens(true)
-AppRegistry.registerComponent(appName, () => FakeFile);
+AppRegistry.registerComponent(appName, () => AppNavigator);

@@ -36,7 +36,7 @@ const ListCateSoft = ({ data, product, navigation }) => {
     const [titleCate, setTitleCate] = useState(data)
 
     // console.log(data, product, 132)
-    console.log(navigation, 123)
+    // console.log(navigation, 123)
     useEffect(() => {
         classifyProduct()
     }, [product, data])

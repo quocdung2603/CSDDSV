@@ -22,7 +22,8 @@ const DetailProduct = ({ route, navigation }) => {
     // State
     const [getId, setGetId] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-
+    const [downloading, setDownloading] = useState(false);
+    const [namefile, setnamefile] = useState('triethoc.pdf')
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -43,18 +44,27 @@ const DetailProduct = ({ route, navigation }) => {
         }
     };
 
-    const [downloading, setDownloading] = useState(false);
-    const [namefile, setNamefile] = useState('triethoc.pdf');
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
 
-    const downloadFile = async (link) => {
+    let randomIma = "default_image_url";
+    if (Array.isArray(item.img) && item.img.length > 0) {
+        randomIma = item.img[Math.floor(Math.random() * item.img.length)];
+    }
+
+    const downloadFile = async () => {
         setDownloading(true);
         try {
-            console.log("Downloading file from:", item.link);
-            console.log(link)
+            // console.log(namefile, 132)
             const url = await storage()
-                .refFromURL(link.toString())
+                .refFromURL(item.link)
                 .getDownloadURL()
-
+            console.log(url, 123)
             // Tạo thư mục để lưu trữ tệp đã tải xuống
             const dirs = RNFetchBlob.fs.dirs;
             const path = `${dirs.DownloadDir}/` + `${namefile}`
@@ -78,18 +88,6 @@ const DetailProduct = ({ route, navigation }) => {
         }
     };
 
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
-
-    let randomIma = "default_image_url";
-    if (Array.isArray(item.img) && item.img.length > 0) {
-        randomIma = item.img[Math.floor(Math.random() * item.img.length)];
-    }
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}>
@@ -167,17 +165,15 @@ const DetailProduct = ({ route, navigation }) => {
                             <View style={{ flexDirection: 'column', margin: 10 }}>
                                 <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#000' }}>Description</Text>
                                 <View style={{ marginHorizontal: 10, marginVertical: 5 }}>
-                                    <Text style={{ fontSize: 15, color: 'grey' }}>{item.link}</Text>
+                                    <Text style={{ fontSize: 15, color: 'grey' }}>{item.description}</Text>
                                 </View>
                             </View>
                             <View style={{ margin: 10, borderWidth: 0.5, borderColor: 'grey' }}></View>
                         </ScrollView>
 
-
                         <TouchableOpacity style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
                             onPress={() => {
-                                setNamefile('triethoc.pdf')
-                                downloadFile(item.link)
+                                downloadFile()
                             }}
                         >
                             <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Tải file</Text>

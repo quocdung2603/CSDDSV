@@ -99,7 +99,7 @@ const AddProduct = ({ navigation }) => {
 
     const uploadFile = async () => {
         try {
-            const response = storage().ref(`/file/${fileData.name}`);
+            const response = storage().ref(`${fileData.name}`);
             const put = await response.putFile(fileData.fileCopyUri); // Sử dụng fileCopyUri thay vì uri
             setfileRef(put.metadata.fullPath);
             const url = await response.getDownloadURL();
