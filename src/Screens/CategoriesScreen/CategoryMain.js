@@ -207,61 +207,62 @@ const CategoryMain = ({ navigation }) => {
 
             <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
 
-            {TabStudy === 1 ? (
-                <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
+            {
+                dataPro == null ?
+                    <>
+                        <Text>Loading...</Text>
+                    </>
+                    :
+                    <>
+                        {TabStudy === 1 ? (
+                            <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
 
-                    <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
-                        onPress={() => {
+                                <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
+                                    onPress={() => {
 
-                        }}
-                    >
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Mềm</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>Hình ảnh</Text>
-                        </View>
-                    </TouchableOpacity>
+                                    }}
+                                >
+                                    <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
+                                        <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
+                                        <Text style={{ fontSize: 17 }}>3 products</Text>
+                                    </View>
+                                    <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
+                                        <Text>Hình ảnh</Text>
+                                    </View>
+                                </TouchableOpacity>
 
-                    <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                        <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
-                            <Text style={{ fontSize: 17 }}>3 products</Text>
-                        </View>
-                        <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                            <Text>Hình ảnh</Text>
-                        </View>
-                    </TouchableOpacity>
+                                <ListCateSoft data={softLearning} product={dataPro} navigation={navigation} />
 
-                </ScrollView>
-            ) : ""}
-            {TabClothes === 1 ? (
-                <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-                    {
-                        mainClothes && <FlatList
-                            data={mainClothes}
-                            renderItem={({ item }) => {
-                                return <>
+                            </ScrollView>
+                        ) : ""}
+                        {TabClothes === 1 ? (
+                            <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
+                                {
+                                    mainClothes && <FlatList
+                                        data={mainClothes}
+                                        renderItem={({ item }) => {
+                                            return <>
+                                                <ListCate data={item} product={dataPro} navigation={navigation} />
+                                            </>
+                                        }}
+
+                                    />
+                                }
+                            </ScrollView>
+                        ) : ""}
+                        {TabHouseware === 1 ? (
+                            <FlatList
+                                data={mainOthers}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
                                     <ListCate data={item} product={dataPro} navigation={navigation} />
-                                </>
-                            }}
+                                )}
+                                contentContainerStyle={{ margin: 10 }}
+                            />
 
-                        />
-                    }
-                </ScrollView>
-            ) : ""}
-            {TabHouseware === 1 ? (
-                <FlatList
-                    data={mainOthers}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <ListCate data={item} product={dataPro} navigation={navigation} />
-                    )}
-                    contentContainerStyle={{ margin: 10 }}
-                />
-
-            ) : ""}
+                        ) : ""}
+                    </>
+            }
         </View>
     )
 };

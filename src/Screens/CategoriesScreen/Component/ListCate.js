@@ -42,7 +42,6 @@ const ListCate = ({ data, product, navigation }) => {
     const classifyProduct = () => {
         setProductClassifed(prevState => {
             let temp = product.filter(item => item.category == data);
-            console.log(temp,123)
             return temp;
         });
     }

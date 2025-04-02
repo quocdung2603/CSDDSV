@@ -11,6 +11,8 @@ import {
 const ListItemCate = ({ route, navigation }) => {
     const { productClassifed, titleCate } = route.params;
 
+    console.log(route, 123)
+
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>{titleCate}</Text>

@@ -42,11 +42,13 @@ import ChatInBox from "../Screens/Chat/ChatInBox";
 import ManagerUser from "../Screens/Admin/ManagerUser";
 import ManagerCategory from "../Screens/Admin/ManagerCategory"
 import ListComment from "../Screens/ForumScreen/ListComment";
-import FakeFile from "../Screens/CategoriesScreen/Component/FakeFile";
 import Mapp from "../Screens/Map/Index";
 import ListCate from "../Screens/CategoriesScreen/Component/ListCate";
 import ListItemCate from "../Screens/CategoriesScreen/Component/ListItemCate";
 import CategoryMain from "../Screens/CategoriesScreen/CategoryMain";
+import ListItemCateSoft from "../Screens/CategoriesScreen/Component/ListItemCateSoft";
+import ListCateSoft from "../Screens/CategoriesScreen/Component/ListCateSoft";
+
 const Stack = createStackNavigator();
 
 
@@ -79,10 +81,11 @@ const AppNavigator = () => {
                 <Stack.Screen name="CategoryItem" component={CategoryItem} options={{ headerShown: false }} />
                 <Stack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
                 <Stack.Screen name="ShowCate" component={ShowCate} options={{ headerShown: false }} />
-                <Stack.Screen name="FakeFile" component={FakeFile} options={{ headerShown: false }} />
                 <Stack.Screen name="ListCate" component={ListCate} options={{ headerShown: false }} />
                 <Stack.Screen name="ListItemCate" component={ListItemCate} options={{ headerShown: false }} />
                 <Stack.Screen name="CategoryMain" component={CategoryMain} options={{ headerShown: false }} />
+                <Stack.Screen name="ListItemCateSoft" component={ListItemCateSoft} options={{ headerShown: false }} />
+                <Stack.Screen name="ListCateSoft" component={ListCateSoft} options={{ headerShown: false }} />
                 {/* Wishlist */}
                 {/* Forum */}
                 <Stack.Screen name="PostArticle" component={PostArticle} options={{ headerShown: false }} />

@@ -35,23 +35,27 @@ const ListCateSoft = ({ data, product, navigation }) => {
     const [productClassifed, setProductClassifed] = useState([])
     const [titleCate, setTitleCate] = useState(data)
 
+    // console.log(data, product, 132)
+    console.log(navigation, 123)
     useEffect(() => {
         classifyProduct()
     }, [product, data])
 
     const classifyProduct = () => {
+
         setProductClassifed(prevState => {
             let temp = product.filter(item => item.category == data);
-            console.log(temp)
+            // console.log(temp)
             return temp;
         });
+
     }
 
     return (
         <>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('ListItemCate', { productClassifed, titleCate })
+                    navigation.navigate('ListItemCateSoft', { productClassifed, titleCate })
                 }}
                 style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}>
                 <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
