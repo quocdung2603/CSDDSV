@@ -62,9 +62,6 @@ const ListCateSoft = ({ data, product, navigation }) => {
                     <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>{data}</Text>
                     <Text style={{ fontSize: 17 }}>{productClassifed.length} products</Text>
                 </View>
-                <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                    <Text>ABC</Text>
-                </View>
             </TouchableOpacity>
         </>
     )

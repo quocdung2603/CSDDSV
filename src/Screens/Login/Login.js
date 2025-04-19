@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,56 +8,51 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging'
 
 const Login = ({ navigation }) => {
-    useEffect(() => {
-        firestore()
-            .collection('Users')
-            .get()
-            .then(data => {
-                setListAccount(data._docs);
-                // console.log(data._docs);
-            });
-    }, [])
     const [email, setEmail] = useState("t");
     const [pass, setPass] = useState("t");
-    const [listAccount, setListAccount] = useState();
-    const [typeAcc, setTypeAcc] = useState();
-    var idUser
-    var typeacc
-    const CheckLogin = () => {
-        var checkTrueAcc = false
-        var checkBlock
-        listAccount.forEach(item => {
-            if (item._data.email === email && item._data.password === pass) {
-                checkTrueAcc = true
-                checkBlock = item._data.block
-                typeacc = (item._data.typeAcc);
-                idUser = item._data.userId
-            }
-        });
-        if (checkTrueAcc === true) {
-            if (checkBlock == true) {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
+    const CheckLogin = async () => {
+        try {
+            setLoading(true);
+            setError("");
+
+            // Query user directly with email and password
+            const userSnapshot = await firestore()
+                .collection('Users')
+                .where('email', '==', email)
+                .where('password', '==', pass)
+                .get();
+
+            if (userSnapshot.empty) {
+                setError("Email hoặc mật khẩu không đúng");
+                return;
             }
-            else {
-                console.log("Dang nhap thanh cong!")
-                goToTabbar(idUser)
+
+            const userData = userSnapshot.docs[0].data();
+
+            if (userData.block) {
+                setError("Tài khoản của bạn đã bị khóa");
+                return;
             }
-            checkTrueAcc = false;
-        }
-        else {
-            console.log("Dang nhap sai thong tin!")
+
+            // Save user ID and navigate based on account type
+            await AsyncStorage.setItem('USERID', userData.userId);
+
+            if (userData.typeAcc === 0) {
+                navigation.navigate('HomeAd');
+            } else if (userData.typeAcc === 1) {
+                navigation.navigate('Tabbar');
+            }
+
+        } catch (err) {
+            console.error("Login error:", err);
+            setError("Đã có lỗi xảy ra. Vui lòng thử lại sau");
+        } finally {
+            setLoading(false);
         }
     }
-    const goToTabbar = async (userId) => {
-        await AsyncStorage.setItem('USERID', userId);
-        if (typeacc === 0) {
-            navigation.navigate('HomeAd');
-        }
-        else if (typeacc === 1) {
-            navigation.navigate('Tabbar');
-        }
-    };
-
 
     return (
         <View style={{
@@ -74,9 +69,7 @@ const Login = ({ navigation }) => {
                         height: 125,
                         resizeMode: 'stretch',
                         alignSelf: 'center',
-                        // marginHorizontal:10 cho xung quanh khoản cách là 10px
                     }}
-
                 />
 
                 <Text
@@ -90,6 +83,16 @@ const Login = ({ navigation }) => {
                     }}>
                     TRAO ĐỔI ĐỒ DÙNG TDMU
                 </Text>
+
+                {error ? (
+                    <Text style={{
+                        color: 'red',
+                        textAlign: 'center',
+                        marginTop: 10,
+                    }}>
+                        {error}
+                    </Text>
+                ) : null}
 
                 <TextInput
                     value={email}
@@ -157,17 +160,19 @@ const Login = ({ navigation }) => {
                         alignItems: 'center',
                         alignSelf: 'center',
                     }}
-                    onPress={() => {
-                        CheckLogin();
-                        // navigation.navigate("Tabbar")
-                    }}>
-                    <Text style={{ fontSize: 20, color: 'white', }}>Đăng nhập</Text>
+                    onPress={CheckLogin}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <ActivityIndicator color="white" />
+                    ) : (
+                        <Text style={{ fontSize: 20, color: 'white', }}>Đăng nhập</Text>
+                    )}
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{
                         width: '84%',
                         height: 50,
-                        // backgroundColor: 'orange',
                         borderRadius: 10,
                         marginTop: 20,
                         justifyContent: 'center',
@@ -184,6 +189,6 @@ const Login = ({ navigation }) => {
             </KeyboardAwareScrollView>
         </View>
     )
-
 }
+
 export default Login;
