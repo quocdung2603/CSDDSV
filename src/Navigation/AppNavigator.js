@@ -48,6 +48,8 @@ import ListItemCate from "../Screens/CategoriesScreen/Component/ListItemCate";
 import CategoryMain from "../Screens/CategoriesScreen/CategoryMain";
 import ListItemCateSoft from "../Screens/CategoriesScreen/Component/ListItemCateSoft";
 import ListCateSoft from "../Screens/CategoriesScreen/Component/ListCateSoft";
+import ManagerReportPost from '../Screens/Admin/ManagerReportPost';
+import ManagerReportMessage from '../Screens/Admin/ManagerReportMessage';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +65,8 @@ const AppNavigator = () => {
                 <Stack.Screen name="DetailPro" component={DetailPro} options={{ headerShown: false }} />
                 <Stack.Screen name="ManagerUser" component={ManagerUser} options={{ headerShown: false }} />
                 <Stack.Screen name="ManagerCategory" component={ManagerCategory} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerReportPost" component={ManagerReportPost} options={{ headerShown: false }} />
+                <Stack.Screen name="ManagerReportMessage" component={ManagerReportMessage} options={{ headerShown: false }} />
                 {/* tabbar */}
                 <Stack.Screen name="Tabbar" component={Tabbar} options={{ headerShown: false }} />
                 {/* Account */}

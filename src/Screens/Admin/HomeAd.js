@@ -84,14 +84,32 @@ const HomeAd = ({ navigation }) => {
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Quản lý đơn hàng</Text>
+                    <Text style={styles.sectionTitle}>Quản lý báo cáo</Text>
                     <View style={styles.cardContainer}>
                         <TouchableOpacity
                             style={styles.card}
-                            onPress={() => navigation.navigate('ManagerOrder')}>
+                            onPress={() => navigation.navigate('ManagerReportPost')}>
                             <View style={styles.cardContent}>
-                                <Ionicons name="cart-outline" size={30} color="#FCBB3C" />
-                                <Text style={styles.cardTitle}>Quản lý đơn hàng</Text>
+                                <MaterialCommunityIcons name="file-document-outline" size={30} color="#FCBB3C" />
+                                <Text style={styles.cardTitle}>Báo cáo bài viết</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.card}
+                            onPress={() => navigation.navigate('ManagerReportMessage')}>
+                            <View style={styles.cardContent}>
+                                <MaterialCommunityIcons name="message-alert-outline" size={30} color="#FCBB3C" />
+                                <Text style={styles.cardTitle}>Báo cáo tin nhắn</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.card}
+                            onPress={() => navigation.navigate('ManagerReportProduct')}>
+                            <View style={styles.cardContent}>
+                                <MaterialCommunityIcons name="cube-scan" size={30} color="#FCBB3C" />
+                                <Text style={styles.cardTitle}>Báo cáo sản phẩm</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

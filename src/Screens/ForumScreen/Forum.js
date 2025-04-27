@@ -9,6 +9,8 @@ import {
     ActivityIndicator,
     RefreshControl,
     Alert,
+    Modal,
+    TextInput,
 } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +26,10 @@ const Forum = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [reportModalVisible, setReportModalVisible] = useState(false);
+    const [reportReason, setReportReason] = useState('');
+    const [selectedPostForReport, setSelectedPostForReport] = useState(null);
+    const [isSubmittingReport, setIsSubmittingReport] = useState(false);
 
     // Get current user ID
     useEffect(() => {
@@ -123,13 +129,115 @@ const Forum = ({ navigation }) => {
         GetPost();
     }, [GetPost]);
 
+    // Handle report post
+    const handleReport = useCallback(async () => {
+        if (!reportReason.trim()) {
+            Alert.alert("Lỗi", "Vui lòng nhập lý do báo cáo");
+            return;
+        }
+
+        try {
+            setIsSubmittingReport(true);
+            if (!userId) {
+                throw new Error("Không tìm thấy thông tin người dùng");
+            }
+
+            // Tạo batch write để đảm bảo tính atomic
+            const batch = firestore().batch();
+            const reportRef = firestore().collection('ReportPost').doc();
+
+            batch.set(reportRef, {
+                postId: selectedPostForReport.idPost,
+                reporterId: userId,
+                reportedUserId: selectedPostForReport.userId,
+                reason: reportReason,
+                status: 'pending',
+                createdAt: firestore.FieldValue.serverTimestamp()
+            });
+
+            // Commit batch
+            await batch.commit();
+
+            // Đóng modal và reset state
+            setReportModalVisible(false);
+            setReportReason('');
+            setSelectedPostForReport(null);
+
+            // Hiển thị thông báo thành công
+            Alert.alert("Thành công", "Báo cáo đã được gửi thành công");
+        } catch (err) {
+            console.error("Error submitting report:", err);
+            Alert.alert("Lỗi", "Không thể gửi báo cáo");
+        } finally {
+            setIsSubmittingReport(false);
+        }
+    }, [reportReason, selectedPostForReport, userId]);
+
     // Memoize the renderPost function
     const renderPost = useCallback(({ item }) => {
         const isLiked = item.like?.includes(userId);
+        const isOwnPost = item.userId === userId;
 
         return (
             <View style={styles.postContainer}>
-                <QueryUser user={item.userId} time={item.time} />
+                <View style={styles.postHeader}>
+                    <QueryUser user={item.userId} time={item.time} />
+                    {isOwnPost ? (
+                        <TouchableOpacity
+                            style={styles.menuButton}
+                            onPress={() => {
+                                // Xử lý menu cho bài viết của mình
+                                Alert.alert(
+                                    "Tùy chọn",
+                                    "Bạn muốn thực hiện thao tác gì?",
+                                    [
+                                        {
+                                            text: "Xóa bài viết",
+                                            onPress: () => {
+                                                Alert.alert(
+                                                    "Xác nhận",
+                                                    "Bạn có chắc chắn muốn xóa bài viết này?",
+                                                    [
+                                                        { text: "Hủy", style: "cancel" },
+                                                        {
+                                                            text: "Xóa",
+                                                            style: "destructive",
+                                                            onPress: async () => {
+                                                                try {
+                                                                    await firestore()
+                                                                        .collection('Posts')
+                                                                        .doc(item.idPost)
+                                                                        .delete();
+                                                                    Alert.alert("Thành công", "Đã xóa bài viết");
+                                                                } catch (err) {
+                                                                    console.error("Error deleting post:", err);
+                                                                    Alert.alert("Lỗi", "Không thể xóa bài viết");
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                );
+                                            }
+                                        },
+                                        { text: "Hủy", style: "cancel" }
+                                    ]
+                                );
+                            }}
+                        >
+                            <Entypo name='dots-three-horizontal' size={20} color='#666' />
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+                            style={styles.reportButton}
+                            onPress={() => {
+                                setSelectedPostForReport(item);
+                                setReportModalVisible(true);
+                            }}
+                        >
+                            <Entypo name='flag' size={20} color='#666' />
+                        </TouchableOpacity>
+                    )}
+                </View>
 
                 <View style={styles.postContent}>
                     <Text style={styles.postText}>{item.text}</Text>
@@ -242,6 +350,66 @@ const Forum = ({ navigation }) => {
                     }
                 />
             )}
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={reportModalVisible}
+                onRequestClose={() => {
+                    if (!isSubmittingReport) {
+                        setReportModalVisible(false);
+                        setReportReason('');
+                        setSelectedPostForReport(null);
+                    }
+                }}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Báo cáo bài viết</Text>
+                        <TextInput
+                            style={styles.reportInput}
+                            placeholder="Nhập lý do báo cáo..."
+                            value={reportReason}
+                            onChangeText={setReportReason}
+                            multiline
+                            numberOfLines={4}
+                            editable={!isSubmittingReport}
+                        />
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity
+                                style={[styles.modalButton, styles.cancelButton]}
+                                onPress={() => {
+                                    if (!isSubmittingReport) {
+                                        setReportModalVisible(false);
+                                        setReportReason('');
+                                        setSelectedPostForReport(null);
+                                    }
+                                }}
+                                disabled={isSubmittingReport}
+                            >
+                                <Text style={styles.buttonText}>Hủy</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    styles.modalButton,
+                                    styles.submitButton,
+                                    isSubmittingReport && styles.disabledButton
+                                ]}
+                                onPress={handleReport}
+                                disabled={isSubmittingReport}
+                            >
+                                {isSubmittingReport ? (
+                                    <ActivityIndicator size="small" color="#fff" />
+                                ) : (
+                                    <Text style={[styles.buttonText, styles.submitButtonText]}>
+                                        Gửi báo cáo
+                                    </Text>
+                                )}
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -373,6 +541,85 @@ const styles = StyleSheet.create({
     likedText: {
         color: '#FE7E00',
         fontWeight: 'bold',
+    },
+    postHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        paddingTop: 15,
+    },
+    menuButton: {
+        padding: 5,
+    },
+    reportButton: {
+        padding: 5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 20,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        color: '#333',
+    },
+    reportInput: {
+        width: '100%',
+        height: 100,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 10,
+        padding: 10,
+        marginBottom: 20,
+        textAlignVertical: 'top',
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalButton: {
+        flex: 1,
+        padding: 10,
+        borderRadius: 10,
+        marginHorizontal: 5,
+    },
+    cancelButton: {
+        backgroundColor: '#f5f5f5',
+    },
+    submitButton: {
+        backgroundColor: '#FE7E00',
+    },
+    buttonText: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#333',
+    },
+    submitButtonText: {
+        color: '#fff',
+    },
+    disabledButton: {
+        opacity: 0.7,
     },
 });
 

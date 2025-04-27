@@ -77,28 +77,92 @@ const ManagerRegis = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ margin: 10, alignItems: 'center' }}>
-                <Text style={{ color: '#FCBB3C', fontSize: 30, fontWeight: 'bold' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#f5f5f5' }}>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>
                     ĐĂNG KÝ MỞ CỬA HÀNG
                 </Text>
             </View>
-            <View style={{flexDirection:'column', margin:10, padding:5, borderWidth:1, borderRadius:10, borderColor:'#fff', backgroundColor:'#fff'}}>
+            <View style={styles.container}>
                 {listUser && <FlatList
                     data={listUser}
                     renderItem={({ item, index }) => {
-                        return (<>
-                            <View style={{ flexDirection:'row', alignItems:'center', marginHorizontal:10, marginVertical:5, padding:10, borderWidth:1, borderRadius:10 }}>
-                                <Text style={{fontSize:17, fontWeight:'bold', marginEnd:'auto'}}>
-                                    {item.name}
-                                </Text>
-                                <CheckRes user={item}/>
+                        return (
+                            <View style={styles.userCard}>
+                                <View style={styles.userInfo}>
+                                    <Image
+                                        source={item.avatar ? { uri: item.avatar } : { uri: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' }}
+                                        style={styles.avatar}
+                                    />
+                                    <View style={styles.userDetails}>
+                                        <Text style={styles.userName}>{item.name}</Text>
+                                        <Text style={styles.userEmail}>{item.email}</Text>
+                                    </View>
+                                </View>
+                                <CheckRes user={item} />
                             </View>
-                        </>)
+                        )
                     }}
+                    keyExtractor={(item) => item.id}
+                    showsVerticalScrollIndicator={false}
                 />}
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    header: {
+        padding: 20,
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e0e0e0',
+    },
+    headerText: {
+        color: '#FCBB3C',
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    container: {
+        flex: 1,
+        padding: 15,
+    },
+    userCard: {
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 15,
+        marginBottom: 10,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    userInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 15,
+    },
+    userDetails: {
+        flex: 1,
+    },
+    userName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    userEmail: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 2,
+    },
+});
+
 export default ManagerRegis;

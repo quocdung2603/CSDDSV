@@ -86,91 +86,51 @@ const ManagerCategory = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: 'auto', marginTop: 10 }}>
-                <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#FCAC12' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF8F0' }}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerText}>
                     Quản lý danh mục sản phẩm
                 </Text>
             </View>
-            <View
-                style={{
-                    flexDirection: 'row',
-                    alignSelf: 'center'
-                }}
-            >
+            <View style={styles.inputRow}>
                 <TextInput
-                    style={{
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        width: '80%',
-
-                    }}
+                    style={styles.input}
                     placeholder='Thêm danh mục'
-                    onChangeText={(t) => setNameCate(t)}
+                    placeholderTextColor="#BDBDBD"
+                    onChangeText={setNameCate}
                 />
                 <TouchableOpacity
-                    style={{
-                        justifyContent: 'center',
-                    }}
-
-                    onPress={
-                        () => addCate()
-                    }
+                    style={styles.addButton}
+                    onPress={addCate}
+                    activeOpacity={0.7}
                 >
-                    <Icon name="plus" size={30} color="#000" />
+                    <Icon name="plus" size={22} color="#fff" />
                 </TouchableOpacity>
-
             </View>
-
-            <View style={{
-                // border: 1,
-                marginRight: '10%',
-                marginLeft: '10%',
-                marginTop: '5%',
-                borderColor: 'black',
-                borderWidth: 1
-            }}>
-                <ScrollView>
-                    {
-                        listCate && <FlatList
-                            data={listCate}
-                            renderItem={({ item, index }) => {
-                                return <>
-                                    <View
-                                        style={{
-                                            flexDirection: 'row'
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                color: 'black',
-                                                fontSize: 20,
-
-                                            }}
-                                        >
-                                            {item}
-                                        </Text>
-                                        <TouchableOpacity
-                                            style={{
-                                                justifyContent: 'center',
-                                                marginLeft: 20
-                                            }}
-                                            onPress={
-                                                () => delCate(item)
-                                            }
-                                        >
-                                            <Icon name="minus" size={20} color="#000" />
-                                        </TouchableOpacity>
-                                    </View>
-                                </>
-                            }}
-                        />
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={listCate}
+                    keyExtractor={(item, index) => item + index}
+                    renderItem={({ item }) => (
+                        <View style={styles.cateItem}>
+                            <Text style={styles.cateText}>{item}</Text>
+                            <TouchableOpacity
+                                style={styles.delButton}
+                                onPress={() => delCate(item)}
+                                activeOpacity={0.7}
+                            >
+                                <Icon name="minus" size={18} color="#fff" />
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    ListEmptyComponent={
+                        <Text style={styles.emptyText}>Chưa có danh mục nào</Text>
                     }
-                </ScrollView>
+                />
             </View>
-        </View >
+        </SafeAreaView>
     )
-
 }
 
 export default ManagerCategory;
@@ -252,5 +212,95 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    headerContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    headerText: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#FCAC12',
+        letterSpacing: 1,
+    },
+    inputRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginBottom: 20,
+        width: '90%',
+    },
+    input: {
+        flex: 1,
+        borderColor: '#FCAC12',
+        borderWidth: 1.5,
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        fontSize: 16,
+        backgroundColor: '#FFF',
+        marginRight: 10,
+        shadowColor: '#FCAC12',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    addButton: {
+        backgroundColor: '#FCAC12',
+        borderRadius: 12,
+        padding: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#FCAC12',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    listContainer: {
+        flex: 1,
+        marginHorizontal: '5%',
+        backgroundColor: '#FFF',
+        borderRadius: 16,
+        padding: 16,
+        shadowColor: '#FCAC12',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
+        elevation: 2,
+    },
+    cateItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        backgroundColor: '#FFF7E6',
+        borderRadius: 10,
+    },
+    cateText: {
+        color: '#333',
+        fontSize: 18,
+        fontWeight: '500',
+        flex: 1,
+    },
+    delButton: {
+        backgroundColor: '#FF6B6B',
+        borderRadius: 8,
+        padding: 8,
+        marginLeft: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    separator: {
+        height: 10,
+    },
+    emptyText: {
+        textAlign: 'center',
+        color: '#BDBDBD',
+        fontSize: 16,
+        marginTop: 30,
     },
 });

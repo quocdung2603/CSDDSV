@@ -21,7 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const EditArticle = () => {
 
-    return(
+    return (
         <View>
             <Text>Sửa bài tìm kiếm</Text>
         </View>
