@@ -106,11 +106,6 @@ const DetailProduct = ({ route, navigation }) => {
                                     >
                                         <AntDesign name="arrowleft" size={30} color="#000" />
                                     </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginBottom: 'auto', margin: 10 }}
-                                    >
-                                        <Ionicons name='cart' size={30} color='#000' />
-                                    </TouchableOpacity>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 180, marginBottom: 10 }}>
                                     <TouchableOpacity
@@ -126,7 +121,6 @@ const DetailProduct = ({ route, navigation }) => {
                                 <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                                     <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#000' }}>{item.title}</Text>
                                 </View>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>$100</Text>
                             </View>
                             <View style={{ margin: 10, borderWidth: 0.5, borderColor: 'grey' }}></View>
                             <View style={{ flexDirection: 'column', margin: 10 }}>
@@ -145,7 +139,7 @@ const DetailProduct = ({ route, navigation }) => {
                                 :
                                 <TouchableOpacity style={{ marginTop: 'auto', borderWidth: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
-
+                                        goToChat()
                                     }}
                                 >
                                     <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#fff', padding: 10 }}>Liên hệ người bán</Text>

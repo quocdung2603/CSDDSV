@@ -241,9 +241,9 @@ const IndexChat = ({ navigation }) => {
                     style={styles.backButton}
                     onPress={() => navigation.goBack()}
                 >
-                    <AntDesign name='caretleft' size={30} color='#FCBB3C' />
+                    <AntDesign name='arrowleft' size={24} color='#fff' />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>List Chat</Text>
+                <Text style={styles.headerTitle}>Danh sách trò chuyện</Text>
                 <View style={styles.headerRight} />
             </View>
 
@@ -259,7 +259,7 @@ const IndexChat = ({ navigation }) => {
                 </View>
             ) : loading ? (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#FCBB3C" />
+                    <ActivityIndicator size="large" color="#2196F3" />
                 </View>
             ) : (
                 <FlatList
@@ -272,8 +272,8 @@ const IndexChat = ({ navigation }) => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                            colors={['#FCBB3C']}
-                            tintColor="#FCBB3C"
+                            colors={['#2196F3']}
+                            tintColor="#2196F3"
                         />
                     }
                     ListEmptyComponent={
@@ -329,22 +329,28 @@ const IndexChat = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
         paddingVertical: 10,
-        backgroundColor: '#fff',
-        elevation: 2,
+        backgroundColor: '#2196F3',
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
     },
     backButton: {
-        marginLeft: 10,
+        padding: 5,
     },
     headerTitle: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#FCCC6F',
+        color: '#fff',
         flex: 1,
         textAlign: 'center',
     },
@@ -355,25 +361,29 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,
-        marginVertical: 5,
-        padding: 10,
-        borderWidth: 1,
-        borderRadius: 10,
+        marginVertical: 7,
+        padding: 12,
+        borderRadius: 15,
         backgroundColor: '#fff',
         elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 2,
     },
     chatInfo: {
         flexDirection: 'column',
-        marginLeft: 10,
+        marginLeft: 15,
         flex: 1,
     },
     timeText: {
         fontSize: 13,
         fontWeight: 'bold',
-        color: '#666',
+        color: '#000',
+        marginTop: 2,
     },
     optionsButton: {
-        borderWidth: 1,
+        borderWidth: 0,
         borderRadius: 10,
         padding: 5,
     },
@@ -381,7 +391,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         borderRadius: 10,
-        marginHorizontal: 10,
+        marginHorizontal: 20,
         marginBottom: 10,
         padding: 10,
         shadowColor: '#000',
@@ -427,7 +437,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     retryButton: {
-        backgroundColor: '#FCBB3C',
+        backgroundColor: '#2196F3',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 20,
@@ -455,7 +465,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '80%',
+        width: '85%',
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 20,
@@ -473,7 +483,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 15,
-        color: '#333',
+        color: '#2196F3',
     },
     reportInput: {
         width: '100%',
@@ -500,7 +510,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     submitButton: {
-        backgroundColor: '#FCBB3C',
+        backgroundColor: '#2196F3',
     },
     buttonText: {
         textAlign: 'center',

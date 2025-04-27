@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image, TextInput, FlatList, ImageBackground } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image, TextInput, FlatList, ImageBackground, KeyboardAvoidingView, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -24,13 +24,8 @@ let id
 const Chat = ({ route, navigation }) => {
     let idNhan = route.params.item.userId
     let idUser = route.params.userIdd
-    let idUC = AsyncStorage.getItem('USERID');
+    const [idUC, setIdUC] = useState(null);
     const idChat = idNhan < idUser ? idNhan + "-" + idUser : idUser + "-" + idNhan
-
-    useEffect(() => {
-        getChat()
-        getName()
-    }, [])
 
     const [messages, setMessages] = useState();
     const [imageData, setImageData] = useState(null);
@@ -39,10 +34,21 @@ const Chat = ({ route, navigation }) => {
     const [address, setAddress] = useState()
     const [arrayMess, setArrayMess] = useState()
     const [Name, seTName] = useState()
+    const [ReceiverName, setReceiverName] = useState();
+
+    useEffect(() => {
+        (async () => {
+            const userId = await AsyncStorage.getItem('USERID');
+            setIdUC(userId);
+        })();
+        getChat()
+        getName()
+        getReceiverName()
+    }, [])
 
     const getName = async () => {
         let temp
-        id = await AsyncStorage.getItem('USERID', id);
+        id = await AsyncStorage.getItem('USERID');
         let doit = await firestore()
             .collection('Users')
             .doc(idUser)
@@ -69,6 +75,18 @@ const Chat = ({ route, navigation }) => {
             console.log(arrayMess, 1);
         })
 
+    }
+
+    const getReceiverName = async () => {
+        let temp = '';
+        await firestore()
+            .collection('Users')
+            .doc(idNhan)
+            .get()
+            .then(dt => {
+                temp = dt._data.name;
+            })
+        setReceiverName(temp);
     }
 
     const newChat = async () => {
@@ -190,6 +208,7 @@ const Chat = ({ route, navigation }) => {
         else {
 
             console.log(listChat);
+
         }
     };
     const coverTime = time => {
@@ -211,72 +230,204 @@ const Chat = ({ route, navigation }) => {
         return date;
     }
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ backgroundColor: 'skyblue', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', height: 50 }} >
-                <AntDesign name='caretleft' size={30} color={'red'} />
-                <Text style={{ fontSize: 20, color: 'black', alignSelf: 'center' }}>{Name}</Text>
-                <View style={{ marginRight: '5%' }} />
-            </View>
-            <View style={{}}>
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+            >
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                        <AntDesign name='arrowleft' size={24} color={'#fff'} />
+                    </TouchableOpacity>
+                    <View style={styles.headerInfo}>
+                        <Text style={styles.headerName}>{ReceiverName}</Text>
+                    </View>
+                    <View style={styles.headerRight} />
+
+                </View>
+
                 <FlatList
                     data={arrayMess}
+                    style={styles.chatList}
+                    contentContainerStyle={styles.chatListContent}
                     renderItem={({ item, index }) => {
                         return (
-                            <>
-                                {idUser !== item.box.senderId ? (
-                                    //ngta nhắn
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10, marginEnd: 'auto', width: 280 }} >
-                                        <View style={{ marginStart: 20 }}>
-                                            <QueryAvata userId={item.box.senderId} size={30} />
-                                        </View>
-                                        <View style={{ flexDirection: 'column', marginStart: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <QueryName userId={item.box.senderId} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
-                                            </View>
-                                            <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
-                                        </View>
-                                    </View>
-                                ) : (
-                                    //minh nhắn
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10, marginStart: 'auto', width: 280 }} >
-                                        <View style={{ flexDirection: 'column', marginEnd: 5, borderWidth: 1, borderRadius: 10, padding: 5 }}>
-
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                {/* <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5 }}>{Name}</Text> */}
-                                                <QueryName userId={idUser} />
-                                                <Text style={{ fontSize: 18, fontWeight: 'bold', marginStart: 5, marginStart: 10 }}>{coverTime(item.box.createAt)}</Text>
-                                            </View>
-                                            <Text style={{ fontSize: 17 }}>{item.box.mess}</Text>
-                                        </View>
-                                        <View style={{ marginEnd: 20 }}>
-                                            <QueryAvata userId={idUser} size={30} />
-                                        </View>
+                            <View style={[
+                                styles.messageContainer,
+                                idUser === item.box.senderId ? styles.sentMessage : styles.receivedMessage
+                            ]}>
+                                {idUser !== item.box.senderId && (
+                                    <View style={styles.avatarContainer}>
+                                        <QueryAvata userId={item.box.senderId} size={35} />
                                     </View>
                                 )}
-                            </>
+                                <View style={[
+                                    styles.messageBubble,
+                                    idUser === item.box.senderId ? styles.sentBubble : styles.receivedBubble
+                                ]}>
+                                    <View style={styles.messageHeader}>
+                                        <QueryName userId={item.box.senderId} style={styles.senderName} />
+                                        <Text style={styles.messageTime}>{coverTime(item.box.createAt)}</Text>
+                                    </View>
+                                    <Text style={styles.messageText}>{item.box.mess}</Text>
+                                </View>
+                                {idUser === item.box.senderId && (
+                                    <View style={styles.avatarContainer}>
+                                        <QueryAvata userId={idUser} size={35} />
+                                    </View>
+                                )}
+                            </View>
                         );
                     }}
                 />
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginTop: 'auto' }}>
-                <Entypo name='image' size={30} style={{ marginEnd: 5 }} />
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Mapp')
-                }}>
-                    <AntDesign name='enviromento' size={30} style={{ marginStart: 5, marginEnd: 5 }} />
-                </TouchableOpacity>
-                <TextInput
-                    onChangeText={(txt) => { setMessages(txt) }} value={messages}
-                    style={{ marginStart: 5, marginEnd: 5, borderWidth: 0.5, borderRadius: 10, maxHeight: 40, width: 275 }}
-                    placeholder='Nhập tin nhắn'
-                />
-                <TouchableOpacity onPress={() => { newChat(); }}>
-                    <Feather name='send' size={30} style={{ marginStart: 5 }} />
-                </TouchableOpacity>
-            </View>
-        </View>
+
+                <View style={styles.inputContainer}>
+                    <TouchableOpacity style={styles.inputButton}>
+                        <Entypo name='image' size={24} color="#666" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.inputButton}
+                        onPress={() => navigation.navigate('Mapp')}
+                    >
+                        <AntDesign name='enviromento' size={24} color="#666" />
+                    </TouchableOpacity>
+                    <TextInput
+                        onChangeText={(txt) => { setMessages(txt) }}
+                        value={messages}
+                        style={styles.input}
+                        placeholder='Nhập tin nhắn'
+                        placeholderTextColor="#999"
+                        multiline
+                    />
+                    <TouchableOpacity
+                        style={styles.sendButton}
+                        onPress={() => { newChat(); }}
+                    >
+                        <Feather name='send' size={24} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f5f5f5',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        backgroundColor: '#2196F3',
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+    },
+    backButton: {
+        padding: 5,
+    },
+    headerInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    headerName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginLeft: 10,
+    },
+    headerRight: {
+        width: 40,
+    },
+    chatList: {
+        flex: 1,
+    },
+    chatListContent: {
+        padding: 10,
+    },
+    messageContainer: {
+        flexDirection: 'row',
+        marginVertical: 5,
+        maxWidth: '80%',
+    },
+    sentMessage: {
+        alignSelf: 'flex-end',
+    },
+    receivedMessage: {
+        alignSelf: 'flex-start',
+    },
+    avatarContainer: {
+        justifyContent: 'center',
+        marginHorizontal: 5,
+    },
+    messageBubble: {
+        padding: 10,
+        borderRadius: 15,
+        maxWidth: '100%',
+    },
+    sentBubble: {
+        backgroundColor: '#2196F3',
+        borderTopRightRadius: 5,
+    },
+    receivedBubble: {
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 5,
+    },
+    messageHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    senderName: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#666',
+    },
+    messageTime: {
+        fontSize: 12,
+        color: '#000',
+        marginLeft: 8,
+    },
+    messageText: {
+        fontSize: 16,
+        color: '#333',
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#fff',
+        borderTopWidth: 1,
+        borderTopColor: '#eee',
+    },
+    inputButton: {
+        padding: 8,
+    },
+    input: {
+        flex: 1,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 20,
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        marginHorizontal: 8,
+        maxHeight: 100,
+        fontSize: 16,
+    },
+    sendButton: {
+        backgroundColor: '#2196F3',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
 export default Chat;

@@ -311,30 +311,33 @@ const AddProduct = ({ navigation }) => {
     };
 
     return (
-        <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#fff' }}>
-            <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
+        <View style={styles.container}>
+            <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => { navigation.goBack() }}
-                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginEnd: 'auto' }}>
-                    <AntDesign name="arrowleft" size={30} color="#000" />
+                    style={styles.backButton}>
+                    <AntDesign name="arrowleft" size={24} color="#FE7E00" />
                 </TouchableOpacity>
-                <Text style={{ marginEnd: 'auto', fontSize: 20, color: '#000', fontWeight: 'bold' }}>Thêm Sản Phẩm</Text>
-                <View style={{ marginStart: 'auto' }}>
-                </View>
+                <Text style={styles.headerTitle}>Thêm Sản Phẩm</Text>
+                <View style={{ width: 24 }} />
             </View>
-            <View style={{ flexDirection: 'column', margin: 10 }}>
-                <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Tên:</Text>
+
+            <ScrollView style={styles.content}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Tên sản phẩm</Text>
                     <TextInput
                         value={Title}
                         onChangeText={item => { setTitle(item) }}
                         autoComplete='false'
                         keyboardType='default'
-                        style={{ borderBottomWidth: 1, marginStart: 'auto', width: 250, maxHeight: 35 }}
+                        style={styles.textInput}
+                        placeholder="Nhập tên sản phẩm"
+                        placeholderTextColor="#999"
                     />
                 </View>
-                <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Danh Mục:</Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Danh mục</Text>
                     <Dropdown
                         style={styles.dropdown}
                         placeholderStyle={styles.placeholderStyle}
@@ -346,175 +349,282 @@ const AddProduct = ({ navigation }) => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder="Danh Mục"
-                        searchPlaceholder="Search..."
+                        placeholder="Chọn danh mục"
+                        searchPlaceholder="Tìm kiếm..."
                         value={category}
                         onChange={item => {
                             setCategory(item.value);
                         }}
                         renderLeftIcon={() => (
-                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+                            <AntDesign style={styles.icon} color="#FE7E00" name="Safety" size={20} />
                         )}
                         renderItem={renderItem}
                     />
                 </View>
 
-                <View style={{ flexDirection: 'column', margin: 10 }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Mô Tả:</Text>
-                    <View style={{ borderWidth: 1, borderRadius: 10, height: 200, flexDirection: 'row', marginVertical: 10 }}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Mô tả</Text>
+                    <View style={styles.descriptionContainer}>
                         <TextInput
                             value={Description}
                             onChangeText={item => { setDescription(item) }}
                             autoComplete='false'
                             keyboardType='default'
                             multiline
-                            style={{ borderBottomWidth: 1, marginStart: 'auto', flex: 1 }}
+                            style={styles.descriptionInput}
+                            placeholder="Nhập mô tả sản phẩm"
+                            placeholderTextColor="#999"
                         />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
 
-                    {
-                        typeCate == 1 ? <>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>File mềm</Text>
-                            <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
-                                <TouchableOpacity
-                                    onPress={() => { chooseFile() }}
-                                >
-                                    <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
-                                </TouchableOpacity>
-                            </View>
-                        </>
-                            :
-                            <>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginEnd: 'auto' }}>Hình ảnh, video minh họa:</Text>
-                                <View style={{ flexDirection: 'row', marginHorizontal: 5, borderWidth: 1, width: 'auto' }}>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            openGallery();
-                                        }}
-                                    >
-                                        <AntDesign name='pluscircleo' size={25} color={'black'} style={{ backgroundColor: '#ff6666', borderRadius: 30 }} />
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={{ borderWidth: 1, borderRadius: 10, width: 100, height: 100, marginHorizontal: 5 }}>
-                                    <View style={{ margin: 5, marginStart: 'auto' }}>
-                                        <AntDesign name="closecircle" size={20} color="red" />
-                                        <Image />
-                                    </View>
-                                </View>
-                            </>
-                    }
-
-
-
-
-                </View>
-                <View style={{ alignItems: 'center', marginTop: 30, flexDirection: 'row', justifyContent: 'center' }}>
-
-                    {imagePicked === true ? (
-                        <TouchableOpacity
-
-                            style={{ width: 100, alignItems: 'center', borderRadius: 20, backgroundColor: 'red' }}
-                            onPress={() => {
-                                cancelIma();
-                            }}
-                        >
-                            <Text style={{ color: 'white', fontSize: 20 }}>
-                                Cancel
-                            </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-
-                            style={{ width: 100, alignItems: 'center', borderRadius: 20, backgroundColor: 'pink' }}
-                            onPress={() => {
-                                cancelIma();
-                            }}
-                        >
-                            <Text style={{ color: 'white', fontSize: 20 }}>
-                                Cancel
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-
-                    {
-                        typeCate == 1 ? <>
+                <View style={styles.mediaContainer}>
+                    {typeCate == 1 ? (
+                        <>
+                            <Text style={styles.label}>File mềm</Text>
                             <TouchableOpacity
-                                style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
-                                onPress={() => {
-                                    uploadFile()
-                                }}
+                                style={styles.uploadButton}
+                                onPress={() => { chooseFile() }}
                             >
-                                <Text style={{ color: '#000', fontSize: 20 }}>
-                                    Upload file
-                                </Text>
+                                <AntDesign name='pluscircleo' size={24} color='#FE7E00' />
+                                <Text style={styles.uploadText}>Chọn file</Text>
                             </TouchableOpacity>
+                            {fileData && (
+                                <View style={styles.filePreview}>
+                                    <Text style={styles.fileName}>{fileData.name}</Text>
+                                </View>
+                            )}
                         </>
-                            :
-                            <>
-                                <TouchableOpacity
-                                    style={{ width: 100, borderWidth: 1, alignItems: 'center', borderRadius: 20 }}
-                                    onPress={() => {
-                                        UpLoadImgProDuct();
-                                        // chooseFile();
-                                    }}
-                                >
-                                    <Text style={{ color: '#000', fontSize: 20 }}>
-                                        Upload hình
-                                    </Text>
-                                </TouchableOpacity>
-                            </>
-                    }
-
+                    ) : (
+                        <>
+                            <Text style={styles.label}>Hình ảnh minh họa</Text>
+                            <TouchableOpacity
+                                style={styles.uploadButton}
+                                onPress={() => { openGallery(); }}
+                            >
+                                <AntDesign name='pluscircleo' size={24} color='#FE7E00' />
+                                <Text style={styles.uploadText}>Chọn ảnh</Text>
+                            </TouchableOpacity>
+                            {imageData && imageData.assets && (
+                                <View style={styles.imagePreviewContainer}>
+                                    {imageData.assets.map((image, index) => (
+                                        <View key={index} style={styles.imagePreview}>
+                                            <Image
+                                                source={{ uri: image.uri }}
+                                                style={styles.previewImage}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.removeImage}
+                                                onPress={() => {
+                                                    const newAssets = imageData.assets.filter((_, i) => i !== index);
+                                                    setImageData({ ...imageData, assets: newAssets });
+                                                }}
+                                            >
+                                                <AntDesign name="closecircle" size={20} color="red" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
+                        </>
+                    )}
                 </View>
-            </View>
+
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={[styles.button, styles.cancelButton]}
+                        onPress={() => { cancelIma(); }}
+                    >
+                        <Text style={styles.buttonText}>Hủy</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={[styles.button, styles.uploadButton]}
+                        onPress={() => {
+                            typeCate == 1 ? uploadFile() : UpLoadImgProDuct();
+                        }}
+                    >
+                        <Text style={[styles.buttonText, styles.uploadButtonText]}>
+                            {typeCate == 1 ? 'Tải lên file' : 'Tải lên ảnh'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </View>
-    )
+    );
 }
 
 export default AddProduct;
 
 const styles = StyleSheet.create({
-    contentView: {
-        width: 320,
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        marginTop: 20
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
-    circle: {
-        width: 50,
-        height: 30,
-        borderRadius: 30,
-        backgroundColor: '#7F3DFF',
-        justifyContent: 'center',
+    header: {
+        flexDirection: 'row',
         alignItems: 'center',
-        padding: 4
+        justifyContent: 'space-between',
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
     },
-    number: {
-        color: 'white',
-        fontSize: 12,
-        textAlign: 'center'
+    backButton: {
+        padding: 8,
+        borderRadius: 8,
+        backgroundColor: '#fff',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    content: {
+        flex: 1,
+        padding: 15,
+    },
+    inputContainer: {
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 8,
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
+        padding: 12,
+        fontSize: 16,
+        color: '#333',
+    },
+    descriptionContainer: {
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
+        minHeight: 120,
+    },
+    descriptionInput: {
+        padding: 12,
+        fontSize: 16,
+        color: '#333',
+        textAlignVertical: 'top',
     },
     dropdown: {
-        //margin: 10,
         height: 50,
-        width: 150,
-        backgroundColor: 'white',
-        borderRadius: 12,
-        padding: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-
-        elevation: 2,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
+        paddingHorizontal: 12,
     },
-    icon: {
-        marginRight: 10,
+    placeholderStyle: {
+        fontSize: 16,
+        color: '#999',
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+        color: '#333',
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+    mediaContainer: {
+        marginBottom: 20,
+    },
+    uploadButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 12,
+        borderWidth: 1,
+        borderColor: '#FE7E00',
+        borderRadius: 8,
+    },
+    uploadText: {
+        marginLeft: 8,
+        fontSize: 16,
+        color: '#FE7E00',
+    },
+    imagePreviewContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10,
+    },
+    imagePreview: {
+        width: 100,
+        height: 100,
+        margin: 5,
+        borderRadius: 8,
+        overflow: 'hidden',
+    },
+    previewImage: {
+        width: '100%',
+        height: '100%',
+    },
+    removeImage: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+    },
+    filePreview: {
+        marginTop: 10,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
+    },
+    fileName: {
+        fontSize: 14,
+        color: '#333',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+        marginBottom: 30,
+    },
+    button: {
+        flex: 1,
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginHorizontal: 5,
+    },
+    cancelButton: {
+        backgroundColor: '#f5f5f5',
+        borderWidth: 1,
+        borderColor: '#ddd',
+    },
+    uploadButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 12,
+        borderWidth: 1,
+        borderColor: '#FE7E00',
+        borderRadius: 8,
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#333',
+    },
+    uploadButtonText: {
+        color: '#FE7E00',
     },
     item: {
         padding: 17,
@@ -526,31 +636,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 16,
     },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    touchable: {
-        borderWidth: 1,
-        borderRadius: 10,
-        marginLeft: 10,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
+    icon: {
+        marginRight: 10,
     },
 });

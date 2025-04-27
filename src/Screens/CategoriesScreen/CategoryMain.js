@@ -148,112 +148,181 @@ const CategoryMain = ({ navigation }) => {
 
 
     return (
-        <View style={{ flexDirection: 'column', backgroundColor: '#fff', flex: 1 }}>
-
-            <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
-                <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
-                <TouchableOpacity
-                    onPress={() => { navigation.navigate('CartMain') }}
-                    style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
-                    <Ionicons name='cart' size={30} color='#000' />
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            {/* Header */}
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 15,
+                borderBottomWidth: 1,
+                borderBottomColor: '#eee',
+            }}>
+                <Text style={{ fontSize: 20, color: '#FE7E00', fontWeight: 'bold' }}>Danh mục</Text>
+                <TouchableOpacity>
+                    <Ionicons name="notifications" size={24} color="#FE7E00" />
                 </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: 'row', margin: 10, borderWidth: 1, borderRadius: 10, padding: 5, alignItems: 'center' }}>
-                <FontAwesome6 name='magnifying-glass' size={30} color='#000' style={{ marginEnd: 'auto' }} />
+            {/* Search Bar */}
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#f5f5f5',
+                margin: 15,
+                paddingHorizontal: 15,
+                borderRadius: 10,
+            }}>
+                <Ionicons name="search" size={20} color="#666" style={{ marginRight: 10 }} />
                 <TextInput
                     value={SearchBox}
                     onChangeText={item => setSearchBox(item)}
                     autoComplete='false'
                     keyboardType='default'
-                    placeholder='Searching category products'
-                    style={{ backgroundColor: 'white', marginStart: 10, marginEnd: 10, width: 300, fontSize: 20 }} />
-                <MaterialCommunityIcons name='line-scan' size={30} color='#000' style={{ marginStart: 'auto' }} />
+                    placeholder='Tìm kiếm danh mục sản phẩm...'
+                    placeholderTextColor="#aaa"
+                    style={{ flex: 1, height: 40, fontSize: 16, color: '#222' }}
+                />
             </View>
 
-            <View style={{ flexDirection: 'column', margin: 10 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto' }}>Category</Text>
-
-                <View style={{ flexDirection: 'row', margin: 10 }}>
-
-                    <TouchableOpacity
-                        onPress={() => { setTabStudy(1); setTabClothes(0); setTabHouseware(0) }}
-                        style={{ marginEnd: 'auto', borderWidth: 1, borderRadius: 10, borderColor: TabStudy === 1 ? '#FE7E00' : 'grey', backgroundColor: TabStudy === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>HỌC TẬP</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => { setTabStudy(0); setTabClothes(1); setTabHouseware(0) }}
-                        style={{ borderWidth: 1, borderRadius: 10, borderColor: TabClothes === 1 ? '#FE7E00' : 'grey', backgroundColor: TabClothes === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>QUẦN ÁO</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => { setTabStudy(0); setTabClothes(0); setTabHouseware(1) }}
-                        style={{ marginStart: 'auto', borderWidth: 1, borderRadius: 10, borderColor: TabHouseware === 1 ? '#FE7E00' : 'grey', backgroundColor: TabHouseware === 1 ? '#FE7E00' : 'grey', paddingHorizontal: 10, paddingVertical: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>GIA DỤNG</Text>
-                    </TouchableOpacity>
-
-                </View>
-
+            {/* Tabs */}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 15, marginBottom: 10 }}>
+                <TouchableOpacity
+                    onPress={() => { setTabStudy(1); setTabClothes(0); setTabHouseware(0) }}
+                    style={{
+                        flex: 1,
+                        marginHorizontal: 5,
+                        borderRadius: 10,
+                        backgroundColor: TabStudy === 1 ? '#FE7E00' : '#f5f5f5',
+                        paddingVertical: 12,
+                        alignItems: 'center',
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 2,
+                        elevation: 2,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: TabStudy === 1 ? '#fff' : '#222' }}>HỌC TẬP</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { setTabStudy(0); setTabClothes(1); setTabHouseware(0) }}
+                    style={{
+                        flex: 1,
+                        marginHorizontal: 5,
+                        borderRadius: 10,
+                        backgroundColor: TabClothes === 1 ? '#FE7E00' : '#f5f5f5',
+                        paddingVertical: 12,
+                        alignItems: 'center',
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 2,
+                        elevation: 2,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: TabClothes === 1 ? '#fff' : '#222' }}>QUẦN ÁO</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { setTabStudy(0); setTabClothes(0); setTabHouseware(1) }}
+                    style={{
+                        flex: 1,
+                        marginHorizontal: 5,
+                        borderRadius: 10,
+                        backgroundColor: TabHouseware === 1 ? '#FE7E00' : '#f5f5f5',
+                        paddingVertical: 12,
+                        alignItems: 'center',
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 2,
+                        elevation: 2,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: TabHouseware === 1 ? '#fff' : '#222' }}>GIA DỤNG</Text>
+                </TouchableOpacity>
             </View>
 
-            <Text style={{ fontSize: 19, fontWeight: 'bold', marginEnd: 'auto', marginHorizontal: 10 }}>Category</Text>
-
+            {/* Content */}
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FE7E00', marginHorizontal: 15, marginBottom: 5 }}>Danh mục</Text>
             {
                 dataPro == null ?
-                    <>
-                        <Text>Loading...</Text>
-                    </>
+                    <Text style={{ margin: 15, color: '#888' }}>Đang tải...</Text>
                     :
                     <>
                         {TabStudy === 1 ? (
-                            <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
-
-                                <TouchableOpacity style={{ marginVertical: 3, flexDirection: 'row', borderWidth: 1, borderRadius: 10, padding: 10 }}
-                                    onPress={() => {
-
-                                    }}
-                                >
+                            <ScrollView style={{ marginHorizontal: 15 }}>
+                                {/* Học cứng */}
+                                <TouchableOpacity style={{
+                                    marginVertical: 6,
+                                    flexDirection: 'row',
+                                    borderWidth: 1,
+                                    borderColor: '#eee',
+                                    borderRadius: 10,
+                                    padding: 15,
+                                    backgroundColor: '#fff',
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowOpacity: 0.05,
+                                    shadowRadius: 2,
+                                    elevation: 1,
+                                }}>
                                     <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
-                                        <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
-                                        <Text style={{ fontSize: 17 }}>3 products</Text>
+                                        <Text style={{ fontSize: 18, color: '#FE7E00', fontWeight: 'bold' }}>Học Cứng</Text>
+                                        <Text style={{ fontSize: 15, color: '#888' }}>3 sản phẩm</Text>
                                     </View>
                                 </TouchableOpacity>
-
                                 <ListCateSoft data={softLearning} product={dataPro} navigation={navigation} />
-
                             </ScrollView>
-                        ) : ""}
+                        ) : null}
                         {TabClothes === 1 ? (
-                            <ScrollView style={{ flexDirection: 'column', margin: 10 }}>
+                            <ScrollView style={{ marginHorizontal: 15 }}>
                                 {
                                     mainClothes && <FlatList
                                         data={mainClothes}
-                                        renderItem={({ item }) => {
-                                            return <>
+                                        renderItem={({ item }) => (
+                                            <View style={{
+                                                marginVertical: 6,
+                                                borderWidth: 1,
+                                                borderColor: '#eee',
+                                                borderRadius: 10,
+                                                backgroundColor: '#fff',
+                                                shadowColor: '#000',
+                                                shadowOffset: { width: 0, height: 2 },
+                                                shadowOpacity: 0.05,
+                                                shadowRadius: 2,
+                                                elevation: 1,
+                                            }}>
                                                 <ListCate data={item} product={dataPro} navigation={navigation} />
-                                            </>
-                                        }}
-
+                                            </View>
+                                        )}
                                     />
                                 }
                             </ScrollView>
-                        ) : ""}
+                        ) : null}
                         {TabHouseware === 1 ? (
                             <FlatList
                                 data={mainOthers}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item }) => (
-                                    <ListCate data={item} product={dataPro} navigation={navigation} />
+                                    <View style={{
+                                        marginVertical: 6,
+                                        borderWidth: 1,
+                                        borderColor: '#eee',
+                                        borderRadius: 10,
+                                        backgroundColor: '#fff',
+                                        shadowColor: '#000',
+                                        shadowOffset: { width: 0, height: 2 },
+                                        shadowOpacity: 0.05,
+                                        shadowRadius: 2,
+                                        elevation: 1,
+                                    }}>
+                                        <ListCate data={item} product={dataPro} navigation={navigation} />
+                                    </View>
                                 )}
-                                contentContainerStyle={{ margin: 10 }}
+                                contentContainerStyle={{ marginHorizontal: 15 }}
                             />
-
-                        ) : ""}
+                        ) : null}
                     </>
             }
-        </View>
+        </SafeAreaView>
     )
 };
 

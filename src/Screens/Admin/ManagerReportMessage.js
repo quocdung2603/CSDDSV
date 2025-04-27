@@ -67,14 +67,9 @@ const ManagerReportMessage = () => {
                             let resolveCount = userDoc.data()?.resolveCount || 0;
                             resolveCount += 1;
 
-                            // Nếu vượt quá ngưỡng thì khóa tài khoản
-                            if (resolveCount >= MAX_RESOLVE) {
-                                await userRef.update({ resolveCount, block: true });
-                                Alert.alert('Tài khoản đã bị khóa do quá số lần vi phạm!');
-                            } else {
-                                await userRef.update({ resolveCount });
-                                Alert.alert('Đã giải quyết báo cáo. Số lần vi phạm: ' + resolveCount);
-                            }
+                            // Không còn tự động khóa tài khoản nữa!
+                            await userRef.update({ resolveCount });
+                            Alert.alert('Đã giải quyết báo cáo. Số lần vi phạm: ' + resolveCount);
 
                             // Xóa các báo cáo liên quan sau khi giải quyết
                             const reportsSnap = await firestore().collection('ReportsChat').where('chatId', '==', chatId).get();

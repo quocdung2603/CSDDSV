@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,9 @@ const Login = ({ navigation }) => {
     const [pass, setPass] = useState("t");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [warningModal, setWarningModal] = useState(false);
+    const [warningReasons, setWarningReasons] = useState([]);
+    const [pendingNavigation, setPendingNavigation] = useState(null);
 
     const CheckLogin = async () => {
         try {
@@ -37,8 +40,48 @@ const Login = ({ navigation }) => {
                 return;
             }
 
-            // Save user ID and navigate based on account type
+            // Save user ID
             await AsyncStorage.setItem('USERID', userData.userId);
+
+            // Kiểm tra các loại báo cáo
+            let allReasons = [];
+
+            // Báo cáo tin nhắn
+            const reportsChatSnap = await firestore()
+                .collection('ReportsChat')
+                .where('reportedUserId', '==', userData.userId)
+                .get();
+            if (!reportsChatSnap.empty) {
+                const reasons = reportsChatSnap.docs.map(doc => doc.data().reason);
+                allReasons.push(...reasons.map(r => `[Tin nhắn] ${r}`));
+            }
+
+            // Báo cáo bài viết
+            const reportsPostSnap = await firestore()
+                .collection('ReportPost')
+                .where('reportedUserId', '==', userData.userId)
+                .get();
+            if (!reportsPostSnap.empty) {
+                const reasons = reportsPostSnap.docs.map(doc => doc.data().reason);
+                allReasons.push(...reasons.map(r => `[Bài viết] ${r}`));
+            }
+
+            // Báo cáo sản phẩm
+            const reportsProductSnap = await firestore()
+                .collection('ReportProduct')
+                .where('reportedUserId', '==', userData.userId)
+                .get();
+            if (!reportsProductSnap.empty) {
+                const reasons = reportsProductSnap.docs.map(doc => doc.data().reason);
+                allReasons.push(...reasons.map(r => `[Sản phẩm] ${r}`));
+            }
+
+            if (allReasons.length > 0) {
+                setWarningReasons(allReasons);
+                setWarningModal(true);
+                setPendingNavigation(userData.typeAcc === 0 ? 'HomeAd' : 'Tabbar');
+                return;
+            }
 
             if (userData.typeAcc === 0) {
                 navigation.navigate('HomeAd');
@@ -187,6 +230,61 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
+
+            {/* Modal cảnh báo bị report */}
+            <Modal
+                visible={warningModal}
+                transparent
+                animationType="slide"
+                onRequestClose={() => setWarningModal(false)}
+            >
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <View style={{
+                        width: '80%',
+                        backgroundColor: '#fff',
+                        borderRadius: 12,
+                        padding: 20,
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FCBB3C', marginBottom: 10 }}>
+                            Cảnh báo tài khoản!
+                        </Text>
+                        <Text style={{ color: '#333', marginBottom: 10, textAlign: 'center' }}>
+                            Tài khoản của bạn đang bị cảnh báo do các lý do sau:
+                        </Text>
+                        <FlatList
+                            data={warningReasons}
+                            keyExtractor={(_, idx) => idx.toString()}
+                            renderItem={({ item, index }) => (
+                                <Text style={{ color: '#d9534f', marginBottom: 5 }}>{index + 1}. {item}</Text>
+                            )}
+                        />
+                        <TouchableOpacity
+                            style={{
+                                marginTop: 20,
+                                backgroundColor: '#FCBB3C',
+                                borderRadius: 8,
+                                paddingVertical: 10,
+                                paddingHorizontal: 30
+                            }}
+                            onPress={() => {
+                                setWarningModal(false);
+                                if (pendingNavigation) {
+                                    navigation.navigate(pendingNavigation);
+                                    setPendingNavigation(null);
+                                }
+                            }}
+                        >
+                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Đã hiểu</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
