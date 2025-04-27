@@ -8,6 +8,8 @@ import {
     ActivityIndicator,
     RefreshControl,
     Alert,
+    Modal,
+    TextInput,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -22,6 +24,9 @@ const IndexChat = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
     const [selectedChat, setSelectedChat] = useState(null);
+    const [reportModalVisible, setReportModalVisible] = useState(false);
+    const [reportReason, setReportReason] = useState('');
+    const [selectedChatForReport, setSelectedChatForReport] = useState(null);
 
     // Get all chats
     const getAllChats = useCallback(async () => {
@@ -129,9 +134,51 @@ const IndexChat = ({ navigation }) => {
                     ]
                 );
                 break;
+            case 'report':
+                setSelectedChatForReport(chatId);
+                setReportModalVisible(true);
+                break;
         }
         setSelectedChat(null);
     }, []);
+
+    const handleSubmitReport = useCallback(async () => {
+        if (!reportReason.trim()) {
+            Alert.alert("Lỗi", "Vui lòng nhập lý do báo cáo");
+            return;
+        }
+
+        try {
+            const userId = await AsyncStorage.getItem('USERID');
+            if (!userId) {
+                throw new Error("Không tìm thấy thông tin người dùng");
+            }
+
+            // Tìm thông tin người bị báo cáo từ chatId
+            const chat = listChat.find(chat => chat.idChat === selectedChatForReport);
+            if (!chat) {
+                throw new Error("Không tìm thấy thông tin cuộc trò chuyện");
+            }
+
+            // Thêm report vào collection Reports
+            await firestore().collection('ReportsChat').add({
+                chatId: selectedChatForReport,
+                reporterId: userId, // ID người báo cáo
+                reportedUserId: chat.sender, // ID người bị báo cáo
+                reason: reportReason,
+                status: 'pending',
+                createdAt: firestore.FieldValue.serverTimestamp()
+            });
+
+            Alert.alert("Thành công", "Báo cáo đã được gửi thành công");
+            setReportModalVisible(false);
+            setReportReason('');
+            setSelectedChatForReport(null);
+        } catch (err) {
+            console.error("Error submitting report:", err);
+            Alert.alert("Lỗi", "Không thể gửi báo cáo");
+        }
+    }, [reportReason, selectedChatForReport, listChat]);
 
     // Memoize render item function
     const renderItem = useCallback(({ item }) => (
@@ -169,6 +216,13 @@ const IndexChat = ({ navigation }) => {
                         <Entypo name='trash' size={25} color='#000' />
                         <Text style={styles.optionText}>Xóa tin nhắn</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.optionButton}
+                        onPress={() => handleChatAction('report', item.idChat)}
+                    >
+                        <Entypo name='flag' size={25} color='#000' />
+                        <Text style={styles.optionText}>Báo cáo</Text>
+                    </TouchableOpacity>
                 </View>
             )}
         </View>
@@ -189,7 +243,7 @@ const IndexChat = ({ navigation }) => {
                 >
                     <AntDesign name='caretleft' size={30} color='#FCBB3C' />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>BOX CHAT</Text>
+                <Text style={styles.headerTitle}>List Chat</Text>
                 <View style={styles.headerRight} />
             </View>
 
@@ -229,6 +283,45 @@ const IndexChat = ({ navigation }) => {
                     }
                 />
             )}
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={reportModalVisible}
+                onRequestClose={() => setReportModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Báo cáo tin nhắn</Text>
+                        <TextInput
+                            style={styles.reportInput}
+                            placeholder="Nhập lý do báo cáo..."
+                            value={reportReason}
+                            onChangeText={setReportReason}
+                            multiline
+                            numberOfLines={4}
+                        />
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity
+                                style={[styles.modalButton, styles.cancelButton]}
+                                onPress={() => {
+                                    setReportModalVisible(false);
+                                    setReportReason('');
+                                    setSelectedChatForReport(null);
+                                }}
+                            >
+                                <Text style={styles.buttonText}>Hủy</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.modalButton, styles.submitButton]}
+                                onPress={handleSubmitReport}
+                            >
+                                <Text style={[styles.buttonText, styles.submitButtonText]}>Gửi báo cáo</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -285,25 +378,33 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     optionsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 5,
-        marginHorizontal: 20,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginHorizontal: 10,
+        marginBottom: 10,
+        padding: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     optionButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 10,
-        padding: 8,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: '#FCCC6F',
-        backgroundColor: '#FCCC6F',
+        padding: 12,
+        borderRadius: 8,
+        marginVertical: 4,
     },
     optionText: {
-        color: '#000',
-        fontWeight: 'bold',
-        marginLeft: 5,
+        color: '#333',
+        fontWeight: '500',
+        marginLeft: 10,
+        fontSize: 14,
     },
     listContent: {
         paddingBottom: 15,
@@ -346,6 +447,69 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         textAlign: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 20,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        color: '#333',
+    },
+    reportInput: {
+        width: '100%',
+        height: 100,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 10,
+        padding: 10,
+        marginBottom: 20,
+        textAlignVertical: 'top',
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalButton: {
+        flex: 1,
+        padding: 10,
+        borderRadius: 10,
+        marginHorizontal: 5,
+    },
+    cancelButton: {
+        backgroundColor: '#f5f5f5',
+    },
+    submitButton: {
+        backgroundColor: '#FCBB3C',
+    },
+    buttonText: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#333',
+    },
+    submitButtonText: {
+        color: '#fff',
     },
 });
 

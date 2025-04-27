@@ -57,7 +57,7 @@ const ManagerPro = ({ navigation }) => {
             })
         })
         setListPro(listProo)
-        console.log(listPro, "11")
+        // console.log(listPro, "11")
     }
 
     const goToPro = (item) => {
@@ -65,14 +65,14 @@ const ManagerPro = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, margin:10}}>
+        <View style={{ flex: 1, margin: 10 }}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontSize: 30, color: '#FCBB3C', fontWeight: 'bold' }} >
                     QUẢN LÝ SẢN PHẨM
                 </Text>
             </View>
             <View style={{}} >
-                <View style={{ marginHorizontal: 40, marginVertical:10, justifyContent: 'center', }} >
+                <View style={{ marginHorizontal: 40, marginVertical: 10, justifyContent: 'center', }} >
                     <TextInput
                         style={styles.input}
                         placeholder="Nhập nội dung"
@@ -88,18 +88,24 @@ const ManagerPro = ({ navigation }) => {
                             data={listPro}
                             renderItem={({ item, index }) => {
                                 return <>
-                                    <TouchableOpacity 
-                                        style={{flex:1, flexDirection:'row', borderWidth:1, borderRadius:10,margin:5}}
+                                    <TouchableOpacity
+                                        style={styles.productCard}
                                         onPress={() => { goToPro(item); }} >
-                                        <View style={{flex:0.75, flexDirection:'column',marginEnd:'auto', backgroundColor:'yellow'}}>
-                                            <Text style={{fontSize: 17, fontWeight:'bold' }}> {item.title} </Text>
-                                            <Text style={{fontSize:13}}>{item.userId}</Text> 
-                                            <Text style={{fontSize:13}}>{item.idPro}</Text>
+                                        <View style={styles.productInfo}>
+                                            <Text style={styles.productTitle}>{item.title}</Text>
+                                            <View style={styles.productMeta}>
+                                                <View style={styles.metaItem}>
+                                                    <Ionicons name="person-outline" size={14} color="#666" />
+                                                    <Text style={styles.metaText}>{item.userId}</Text>
+                                                </View>
+                                                <View style={styles.metaItem}>
+                                                    <MaterialCommunityIcons name="barcode-scan" size={14} color="#666" />
+                                                    <Text style={styles.metaText}>{item.idPro}</Text>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{flex: 0.25, flexDirection:'column',marginStart:'auto', backgroundColor:'violet'}}>
-                                            <Text>Hình ảnh</Text>
-                                            <Text>Hình ảnh</Text>
-                                            <Text>Hình ảnh</Text>
+                                        <View style={styles.productAction}>
+                                            <AntDesign name="right" size={20} color="#666" />
                                         </View>
                                     </TouchableOpacity>
                                 </>
@@ -120,6 +126,52 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 10,
         borderRadius: 5,
+    },
+    productCard: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        margin: 8,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    productInfo: {
+        flex: 0.85,
+        flexDirection: 'column',
+    },
+    productTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 8,
+    },
+    productMeta: {
+        flexDirection: 'column',
+        gap: 4,
+    },
+    metaItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    metaText: {
+        fontSize: 13,
+        color: '#666',
+    },
+    productAction: {
+        flex: 0.15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

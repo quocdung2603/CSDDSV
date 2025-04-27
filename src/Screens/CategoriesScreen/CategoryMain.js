@@ -153,13 +153,6 @@ const CategoryMain = ({ navigation }) => {
             <View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
                 <Text style={{ marginEnd: 'auto', fontSize: 20, color: 'red', fontWeight: 'bold' }}>ABC</Text>
                 <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('IndexChat')
-                    }}
-                    style={{ borderWidth: 1, borderRadius: 10, padding: 5, marginRight: 5 }}>
-                    <AntDesign name='pluscircleo' size={30} color='#000' />
-                </TouchableOpacity>
-                <TouchableOpacity
                     onPress={() => { navigation.navigate('CartMain') }}
                     style={{ borderWidth: 1, borderRadius: 10, padding: 5 }}>
                     <Ionicons name='cart' size={30} color='#000' />
@@ -225,9 +218,6 @@ const CategoryMain = ({ navigation }) => {
                                     <View style={{ flexDirection: 'column', marginEnd: 'auto' }}>
                                         <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Học Cứng</Text>
                                         <Text style={{ fontSize: 17 }}>3 products</Text>
-                                    </View>
-                                    <View style={{ marginStart: 'auto', backgroundColor: 'yellow' }}>
-                                        <Text>Hình ảnh</Text>
                                     </View>
                                 </TouchableOpacity>
 
